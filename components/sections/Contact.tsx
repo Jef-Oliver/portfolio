@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Github, Send, CheckCircle } from 'lucide-react';
+import { Mail, Github, Send, CheckCircle, ExternalLink } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,21 +16,17 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission (replace with actual form handling)
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Create mailto link
     const subject = encodeURIComponent(`Contato de ${formData.name}`);
     const body = encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`);
     const mailtoLink = `mailto:jeferson.greenish@gmail.com?subject=${subject}&body=${body}`;
     
-    // Open email client
     window.location.href = mailtoLink;
     
     setIsSubmitted(true);
     setIsSubmitting(false);
     
-    // Reset form after delay
     setTimeout(() => {
       setFormData({ name: '', email: '', message: '' });
       setIsSubmitted(false);
@@ -95,6 +91,22 @@ export default function Contact() {
                   <div>
                     <h4 className="text-light font-semibold">GitHub</h4>
                     <p className="text-gray-400">github.com/Jef-Oliver</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/in/jef-oliver/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-purple-primary/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-900"
+                  aria-label="Ver perfil no LinkedIn (abre em nova aba)"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 bg-purple-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ExternalLink className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-light font-semibold">LinkedIn</h4>
+                    <p className="text-gray-400">linkedin.com/in/jef-oliver</p>
                   </div>
                 </a>
               </div>

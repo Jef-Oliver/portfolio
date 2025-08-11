@@ -66,7 +66,16 @@ export default function Footer() {
                 <Github className="w-5 h-5" />
                 GitHub
               </a>
-              
+              <a
+                href="https://www.linkedin.com/in/jef-oliver/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
+                aria-label="Ver perfil no LinkedIn (abre em nova aba)"
+              >
+                <ExternalLink className="w-5 h-5" />
+                LinkedIn
+              </a>
               <a
                 href="mailto:jeferson.greenish@gmail.com"
                 className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
@@ -74,17 +83,6 @@ export default function Footer() {
               >
                 <Mail className="w-5 h-5" />
                 jeferson.greenish@gmail.com
-              </a>
-              
-              <a
-                href="https://portfolio-jeferson-blond.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
-                aria-label="Ver portfólio atual (abre em nova aba)"
-              >
-                <ExternalLink className="w-5 h-5" />
-                Portfólio Atual
               </a>
             </div>
           </div>

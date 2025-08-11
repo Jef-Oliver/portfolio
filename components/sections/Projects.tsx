@@ -96,11 +96,19 @@ export default function Projects() {
       setError(null);
       setDebugInfo('Iniciando busca de repositórios...');
       
+      // Repositórios a destacar (ordem fixa)
+      const desiredRepoNames = [
+        'portfolio',
+        'Jogo-RPG-Python',
+        'simplePicpay',
+        'reconhecimento-facial'
+      ];
+      
       // Adicionar timeout para evitar travamentos
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos
       
-      const response = await fetch('https://api.github.com/users/Jef-Oliver/repos?sort=updated&per_page=50', {
+      const response = await fetch('https://api.github.com/users/Jef-Oliver/repos?sort=updated&per_page=100', {
         signal: controller.signal,
         headers: {
           'Accept': 'application/vnd.github.v3+json',
@@ -111,7 +119,6 @@ export default function Projects() {
       clearTimeout(timeoutId);
       
       console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
       setDebugInfo(`Response status: ${response.status}`);
       
       if (!response.ok) {
@@ -122,31 +129,56 @@ export default function Projects() {
       }
       
       const repos = await response.json();
-      console.log('Repositórios recebidos:', repos.length);
-      console.log('Primeiro repositório:', repos[0]);
-      setDebugInfo(`Repositórios recebidos: ${repos.length}`);
+      console.log('Repositórios recebidos:', Array.isArray(repos) ? repos.length : 'n/a');
+      setDebugInfo(`Repositórios recebidos: ${Array.isArray(repos) ? repos.length : 0}`);
       
       if (!Array.isArray(repos)) {
         throw new Error('Resposta da API não é um array válido');
       }
       
-      // Filter out forks and add languages
+      // Filtra não-forks
       const validRepos = repos.filter((repo: Repository) => !repo.fork);
-      console.log('Repositórios válidos (não forks):', validRepos.length);
-      setDebugInfo(`Repositórios válidos: ${validRepos.length}`);
       
-      if (validRepos.length === 0) {
-        setDebugInfo('⚠️ Nenhum repositório válido encontrado (todos são forks)');
-        setRepositories([]);
-        setFilteredRepos([]);
-        return;
-      }
+      // Seleciona apenas os desejados e mantém ordem fixa
+      const selectedFromList: (Repository | null)[] = desiredRepoNames.map(name => (
+        validRepos.find((r: Repository) => r.name.toLowerCase() === name.toLowerCase()) || null
+      ));
       
-      // Fetch languages for each repo
-      const reposWithLanguages = await Promise.all(
-        validRepos.map(async (repo: Repository) => {
+      // Para os que não vieram na lista, busca individualmente
+      const missingNames = desiredRepoNames.filter((_, idx) => selectedFromList[idx] === null);
+      const fetchedMissing: Repository[] = await Promise.all(missingNames.map(async (name) => {
+        try {
+          const repoRes = await fetch(`https://api.github.com/repos/Jef-Oliver/${name}`, {
+            headers: {
+              'Accept': 'application/vnd.github.v3+json',
+              'User-Agent': 'Jeferson-Portfolio-App'
+            }
+          });
+          if (!repoRes.ok) {
+            console.warn(`Não foi possível buscar repo individual: ${name}`, repoRes.status);
+            return null as unknown as Repository;
+          }
+          return await repoRes.json();
+        } catch (e) {
+          console.warn(`Erro ao buscar repo individual: ${name}`, e);
+          return null as unknown as Repository;
+        }
+      }));
+      
+      // Reconstrói a lista final na ordem desejada
+      const nameToFetched: Record<string, Repository | null> = {};
+      missingNames.forEach((n, i) => { nameToFetched[n] = fetchedMissing[i] ?? null; });
+      const selectedOrdered: Repository[] = desiredRepoNames.map((name, idx) => {
+        const fromList = selectedFromList[idx];
+        if (fromList) return fromList as Repository;
+        const fetched = nameToFetched[name];
+        return fetched as Repository;
+      }).filter(Boolean) as Repository[];
+      
+      // Busca linguagens para cada selecionado
+      const selectedWithLanguages = await Promise.all(
+        selectedOrdered.map(async (repo: Repository) => {
           try {
-            console.log(`Buscando linguagens para: ${repo.name}`);
             const langResponse = await fetch(repo.languages_url, {
               headers: {
                 'Accept': 'application/vnd.github.v3+json',
@@ -154,7 +186,6 @@ export default function Projects() {
               }
             });
             const languages = langResponse.ok ? await langResponse.json() : {};
-            console.log(`Linguagens para ${repo.name}:`, languages);
             return { ...repo, languages };
           } catch (error) {
             console.error(`Error fetching languages for ${repo.name}:`, error);
@@ -163,27 +194,13 @@ export default function Projects() {
         })
       );
 
-      console.log('Repositórios com linguagens:', reposWithLanguages.length);
-      setDebugInfo(`Repositórios com linguagens: ${reposWithLanguages.length}`);
-
-      // Sort by stars and update date
-      const sortedRepos = reposWithLanguages.sort((a, b) => {
-        const aScore = a.stargazers_count * 2 + new Date(a.updated_at).getTime() / 1000000000;
-        const bScore = b.stargazers_count * 2 + new Date(b.updated_at).getTime() / 1000000000;
-        return bScore - aScore;
-      });
-
-      console.log('Repositórios ordenados:', sortedRepos.length);
-      console.log('Primeiro repositório ordenado:', sortedRepos[0]);
-      setDebugInfo(`Repositórios ordenados: ${sortedRepos.length}`);
-
-      setRepositories(sortedRepos);
-      setFilteredRepos(sortedRepos);
-      setDebugInfo(`✅ Carregamento concluído com sucesso! ${sortedRepos.length} projetos carregados.`);
+      // Mantém a ordem desejada, sem reordenar por estrelas/data
+      setRepositories(selectedWithLanguages);
+      setFilteredRepos(selectedWithLanguages);
+      setDebugInfo(`✅ Carregamento concluído com sucesso! ${selectedWithLanguages.length} projetos destacados.`);
     } catch (error) {
       console.error('Error fetching repositories:', error);
       let errorMessage = 'Erro desconhecido';
-      
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           errorMessage = 'Timeout: A requisição demorou muito para responder';
@@ -191,7 +208,6 @@ export default function Projects() {
           errorMessage = error.message;
         }
       }
-      
       setError(`Erro ao carregar repositórios do GitHub: ${errorMessage}`);
       setDebugInfo(`❌ Erro: ${errorMessage}`);
     } finally {

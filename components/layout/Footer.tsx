@@ -77,12 +77,12 @@ export default function Footer() {
                 LinkedIn
               </a>
               <a
-                href="mailto:jeferson.greenish@gmail.com"
+                href="mailto:j4.oliver23@gmail.com"
                 className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
                 aria-label="Enviar email"
               >
                 <Mail className="w-5 h-5" />
-                jeferson.greenish@gmail.com
+                contato@jeferson
               </a>
             </div>
           </div>

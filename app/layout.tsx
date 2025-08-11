@@ -57,7 +57,7 @@ const jsonLd = {
   '@type': 'Person',
   name: 'Jeferson Olivera',
   jobTitle: 'Backend Developer',
-  email: 'jeferson.greenish@gmail.com',
+  email: 'j4.oliver23@gmail.com',
   url: 'https://github.com/Jef-Oliver',
   sameAs: ['https://github.com/Jef-Oliver'],
   knowsAbout: ['Python', 'Django', 'Flask', 'FastAPI', 'Java', 'Spring Boot', 'PostgreSQL', 'Docker'],

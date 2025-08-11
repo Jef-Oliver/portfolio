@@ -20,7 +20,7 @@ export default function Contact() {
     
     const subject = encodeURIComponent(`Contato de ${formData.name}`);
     const body = encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`);
-    const mailtoLink = `mailto:jeferson.greenish@gmail.com?subject=${subject}&body=${body}`;
+    const mailtoLink = `mailto:j4.oliver23@gmail.com?subject=${subject}&body=${body}`;
     
     window.location.href = mailtoLink;
     
@@ -65,16 +65,16 @@ export default function Contact() {
 
               <div className="space-y-6">
                 <a
-                  href="mailto:jeferson.greenish@gmail.com"
+                  href="mailto:j4.oliver23@gmail.com"
                   className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-purple-primary/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-900"
-                  aria-label="Enviar email para jeferson.greenish@gmail.com"
+                  aria-label="Enviar email para j4.oliver23@gmail.com"
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-purple-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h4 className="text-light font-semibold">Email</h4>
-                    <p className="text-gray-400">jeferson.greenish@gmail.com</p>
+                    <p className="text-gray-400">contato@jeferson</p>
                   </div>
                 </a>
 

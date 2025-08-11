@@ -43,7 +43,7 @@ export default function About() {
                 </a>
                 
                 <a
-                  href="mailto:jeferson.greenish@gmail.com"
+                  href="mailto:j4.oliver23@gmail.com"
                   className="inline-flex items-center gap-2 btn-secondary ml-4"
                   aria-label="Enviar email"
                 >

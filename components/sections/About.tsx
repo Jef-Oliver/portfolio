@@ -61,8 +61,9 @@ export default function About() {
                 </p>
                 
                 <p className="mb-6">
-                  Nos últimos anos, atuei modernizando sistemas corporativos — principalmente de gestão 
-                  de ponto e RH — unindo tecnologia, automação e visão de produto para entregar soluções 
+                  Nos últimos anos, atuei modernizando <span className="text-purple-light font-semibold">sistemas governamentais e corporativos</span> — 
+                  principalmente de <span className="text-purple-light font-semibold">gestão de ponto, controle de acesso e RH</span> — 
+                  unindo tecnologia, automação e visão de produto para entregar soluções 
                   que fazem diferença no dia a dia.
                 </p>
                 
@@ -74,22 +75,24 @@ export default function About() {
                 </p>
                 
                 <p className="mb-6">
-                  Tenho experiência com legados, onde cada melhoria precisa ser estratégica. Uso metodologias 
-                  ágeis e foco em qualidade — seja refatorando, construindo do zero ou automatizando tarefas 
-                  com IA.
+                  Tenho experiência com <span className="text-purple-light font-semibold">sistemas legados governamentais</span>, onde cada melhoria precisa ser estratégica. 
+                  Uso metodologias ágeis e foco em qualidade — seja refatorando, construindo do zero ou automatizando tarefas 
+                  com IA para <span className="text-purple-light font-semibold">projetos de governança digital</span>.
                 </p>
                 
                 <p className="mb-6">
                   Atualmente, exploro <span className="text-purple-light font-semibold">IA e automação</span> para 
-                  criar sistemas mais inteligentes e menos burocráticos. Desenvolvi reconhecimento facial para 
-                  registro de ponto e sistemas de gestão com dashboards, relatórios automatizados e comunicação 
+                  criar sistemas mais inteligentes e menos burocráticos. Desenvolvi <span className="text-purple-light font-semibold">reconhecimento facial para 
+                  controle de acesso governamental</span>, <span className="text-purple-light font-semibold">sistemas de gestão de recursos humanos</span> e 
+                  <span className="text-purple-light font-semibold"> soluções de governança digital</span> com dashboards, relatórios automatizados e comunicação 
                   por e-mail.
                 </p>
                 
                 <p>
                   Curto <span className="text-purple-light font-semibold">Docker, containerização</span> e 
-                  arquiteturas que simplifiquem deploy e manutenção. Acredito que software bom é funcional 
-                  e intuitivo, por isso busco interfaces modernas e responsivas que complementem um backend robusto.
+                  arquiteturas que simplifiquem deploy e manutenção. Especializo-me em <span className="text-purple-light font-semibold">sistemas de gestão pública</span>, 
+                  <span className="text-purple-light font-semibold">controle de acesso governamental</span> e <span className="text-purple-light font-semibold">automação de processos públicos</span>. 
+                  Acredito que software bom é funcional e intuitivo, por isso busco interfaces modernas e responsivas que complementem um backend robusto.
                 </p>
               </div>
             </div>

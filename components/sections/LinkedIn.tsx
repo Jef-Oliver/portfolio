@@ -1,7 +1,7 @@
 "use client";
 
-import { ExternalLink, Linkedin, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { ExternalLink, Linkedin, ChevronLeft, ChevronRight, AlertCircle, Image as ImageIcon } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface LinkedInPost {
   id: string;
@@ -33,17 +33,39 @@ const linkedInPosts: LinkedInPost[] = [
 
 export default function LinkedInSection() {
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
+  const [iframeError, setIframeError] = useState(false);
+  const [iframeLoading, setIframeLoading] = useState(true);
+
+  const currentPost = linkedInPosts[currentPostIndex];
+  const embedUrl = `https://www.linkedin.com/embed/feed/update/urn:li:activity:${currentPost.id}`;
 
   const nextPost = () => {
     setCurrentPostIndex((prev) => (prev + 1) % linkedInPosts.length);
+    setIframeError(false);
+    setIframeLoading(true);
   };
 
   const prevPost = () => {
     setCurrentPostIndex((prev) => (prev - 1 + linkedInPosts.length) % linkedInPosts.length);
+    setIframeError(false);
+    setIframeLoading(true);
   };
 
-  const currentPost = linkedInPosts[currentPostIndex];
-  const embedUrl = `https://www.linkedin.com/embed/feed/update/urn:li:activity:${currentPost.id}`;
+  const handleIframeLoad = () => {
+    setIframeLoading(false);
+    setIframeError(false);
+  };
+
+  const handleIframeError = () => {
+    setIframeError(true);
+    setIframeLoading(false);
+  };
+
+  // Reset states when post changes
+  useEffect(() => {
+    setIframeError(false);
+    setIframeLoading(true);
+  }, [currentPostIndex]);
 
   return (
     <section id="linkedin" className="section-padding bg-gray-900/50">
@@ -95,16 +117,50 @@ export default function LinkedInSection() {
             </button>
           </div>
 
-          {/* LinkedIn Embed */}
+          {/* LinkedIn Embed with Error Handling */}
           <div className="relative w-full aspect-[16/9] bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700/50">
-            <iframe
-              src={embedUrl}
-              height="100%"
-              width="100%"
-              style={{ border: 0, height: "100%", width: "100%" }}
-              title={`Post do LinkedIn - ${currentPost.title}`}
-              allowFullScreen
-            />
+            {iframeLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-800/80">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-primary mx-auto mb-4"></div>
+                  <p className="text-gray-300">Carregando publicação...</p>
+                </div>
+              </div>
+            )}
+
+            {iframeError ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-800/80">
+                <div className="text-center p-6">
+                  <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+                  <h4 className="text-xl font-semibold text-light mb-2">Publicação Indisponível</h4>
+                  <p className="text-gray-300 mb-4 max-w-sm">
+                    Esta publicação não pode ser exibida diretamente. 
+                    Clique no link abaixo para visualizá-la no LinkedIn.
+                  </p>
+                  <a
+                    href={currentPost.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                    Ver no LinkedIn
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                src={embedUrl}
+                height="100%"
+                width="100%"
+                style={{ border: 0, height: "100%", width: "100%" }}
+                title={`Post do LinkedIn - ${currentPost.title}`}
+                allowFullScreen
+                onLoad={handleIframeLoad}
+                onError={handleIframeError}
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              />
+            )}
           </div>
 
           {/* Direct Links */}
@@ -141,6 +197,15 @@ export default function LinkedInSection() {
                 </a>
               ))}
             </div>
+          </div>
+
+          {/* Troubleshooting Info */}
+          <div className="mt-8 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+            <h5 className="text-blue-300 font-semibold mb-2">💡 Dica</h5>
+            <p className="text-blue-200 text-sm">
+              Se alguma publicação não carregar, clique em "Ver no LinkedIn" para acessá-la diretamente. 
+              O LinkedIn às vezes restringe embeds por questões de segurança ou privacidade.
+            </p>
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold text-light mb-4">Jeferson Oliver</h3>
+            <h3 className="text-2xl font-bold text-light mb-4">Jeferson Oliveira</h3>
             <p className="text-gray-300 leading-relaxed">
               Backend Developer especializado em Python, Java e soluções robustas que fazem diferença no mundo real.
             </p>
@@ -92,7 +92,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © {currentYear} Jeferson Oliver. Todos os direitos reservados.
+              © {currentYear} Jeferson Oliveira. Todos os direitos reservados.
             </p>
             
             <p className="text-gray-400 text-sm">

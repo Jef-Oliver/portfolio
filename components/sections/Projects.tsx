@@ -20,18 +20,10 @@ interface Repository {
 
 const techFilters = [
   'Todos',
-  'Python',
-  'Django', 
-  'Flask',
-  'FastAPI',
-  'PostgreSQL',
-  'Java',
-  'Spring',
-  'Docker',
 ];
 
 const getTechFromLanguages = (languages: { [key: string]: number } = {}) => {
-  const techs = [];
+  const techs: string[] = [];
   Object.keys(languages).forEach(lang => {
     switch (lang.toLowerCase()) {
       case 'python':
@@ -101,7 +93,9 @@ export default function Projects() {
         'portfolio',
         'Jogo-RPG-Python',
         'simplePicpay',
-        'reconhecimento-facial'
+        'reconhecimento-facial',
+        'Calculo-de-Descontos',
+        'ProjetoECommerce'
       ];
       
       // Adicionar timeout para evitar travamentos
@@ -261,18 +255,11 @@ export default function Projects() {
     <section id="projetos" className="section-padding bg-gray-900/50">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-lg text-light mb-4">Projetos</h2>
+          <h2 className="heading-lg text-light mb-4">Projetos em Destaque</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Seleção de projetos que demonstram minhas habilidades em desenvolvimento backend e soluções completas
           </p>
-          
-          {/* Debug Info */}
-          {debugInfo && (
-            <div className="mt-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg max-w-2xl mx-auto">
-              <p className="text-blue-300 text-sm font-mono">{debugInfo}</p>
-            </div>
-          )}
         </div>
 
         {/* Technology Filters */}
@@ -297,7 +284,7 @@ export default function Projects() {
         {/* Featured Projects */}
         {featuredProjects.length > 0 && (
           <div className="mb-16">
-            <h3 className="heading-sm text-light mb-8 text-center">Projetos em Destaque</h3>
+            <h3 className="heading-sm text-light mb-8 text-center">Destaque do GitHub</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProjects.map((repo) => (
                 <ProjectCard key={repo.id} repo={repo} featured />
@@ -358,7 +345,7 @@ function ProjectCard({ repo, featured = false }: { repo: Repository; featured?: 
       </div>
       
       <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-        {repo.description || 'Projeto em desenvolvimento'}
+        {repo.description || 'Projeto concluído'}
       </p>
       
       {techs.length > 0 && (

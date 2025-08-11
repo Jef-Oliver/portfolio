@@ -8,7 +8,7 @@ const navItems = [
   { href: '#projetos', label: 'Projetos' },
   { href: '#skills', label: 'Skills' },
   { href: '#contato', label: 'Contato' },
-  { href: '/curriculo-jeferson-oliver.pdf', label: 'Currículo', external: true },
+          { href: '/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf', label: 'Currículo', external: true },
 ];
 
 export default function Header() {
@@ -42,9 +42,9 @@ export default function Header() {
           <a 
             href="#" 
             className="text-2xl font-bold text-light hover:text-purple-light transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark rounded-lg px-2 py-1"
-            aria-label="Jeferson Oliver - Voltar ao início"
+            aria-label="Jeferson Olivera - Voltar ao início"
           >
-            Jeferson Oliver
+            Jeferson Olivera
           </a>
 
           {/* Desktop Navigation */}

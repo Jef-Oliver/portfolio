@@ -9,22 +9,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Jeferson Oliver | Backend Developer',
+  title: 'Jeferson Olivera | Backend Developer',
   description: 'Backend Developer apaixonado por resolver problemas reais com código. Especializado em Python, Django, Flask, Java e Spring Boot.',
   keywords: ['Backend Developer', 'Python', 'Django', 'Flask', 'Java', 'Spring Boot', 'PostgreSQL', 'API REST'],
-  authors: [{ name: 'Jeferson Oliver' }],
-  creator: 'Jeferson Oliver',
+  authors: [{ name: 'Jeferson Olivera' }],
+  creator: 'Jeferson Olivera',
   openGraph: {
-    title: 'Jeferson Oliver | Backend Developer',
+    title: 'Jeferson Olivera | Backend Developer',
     description: 'Backend Developer apaixonado por resolver problemas reais com código.',
     url: 'https://portfolio-jeferson-blond.vercel.app',
-    siteName: 'Jeferson Oliver Portfolio',
+    siteName: 'Jeferson Olivera Portfolio',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Jeferson Oliver - Backend Developer',
+        alt: 'Jeferson Olivera - Backend Developer',
       },
     ],
     locale: 'pt_BR',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jeferson Oliver | Backend Developer',
+    title: 'Jeferson Olivera | Backend Developer',
     description: 'Backend Developer apaixonado por resolver problemas reais com código.',
     images: ['/og-image.jpg'],
   },
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Jeferson Oliver',
+  name: 'Jeferson Olivera',
   jobTitle: 'Backend Developer',
   email: 'jeferson.greenish@gmail.com',
   url: 'https://github.com/Jef-Oliver',

@@ -1,95 +1,133 @@
-import { ExternalLink, Linkedin, Briefcase, Calendar, Users } from "lucide-react";
+import { ExternalLink, Linkedin, Briefcase, Calendar, Users, Database, Code, Zap } from "lucide-react";
+import { getFeaturedProjects } from "@/data/projects";
+import ProjectImageGallery from "@/components/ui/ProjectImageGallery";
 
 export default function LinkedInProjects() {
+  const featuredProjects = getFeaturedProjects();
+
   return (
     <section id="linkedin-projects" className="section-padding bg-dark">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-lg text-light mb-4">Projetos no LinkedIn</h2>
+          <h2 className="heading-lg text-light mb-4">Projetos em Destaque</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Portfólio completo de projetos profissionais com detalhes técnicos e resultados alcançados.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Featured Project Cards */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Project 1 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:bg-gray-800/70 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Briefcase className="w-6 h-6 text-white" />
+            {featuredProjects.map((project) => (
+              <div key={project.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:bg-gray-800/70 transition-all duration-300">
+                {/* Project Header */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <Briefcase className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-light">{project.title}</h3>
+                    <p className="text-sm text-gray-400">{project.category}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-light">Sistema de Automação</h3>
-                  <p className="text-sm text-gray-400">Backend & APIs</p>
-                </div>
-              </div>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                Desenvolvimento de sistema automatizado para processos corporativos, 
-                incluindo APIs REST, integração com bancos de dados e dashboards em tempo real.
-              </p>
-              <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  2024
-                </span>
-                <span className="flex items-center gap-1">
-                  <Users className="w-4 h-4" />
-                  Equipe
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-1 rounded-md">
-                  Python
-                </span>
-                <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded-md">
-                  Django
-                </span>
-                <span className="text-xs bg-purple-600/20 text-purple-400 px-2 py-1 rounded-md">
-                  PostgreSQL
-                </span>
-              </div>
-            </div>
 
-            {/* Project 2 */}
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:bg-gray-800/70 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                  <Briefcase className="w-6 h-6 text-white" />
+                {/* Project Description */}
+                <p className="text-gray-300 mb-4 text-sm leading-relaxed">
+                  {project.description}
+                </p>
+
+                {/* Project Meta */}
+                <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="w-4 h-4" />
+                    {project.year}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Users className="w-4 h-4" />
+                    {project.team}
+                  </span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-light">Reconhecimento Facial</h3>
-                  <p className="text-sm text-gray-400">IA & Computer Vision</p>
+
+                {/* Project Technologies */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.slice(0, 4).map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-xs bg-purple-600/20 text-purple-400 px-2 py-1 rounded-md"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.technologies.length > 4 && (
+                    <span className="text-xs text-gray-400">
+                      +{project.technologies.length - 4}
+                    </span>
+                  )}
+                </div>
+
+                {/* Project Images or LinkedIn Link */}
+                {project.images && project.images.length > 0 ? (
+                  <div className="mb-4">
+                    <ProjectImageGallery 
+                      images={project.images} 
+                      projectTitle={project.title} 
+                    />
+                  </div>
+                ) : project.linkedinUrl ? (
+                  <div className="mb-4">
+                    <a
+                      href={project.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <Linkedin className="w-4 h-4" />
+                      Ver no LinkedIn
+                    </a>
+                  </div>
+                ) : null}
+
+                {/* Project Actions */}
+                <div className="flex gap-3">
+                  {project.linkedinUrl && (
+                    <a
+                      href={project.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-300 hover:text-blue-400 transition-colors duration-300"
+                    >
+                      <Linkedin className="w-4 h-4" />
+                      LinkedIn
+                    </a>
+                  )}
+                  
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-300 hover:text-gray-100 transition-colors duration-300"
+                    >
+                      <Code className="w-4 h-4" />
+                      GitHub
+                    </a>
+                  )}
+                  
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors duration-300"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Demo
+                    </a>
+                  )}
                 </div>
               </div>
-              <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                Implementação de sistema de reconhecimento facial para controle de acesso,
-                utilizando machine learning e processamento de imagens em tempo real.
-              </p>
-              <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  2024
-                </span>
-                <span className="flex items-center gap-1">
-                  <Users className="w-4 h-4" />
-                  Individual
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-1 rounded-md">
-                  Python
-                </span>
-                <span className="text-xs bg-orange-600/20 text-orange-400 px-2 py-1 rounded-md">
-                  OpenCV
-                </span>
-                <span className="text-xs bg-purple-600/20 text-purple-400 px-2 py-1 rounded-md">
-                  TensorFlow
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* LinkedIn Projects Link */}
@@ -104,7 +142,7 @@ export default function LinkedInProjects() {
                 experiências profissionais e conquistas detalhadas.
               </p>
               <a
-                href="https://www.linkedin.com/in/jeefisantos/details/projects/"
+                href="https://www.linkedin.com/in/jeefisantos/details/projects/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAACc5gSoBmGoDQ8V0NvIXh_ekT6s3KOtELWc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"

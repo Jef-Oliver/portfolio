@@ -43,7 +43,7 @@ export default function Hero() {
             </a>
             
             <a
-              href="/curriculo-jeferson-oliver.pdf"
+                              href="/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download

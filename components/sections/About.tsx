@@ -1,3 +1,5 @@
+'use client';
+
 import { Mail, Github, User } from 'lucide-react';
 
 export default function About() {
@@ -15,8 +17,15 @@ export default function About() {
             <div className="md:col-span-1">
               <div className="relative mx-auto w-48 h-48 mb-8">
                 <div className="w-full h-full bg-gradient-to-br from-purple-primary to-purple-light rounded-2xl p-1">
-                  <div className="w-full h-full bg-dark rounded-xl flex items-center justify-center">
-                    <User className="w-24 h-24 text-purple-light" />
+                  <div className="w-full h-full bg-dark rounded-xl overflow-hidden">
+                    <img
+                      src="/projects-images/cp.png"
+                      alt="Jeferson Oliver - Foto de Perfil"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="fallback-icon hidden w-full h-full items-center justify-center">
+                      <User className="w-24 h-24 text-purple-light" />
+                    </div>
                   </div>
                 </div>
               </div>

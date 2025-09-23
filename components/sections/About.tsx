@@ -56,43 +56,79 @@ export default function About() {
             {/* Content section */}
             <div className="md:col-span-2">
               <div className="prose prose-lg text-gray-300 leading-relaxed">
-                <p className="text-xl text-light mb-6">
-                  Backend Developer apaixonado por resolver problemas reais com código.
-                </p>
-                
                 <p className="mb-6">
-                  Nos últimos anos, atuei modernizando <span className="text-purple-light font-semibold">sistemas governamentais e corporativos</span> — 
-                  principalmente de <span className="text-purple-light font-semibold">gestão de ponto, controle de acesso e RH</span> — 
-                  unindo tecnologia, automação e visão de produto para entregar soluções 
-                  que fazem diferença no dia a dia.
+                  Me formei no <span className="text-purple-light font-semibold">Instituto Federal do Tocantins</span>, onde nossa principal linguagem era
+                  {' '}<span className="text-purple-light font-semibold">Java</span> com
+                  {' '}<span className="text-purple-light font-semibold">Spring Boot</span>. Ao longo da minha experiência trabalhando no
+                  {' '}<span className="text-purple-light font-semibold">governo</span> e acompanhando o avanço da tecnologia, especialmente com
+                  {' '}<span className="text-purple-light font-semibold">IA</span>, fui me aprofundando cada vez mais. Hoje vejo como o apoio dessas ferramentas na criação de
+                  {' '}<span className="text-purple-light font-semibold">sistemas</span> e
+                  {' '}<span className="text-purple-light font-semibold">websites</span> faz diferença: poder resolver um
+                  {' '}<span className="text-purple-light font-semibold">bug</span> em instantes e não perder tempo com o óbvio é crucial para um
+                  {' '}<span className="text-purple-light font-semibold">desenvolvimento ágil e eficiente</span>.
                 </p>
-                
+
                 <p className="mb-6">
-                  Trabalho com <span className="text-purple-light font-semibold">Python (Django e Flask)</span>, 
-                  ASP Clássico, <span className="text-purple-light font-semibold">Java (Spring Boot)</span> e 
-                  bancos de dados como <span className="text-purple-light font-semibold">PostgreSQL</span> e 
-                  SQL Server. Gosto de backend limpo, APIs REST bem pensadas e soluções fáceis de manter.
+                  Atualmente, também estou me aprofundando em novas tecnologias como
+                  {' '}<span className="text-purple-light font-semibold">React.js</span>,
+                  {' '}<span className="text-purple-light font-semibold">Next.js</span>,
+                  {' '}<span className="text-purple-light font-semibold">Tailwind CSS</span> e
+                  {' '}<span className="text-purple-light font-semibold">Firebase</span>.
                 </p>
-                
+
                 <p className="mb-6">
-                  Tenho experiência com <span className="text-purple-light font-semibold">sistemas legados governamentais</span>, onde cada melhoria precisa ser estratégica. 
-                  Uso metodologias ágeis e foco em qualidade — seja refatorando, construindo do zero ou automatizando tarefas 
-                  com IA para <span className="text-purple-light font-semibold">projetos de governança digital</span>.
+                  Atuo modernizando
+                  {' '}<span className="text-purple-light font-semibold">sistemas governamentais e corporativos</span>, principalmente de
+                  {' '}<span className="text-purple-light font-semibold">gestão de ponto</span>,
+                  {' '}<span className="text-purple-light font-semibold">controle de acesso</span> e
+                  {' '}<span className="text-purple-light font-semibold">RH</span>, unindo
+                  {' '}<span className="text-purple-light font-semibold">tecnologia</span>,
+                  {' '}<span className="text-purple-light font-semibold">automação</span> e
+                  {' '}<span className="text-purple-light font-semibold">visão de produto</span> para entregar soluções que realmente impactam o dia a dia.
                 </p>
-                
+
                 <p className="mb-6">
-                  Atualmente, exploro <span className="text-purple-light font-semibold">IA e automação</span> para 
-                  criar sistemas mais inteligentes e menos burocráticos. Desenvolvi <span className="text-purple-light font-semibold">reconhecimento facial para 
-                  controle de acesso governamental</span>, <span className="text-purple-light font-semibold">sistemas de gestão de recursos humanos</span> e 
-                  <span className="text-purple-light font-semibold"> soluções de governança digital</span> com dashboards, relatórios automatizados e comunicação 
-                  por e-mail.
+                  Trabalho com <span className="text-purple-light font-semibold">Python</span> (
+                  <span className="text-purple-light font-semibold">Django</span> e
+                  {' '}<span className="text-purple-light font-semibold">Flask</span>),
+                  {' '}<span className="text-purple-light font-semibold">ASP Clássico</span>,
+                  {' '}<span className="text-purple-light font-semibold">Java</span> (
+                  <span className="text-purple-light font-semibold">Spring Boot</span>) e bancos como
+                  {' '}<span className="text-purple-light font-semibold">PostgreSQL</span> e
+                  {' '}<span className="text-purple-light font-semibold">SQL Server</span>. Tenho preferência por
+                  {' '}<span className="text-purple-light font-semibold">backends limpos</span>,
+                  {' '}<span className="text-purple-light font-semibold">APIs REST</span> bem estruturadas e soluções fáceis de manter.
                 </p>
-                
+
+                <p className="mb-6">
+                  Minha experiência com
+                  {' '}<span className="text-purple-light font-semibold">sistemas legados</span> me ensinou que cada melhoria precisa ser estratégica. Por isso, aplico
+                  {' '}<span className="text-purple-light font-semibold">metodologias ágeis</span> e foco em
+                  {' '}<span className="text-purple-light font-semibold">qualidade</span> seja refatorando, criando do zero ou automatizando processos com
+                  {' '}<span className="text-purple-light font-semibold">IA</span> para apoiar a
+                  {' '}<span className="text-purple-light font-semibold">governança digital</span>.
+                </p>
+
+                <p className="mb-6">
+                  Já desenvolvi sistemas de
+                  {' '}<span className="text-purple-light font-semibold">reconhecimento facial</span> para
+                  {' '}<span className="text-purple-light font-semibold">controle de acesso governamental</span>, plataformas de
+                  {' '}<span className="text-purple-light font-semibold">gestão de RH</span> e soluções de governança com
+                  {' '}<span className="text-purple-light font-semibold">dashboards</span>,
+                  {' '}<span className="text-purple-light font-semibold">relatórios automatizados</span> e comunicação por
+                  {' '}<span className="text-purple-light font-semibold">e-mail</span>.
+                </p>
+
                 <p>
-                  Curto <span className="text-purple-light font-semibold">Docker, containerização</span> e 
-                  arquiteturas que simplifiquem deploy e manutenção. Especializo-me em <span className="text-purple-light font-semibold">sistemas de gestão pública</span>, 
-                  <span className="text-purple-light font-semibold">controle de acesso governamental</span> e <span className="text-purple-light font-semibold">automação de processos públicos</span>. 
-                  Acredito que software bom é funcional e intuitivo, por isso busco interfaces modernas e responsivas que complementem um backend robusto.
+                  Também gosto de trabalhar com <span className="text-purple-light font-semibold">Docker</span> e
+                  {' '}<span className="text-purple-light font-semibold">containerização</span>, buscando arquiteturas que simplifiquem
+                  {' '}<span className="text-purple-light font-semibold">deploy</span> e
+                  {' '}<span className="text-purple-light font-semibold">manutenção</span>. Meu foco é sempre em
+                  {' '}<span className="text-purple-light font-semibold">sistemas de gestão pública</span>,
+                  {' '}<span className="text-purple-light font-semibold">controle de acesso</span> e
+                  {' '}<span className="text-purple-light font-semibold">automação de processos</span>, acreditando que um bom software deve ser funcional, intuitivo e acompanhado de
+                  {' '}<span className="text-purple-light font-semibold">interfaces modernas e responsivas</span> que complementem um
+                  {' '}<span className="text-purple-light font-semibold">backend robusto</span>.
                 </p>
               </div>
             </div>

@@ -15,6 +15,20 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "site-grupo-artpalco",
+    title: "Site do Grupo Artpalco",
+    category: "Website Institucional",
+    description: "Website institucional moderno, com foco em performance, SEO e experiência do usuário.",
+    year: "2025",
+    team: "Equipe",
+    technologies: ["React", "Next.js", "Tailwind CSS", "Firebase"],
+    linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7376267861905997824/",
+    featured: true,
+    images: [
+      "/projects-images/im1.png"
+    ]
+  },
+  {
     id: "sistema-alugueis",
     title: "Sistema de Controle de Aluguéis",
     category: "Gestão Imobiliária",

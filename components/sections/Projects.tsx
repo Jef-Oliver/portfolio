@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Star, GitFork, ExternalLink, Github } from 'lucide-react';
+import { Star, GitFork, ExternalLink, Github, Linkedin } from 'lucide-react';
 
 interface Repository {
   id: number;
@@ -253,13 +253,7 @@ export default function Projects() {
   return (
     <section id="projetos" className="section-padding bg-gray-900/50">
       <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="heading-lg text-light mb-4">Projetos em Destaque</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Seleção de projetos que demonstram minhas habilidades em desenvolvimento backend e soluções completas
-          </p>
-        </div>
+        {/* Header removido a pedido: mantendo apenas a listagem abaixo */}
 
         {/* Technology Filters */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">

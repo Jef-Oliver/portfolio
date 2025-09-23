@@ -71,7 +71,8 @@ export default function LinkedInProjects() {
                   <div className="mb-4">
                     <ProjectImageGallery 
                       images={project.images} 
-                      projectTitle={project.title} 
+                      projectTitle={project.title}
+                      aspectClassName="aspect-[4/3]"
                     />
                   </div>
                 ) : project.linkedinUrl ? (

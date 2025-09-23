@@ -13,7 +13,7 @@ const skillCategories = [
   {
     title: 'Linguagens & Frameworks',
     icon: Code2,
-    skills: ['Python', 'Django', 'Flask', 'FastAPI', 'Java', 'Spring Boot', 'ASP Clássico'],
+    skills: ['Python', 'Django', 'Flask', 'FastAPI', 'Java', 'Spring Boot', 'ASP Clássico', 'React.js', 'Next.js', 'Tailwind CSS', 'Firebase'],
     color: 'from-purple-primary to-purple-light'
   },
   {

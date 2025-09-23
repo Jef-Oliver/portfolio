@@ -7,9 +7,10 @@ interface ProjectImageGalleryProps {
   images: string[];
   projectTitle: string;
   onClose?: () => void;
+  aspectClassName?: string; // permite ajustar aspecto/tamanho
 }
 
-export default function ProjectImageGallery({ images, projectTitle, onClose }: ProjectImageGalleryProps) {
+export default function ProjectImageGallery({ images, projectTitle, onClose, aspectClassName }: ProjectImageGalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!images || images.length === 0) {
@@ -29,7 +30,7 @@ export default function ProjectImageGallery({ images, projectTitle, onClose }: P
   };
 
   return (
-    <div className="relative w-full aspect-[16/9] bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700/50">
+    <div className={`relative w-full ${aspectClassName ?? 'aspect-[16/9]'} bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700/50`}>
       {/* Main Image */}
       <div className="relative w-full h-full">
         <img

@@ -8,6 +8,16 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
+        // Portfolio variants (Windows-safe: we reuse this file instead of creating Badge.tsx)
+        backend:
+          'border-transparent bg-sky-600/20 text-sky-300 hover:bg-sky-600/30',
+        database:
+          'border-transparent bg-fuchsia-600/20 text-fuchsia-300 hover:bg-fuchsia-600/30',
+        cloud:
+          'border-transparent bg-orange-600/20 text-orange-300 hover:bg-orange-600/30',
+        frontend:
+          'border-transparent bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30',
+        ai: 'border-transparent bg-pink-600/20 text-pink-300 hover:bg-pink-600/30',
         default:
           'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
         secondary:

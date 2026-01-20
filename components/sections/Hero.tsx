@@ -1,4 +1,6 @@
-import { ArrowDown, Download, Github } from 'lucide-react';
+import { ArrowDown, Download, Github, Mail } from 'lucide-react';
+
+import { CONTACT } from '@/lib/constants';
 
 export default function Hero() {
   return (
@@ -14,21 +16,21 @@ export default function Hero() {
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="max-w-4xl mx-auto animate-fade-in">
           <h1 className="heading-xl text-light mb-6">
-            Backend Developer focado em{' '}
+            Backend Developer{' '}
             <span className="text-transparent bg-gradient-to-r from-purple-primary to-purple-light bg-clip-text">
-              resolver problemas reais
+              especializado
             </span>
           </h1>
           
           <div className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
-            <p className="mb-4">
-              Especializado em Python, Django, Java e Spring Boot, transformo ideias em soluções robustas e escaláveis.
+            <p className="mb-2">
+              Arquitetura robusta, performance otimizada e sistemas escaláveis.
             </p>
-            <p className="mb-4">
-              Experiência sólida em modernização de sistemas corporativos e desenvolvimento de APIs REST.
+            <p className="mb-2">
+              4 anos de experiência modernizando sistemas corporativos.
             </p>
             <p>
-              Apaixonado por código limpo, automação inteligente e arquiteturas que simplificam a manutenção.
+              Especialista em Python, Java, PostgreSQL e Google Cloud Platform.
             </p>
           </div>
 
@@ -38,12 +40,21 @@ export default function Hero() {
               className="btn-primary group flex items-center gap-2"
               aria-label="Ver meus projetos"
             >
-              Ver Projetos
+              Explorar Projetos
               <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
             </a>
             
             <a
-                              href="/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf"
+              href="#contato"
+              className="btn-secondary group flex items-center gap-2"
+              aria-label="Ir para a seção de contato"
+            >
+              <Mail className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              Entrar em Contato
+            </a>
+
+            <a
+              href={CONTACT.resumePath}
               target="_blank"
               rel="noopener noreferrer"
               download
@@ -57,7 +68,7 @@ export default function Hero() {
 
           <div className="flex justify-center animate-slide-up">
             <a
-              href="https://github.com/Jef-Oliver"
+              href={CONTACT.github}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark rounded-lg px-3 py-2"

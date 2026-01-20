@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import { CONTACT } from '@/lib/constants';
+
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
@@ -9,14 +11,32 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://portfolio-jeferson-blond.vercel.app'),
   title: 'Jeferson Olivera | Backend Developer',
-  description: 'Backend Developer apaixonado por resolver problemas reais com código. Especializado em Python, Django, Flask, Java e Spring Boot.',
-  keywords: ['Backend Developer', 'Python', 'Django', 'Flask', 'Java', 'Spring Boot', 'PostgreSQL', 'API REST'],
+  description:
+    'Backend Developer especializado em arquitetura, performance e modernização de sistemas corporativos. Python, Java, PostgreSQL e Google Cloud Platform.',
+  keywords: [
+    'Backend Developer',
+    'Arquitetura de Software',
+    'Python',
+    'Django',
+    'FastAPI',
+    'Java',
+    'Spring Boot',
+    'PostgreSQL',
+    'Redis',
+    'Docker',
+    'Google Cloud Platform',
+    'APIs REST',
+    'Microserviços',
+    'Otimização de Performance',
+  ],
   authors: [{ name: 'Jeferson Olivera' }],
   creator: 'Jeferson Olivera',
   openGraph: {
     title: 'Jeferson Olivera | Backend Developer',
-    description: 'Backend Developer apaixonado por resolver problemas reais com código.',
+    description:
+      'Arquitetura robusta, performance otimizada e sistemas escaláveis.',
     url: 'https://portfolio-jeferson-blond.vercel.app',
     siteName: 'Jeferson Olivera Portfolio',
     images: [
@@ -33,7 +53,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Jeferson Olivera | Backend Developer',
-    description: 'Backend Developer apaixonado por resolver problemas reais com código.',
+    description:
+      'Arquitetura robusta, performance otimizada e sistemas escaláveis.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -57,11 +78,22 @@ const jsonLd = {
   '@type': 'Person',
   name: 'Jeferson Olivera',
   jobTitle: 'Backend Developer',
-  email: 'j4.oliver23@gmail.com',
-  url: 'https://github.com/Jef-Oliver',
-  sameAs: ['https://github.com/Jef-Oliver'],
-  knowsAbout: ['Python', 'Django', 'Flask', 'FastAPI', 'Java', 'Spring Boot', 'PostgreSQL', 'Docker'],
-  description: 'Backend Developer apaixonado por resolver problemas reais com código.',
+  email: CONTACT.email,
+  url: CONTACT.github,
+  sameAs: [CONTACT.github, CONTACT.linkedin],
+  knowsAbout: [
+    'Python',
+    'Django',
+    'FastAPI',
+    'Java',
+    'Spring Boot',
+    'PostgreSQL',
+    'Redis',
+    'Docker',
+    'Google Cloud Platform',
+  ],
+  description:
+    'Backend Developer especializado em arquitetura, performance e modernização de sistemas corporativos.',
 };
 
 export default function RootLayout({

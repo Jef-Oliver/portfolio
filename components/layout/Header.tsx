@@ -3,17 +3,23 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
+import { CONTACT } from '@/lib/constants';
+
 const navItems = [
+  { href: '#especialidades', label: 'Especialidades' },
   { href: '#sobre', label: 'Sobre' },
+  { href: '#experiencia', label: 'Experiência' },
   { href: '#projetos', label: 'Projetos' },
   { href: '#skills', label: 'Skills' },
+  { href: '#aprendendo', label: 'Aprendendo' },
   { href: '#contato', label: 'Contato' },
-          { href: '/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf', label: 'Currículo', external: true },
+  { href: CONTACT.resumePath, label: 'Currículo', external: true },
 ];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +28,36 @@ export default function Header() {
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = navItems
+      .filter((i) => i.href.startsWith('#'))
+      .map((i) => i.href.replace('#', ''));
+    const elements = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) =>
+              (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0)
+          );
+        if (visible[0]?.target?.id) setActiveSection(visible[0].target.id);
+      },
+      {
+        root: null,
+        threshold: [0.2, 0.35, 0.5, 0.65],
+        rootMargin: '-20% 0px -65% 0px',
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   const handleNavClick = (href: string, external?: boolean) => {
@@ -54,9 +90,20 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => handleNavClick(item.href, item.external)}
-                className="text-light hover:text-purple-light font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark rounded-lg px-3 py-2"
+                className={`text-light hover:text-purple-light font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark rounded-lg px-3 py-2 ${
+                  !item.external &&
+                  activeSection &&
+                  item.href === `#${activeSection}`
+                    ? 'bg-purple-primary/10 text-purple-light'
+                    : ''
+                }`}
                 {...(item.external && { target: '_blank', rel: 'noopener noreferrer', download: true })}
                 aria-label={item.external ? `${item.label} (abre em nova aba)` : item.label}
+                aria-current={
+                  !item.external && item.href === `#${activeSection}`
+                    ? 'page'
+                    : undefined
+                }
               >
                 {item.label}
               </a>
@@ -90,9 +137,20 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => handleNavClick(item.href, item.external)}
-                className="block text-light hover:text-purple-light font-medium transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-purple-primary/10 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark"
+                className={`block text-light hover:text-purple-light font-medium transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-purple-primary/10 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-dark ${
+                  !item.external &&
+                  activeSection &&
+                  item.href === `#${activeSection}`
+                    ? 'bg-purple-primary/10 text-purple-light'
+                    : ''
+                }`}
                 {...(item.external && { target: '_blank', rel: 'noopener noreferrer', download: true })}
                 aria-label={item.external ? `${item.label} (abre em nova aba)` : item.label}
+                aria-current={
+                  !item.external && item.href === `#${activeSection}`
+                    ? 'page'
+                    : undefined
+                }
               >
                 {item.label}
               </a>

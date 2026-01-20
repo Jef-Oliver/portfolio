@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Mail, Github, Send, CheckCircle, ExternalLink } from 'lucide-react';
 
+import { CONTACT } from '@/lib/constants';
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -20,7 +22,7 @@ export default function Contact() {
     
     const subject = encodeURIComponent(`Contato de ${formData.name}`);
     const body = encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`);
-    const mailtoLink = `mailto:j4.oliver23@gmail.com?subject=${subject}&body=${body}`;
+    const mailtoLink = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
     
     window.location.href = mailtoLink;
     
@@ -47,7 +49,7 @@ export default function Contact() {
           <h2 className="heading-lg text-light mb-4">Vamos Conversar</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Interessado em uma colaboração ou tem alguma dúvida? Entre em contato comigo!
+            Vamos conversar sobre backend, arquitetura ou seus desafios técnicos?
           </p>
         </div>
 
@@ -58,28 +60,28 @@ export default function Contact() {
               <div>
                 <h3 className="heading-sm text-light mb-6">Entre em Contato</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed">
-                  Estou sempre aberto a discutir novas oportunidades, projetos interessantes 
-                  ou simplesmente trocar ideias sobre tecnologia e desenvolvimento.
+                  Estou aberto a oportunidades e projetos desafiadores — principalmente
+                  em backend, arquitetura e performance. Se fizer sentido, vamos falar.
                 </p>
               </div>
 
               <div className="space-y-6">
                 <a
-                  href="mailto:j4.oliver23@gmail.com"
+                  href={`mailto:${CONTACT.email}`}
                   className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-purple-primary/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-900"
-                  aria-label="Enviar email para j4.oliver23@gmail.com"
+                  aria-label={`Enviar email para ${CONTACT.email}`}
                 >
                   <div className="flex-shrink-0 w-12 h-12 bg-purple-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h4 className="text-light font-semibold">Email</h4>
-                    <p className="text-gray-400">contato@jeferson</p>
+                    <p className="text-gray-400">{CONTACT.email}</p>
                   </div>
                 </a>
 
                 <a
-                  href="https://github.com/Jef-Oliver"
+                  href={CONTACT.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-purple-primary/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-900"
@@ -95,7 +97,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="https://www.linkedin.com/in/jef-oliver/"
+                  href={CONTACT.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-purple-primary/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-900"

@@ -1,9 +1,14 @@
 import { Github, Mail, ExternalLink } from 'lucide-react';
 
+import { CONTACT } from '@/lib/constants';
+
 const quickLinks = [
+  { href: '#especialidades', label: 'Especialidades' },
   { href: '#sobre', label: 'Sobre' },
+  { href: '#experiencia', label: 'Experiência' },
   { href: '#projetos', label: 'Projetos' },
   { href: '#skills', label: 'Skills' },
+  { href: '#aprendendo', label: 'Aprendendo' },
   { href: '#contato', label: 'Contato' },
 ];
 
@@ -38,7 +43,7 @@ export default function Footer() {
               ))}
               <li>
                 <a
-                  href="/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf"
+                  href={CONTACT.resumePath}
                   target="_blank"
                   rel="noopener noreferrer"
                   download
@@ -57,7 +62,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold text-light mb-4">Conecte-se</h4>
             <div className="space-y-4">
               <a
-                href="https://github.com/Jef-Oliver"
+                href={CONTACT.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
@@ -67,7 +72,7 @@ export default function Footer() {
                 GitHub
               </a>
               <a
-                href="https://www.linkedin.com/in/jef-oliver/"
+                href={CONTACT.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
@@ -77,12 +82,12 @@ export default function Footer() {
                 LinkedIn
               </a>
               <a
-                href="mailto:j4.oliver23@gmail.com"
+                href={`mailto:${CONTACT.email}`}
                 className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
                 aria-label="Enviar email"
               >
                 <Mail className="w-5 h-5" />
-                contato@jeferson
+                {CONTACT.email}
               </a>
             </div>
           </div>
@@ -96,7 +101,7 @@ export default function Footer() {
             </p>
             
             <p className="text-gray-400 text-sm">
-              Feito com ❤️ usando Next.js, TypeScript e Tailwind CSS
+              Feito com Next.js, TypeScript e Tailwind CSS
             </p>
           </div>
         </div>

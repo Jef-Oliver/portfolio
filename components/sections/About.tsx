@@ -2,6 +2,8 @@
 
 import { Mail, Github, User } from 'lucide-react';
 
+import { CONTACT } from '@/lib/constants';
+
 export default function About() {
   return (
     <section id="sobre" className="section-padding bg-dark">
@@ -32,7 +34,7 @@ export default function About() {
               
               <div className="text-center space-y-4">
                 <a
-                  href="https://github.com/Jef-Oliver"
+                  href={CONTACT.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 btn-primary"
@@ -43,7 +45,7 @@ export default function About() {
                 </a>
                 
                 <a
-                  href="mailto:j4.oliver23@gmail.com"
+                  href={`mailto:${CONTACT.email}`}
                   className="inline-flex items-center gap-2 btn-secondary ml-4"
                   aria-label="Enviar email"
                 >
@@ -57,78 +59,65 @@ export default function About() {
             <div className="md:col-span-2">
               <div className="prose prose-lg text-gray-300 leading-relaxed">
                 <p className="mb-6">
-                  Me formei no <span className="text-purple-light font-semibold">Instituto Federal do Tocantins</span>, onde nossa principal linguagem era
-                  {' '}<span className="text-purple-light font-semibold">Java</span> com
-                  {' '}<span className="text-purple-light font-semibold">Spring Boot</span>. Ao longo da minha experiência trabalhando no
-                  {' '}<span className="text-purple-light font-semibold">governo</span> e acompanhando o avanço da tecnologia, especialmente com
-                  {' '}<span className="text-purple-light font-semibold">IA</span>, fui me aprofundando cada vez mais. Hoje vejo como o apoio dessas ferramentas na criação de
-                  {' '}<span className="text-purple-light font-semibold">sistemas</span> e
-                  {' '}<span className="text-purple-light font-semibold">websites</span> faz diferença: poder resolver um
-                  {' '}<span className="text-purple-light font-semibold">bug</span> em instantes e não perder tempo com o óbvio é crucial para um
-                  {' '}<span className="text-purple-light font-semibold">desenvolvimento ágil e eficiente</span>.
+                  Sou especialista em backend com{' '}
+                  <span className="text-purple-light font-semibold">4 anos</span>{' '}
+                  de experiência em{' '}
+                  <span className="text-purple-light font-semibold">
+                    arquitetura
+                  </span>
+                  ,{' '}
+                  <span className="text-purple-light font-semibold">
+                    otimização
+                  </span>{' '}
+                  e{' '}
+                  <span className="text-purple-light font-semibold">
+                    modernização
+                  </span>{' '}
+                  de sistemas corporativos.
                 </p>
 
                 <p className="mb-6">
-                  Atualmente, também estou me aprofundando em novas tecnologias como
-                  {' '}<span className="text-purple-light font-semibold">React.js</span>,
-                  {' '}<span className="text-purple-light font-semibold">Next.js</span>,
-                  {' '}<span className="text-purple-light font-semibold">Tailwind CSS</span> e
-                  {' '}<span className="text-purple-light font-semibold">Firebase</span>.
+                  Trabalho com{' '}
+                  <span className="text-purple-light font-semibold">
+                    Python (Django/FastAPI)
+                  </span>
+                  ,{' '}
+                  <span className="text-purple-light font-semibold">
+                    Java (Spring Boot)
+                  </span>
+                  ,{' '}
+                  <span className="text-purple-light font-semibold">PostgreSQL</span>{' '}
+                  e{' '}
+                  <span className="text-purple-light font-semibold">
+                    Google Cloud Platform
+                  </span>
+                  .
                 </p>
 
                 <p className="mb-6">
-                  Atuo modernizando
-                  {' '}<span className="text-purple-light font-semibold">sistemas governamentais e corporativos</span>, principalmente de
-                  {' '}<span className="text-purple-light font-semibold">gestão de ponto</span>,
-                  {' '}<span className="text-purple-light font-semibold">controle de acesso</span> e
-                  {' '}<span className="text-purple-light font-semibold">RH</span>, unindo
-                  {' '}<span className="text-purple-light font-semibold">tecnologia</span>,
-                  {' '}<span className="text-purple-light font-semibold">automação</span> e
-                  {' '}<span className="text-purple-light font-semibold">visão de produto</span> para entregar soluções que realmente impactam o dia a dia.
+                  Tenho capacidade full-stack (
+                  <span className="text-purple-light font-semibold">
+                    React e TypeScript
+                  </span>
+                  ) e posso contribuir no frontend quando necessário, mas meu foco
+                  e expertise estão em backend.
                 </p>
 
                 <p className="mb-6">
-                  Trabalho com <span className="text-purple-light font-semibold">Python</span> (
-                  <span className="text-purple-light font-semibold">Django</span> e
-                  {' '}<span className="text-purple-light font-semibold">Flask</span>),
-                  {' '}<span className="text-purple-light font-semibold">ASP Clássico</span>,
-                  {' '}<span className="text-purple-light font-semibold">Java</span> (
-                  <span className="text-purple-light font-semibold">Spring Boot</span>) e bancos como
-                  {' '}<span className="text-purple-light font-semibold">PostgreSQL</span> e
-                  {' '}<span className="text-purple-light font-semibold">SQL Server</span>. Tenho preferência por
-                  {' '}<span className="text-purple-light font-semibold">backends limpos</span>,
-                  {' '}<span className="text-purple-light font-semibold">APIs REST</span> bem estruturadas e soluções fáceis de manter.
-                </p>
-
-                <p className="mb-6">
-                  Minha experiência com
-                  {' '}<span className="text-purple-light font-semibold">sistemas legados</span> me ensinou que cada melhoria precisa ser estratégica. Por isso, aplico
-                  {' '}<span className="text-purple-light font-semibold">metodologias ágeis</span> e foco em
-                  {' '}<span className="text-purple-light font-semibold">qualidade</span> seja refatorando, criando do zero ou automatizando processos com
-                  {' '}<span className="text-purple-light font-semibold">IA</span> para apoiar a
-                  {' '}<span className="text-purple-light font-semibold">governança digital</span>.
-                </p>
-
-                <p className="mb-6">
-                  Já desenvolvi sistemas de
-                  {' '}<span className="text-purple-light font-semibold">reconhecimento facial</span> para
-                  {' '}<span className="text-purple-light font-semibold">controle de acesso governamental</span>, plataformas de
-                  {' '}<span className="text-purple-light font-semibold">gestão de RH</span> e soluções de governança com
-                  {' '}<span className="text-purple-light font-semibold">dashboards</span>,
-                  {' '}<span className="text-purple-light font-semibold">relatórios automatizados</span> e comunicação por
-                  {' '}<span className="text-purple-light font-semibold">e-mail</span>.
+                  Apaixonado por código limpo, APIs bem pensadas e soluções que
+                  fazem diferença real na rotina das pessoas.
                 </p>
 
                 <p>
-                  Também gosto de trabalhar com <span className="text-purple-light font-semibold">Docker</span> e
-                  {' '}<span className="text-purple-light font-semibold">containerização</span>, buscando arquiteturas que simplifiquem
-                  {' '}<span className="text-purple-light font-semibold">deploy</span> e
-                  {' '}<span className="text-purple-light font-semibold">manutenção</span>. Meu foco é sempre em
-                  {' '}<span className="text-purple-light font-semibold">sistemas de gestão pública</span>,
-                  {' '}<span className="text-purple-light font-semibold">controle de acesso</span> e
-                  {' '}<span className="text-purple-light font-semibold">automação de processos</span>, acreditando que um bom software deve ser funcional, intuitivo e acompanhado de
-                  {' '}<span className="text-purple-light font-semibold">interfaces modernas e responsivas</span> que complementem um
-                  {' '}<span className="text-purple-light font-semibold">backend robusto</span>.
+                  Atualmente, estou explorando o uso de{' '}
+                  <span className="text-purple-light font-semibold">
+                    Inteligência Artificial
+                  </span>{' '}
+                  e{' '}
+                  <span className="text-purple-light font-semibold">
+                    automação de processos
+                  </span>{' '}
+                  para criar sistemas mais inteligentes e menos burocráticos.
                 </p>
               </div>
             </div>

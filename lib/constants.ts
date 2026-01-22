@@ -79,13 +79,6 @@ export const SPECIALTIES: Specialty[] = [
     example: 'ASP Clássico → Django/FastAPI com rollout incremental.',
     icon: RefreshCcw,
   },
-  {
-    title: 'Algoritmos de Matching',
-    description:
-      'Sistemas de recomendação e matching por regras/dados para melhorar conversão e experiência.',
-    example: '100% de precisão; app publicado na Play Store.',
-    icon: Sparkles,
-  },
 ];
 
 export const PROJECTS: ProjectShowcase[] = [
@@ -103,17 +96,8 @@ export const PROJECTS: ProjectShowcase[] = [
     title: 'Sistema de Reconhecimento Facial',
     problem: 'Registro de ponto manual e propenso a erros.',
     solution: 'Implementação end-to-end com Python/Django e OpenCV.',
-    result: '100% de precisão; automação completa do fluxo.',
+    result: 'Alta precisão; automação completa do fluxo de ponto.',
     technologies: ['Python', 'Django', 'OpenCV', 'PostgreSQL'],
-    links: {},
-  },
-  {
-    id: 'matching-play-store',
-    title: 'Aplicação de Matching (Play Store)',
-    problem: 'Necessidade de recomendação inteligente e consistente.',
-    solution: 'Algoritmos de matching baseados em regras com validação.',
-    result: 'Publicado na Play Store; 10k+ downloads.',
-    technologies: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'GCP'],
     links: {},
   },
   {
@@ -196,6 +180,10 @@ export const EXPERIENCE: ExperienceItem[] = [
 ];
 
 export const LEARNING: LearningItem[] = [
+  {
+    title: 'Algoritmos de Matching e Sistemas de Recomendação',
+    description: 'Sistemas de recomendação e matching por regras/dados para melhorar conversão e experiência. Buscando sempre alcançar maior precisão; app publicado na Play Store.',
+  },
   {
     title: 'Inteligência Artificial e Automação de Processos',
     description: 'Explorando IA e automação para reduzir burocracia e acelerar fluxos.',

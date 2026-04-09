@@ -59,65 +59,63 @@ export default function About() {
             <div className="md:col-span-2">
               <div className="prose prose-lg text-gray-300 leading-relaxed">
                 <p className="mb-6">
-                  Sou especialista em backend com{' '}
+                  <span className="text-purple-light font-semibold">
+                    Full Stack Python Developer
+                  </span>{' '}
+                  apaixonado por transformar regras de negocio complexas e
+                  exigencias legais em sistemas escalaveis e de alta
+                  performance. Tenho{' '}
                   <span className="text-purple-light font-semibold">4 anos</span>{' '}
-                  de experiência em{' '}
-                  <span className="text-purple-light font-semibold">
-                    arquitetura
-                  </span>
-                  ,{' '}
-                  <span className="text-purple-light font-semibold">
-                    otimização
-                  </span>{' '}
-                  e{' '}
-                  <span className="text-purple-light font-semibold">
-                    modernização
-                  </span>{' '}
-                  de sistemas corporativos.
+                  de experiencia desenhando e modernizando sistemas corporativos
+                  e projetos governamentais vitais, com foco em ERP, gestao de
+                  ponto e RH.
                 </p>
 
                 <p className="mb-6">
-                  Trabalho com{' '}
+                  Minha especialidade esta na{' '}
+                  <span className="text-purple-light font-semibold">
+                    engenharia backend
+                  </span>
+                  : arquitetura de dados com{' '}
                   <span className="text-purple-light font-semibold">
                     Python (Django/FastAPI)
-                  </span>
-                  ,{' '}
+                  </span>{' '}
+                  e{' '}
                   <span className="text-purple-light font-semibold">
                     Java (Spring Boot)
                   </span>
-                  ,{' '}
-                  <span className="text-purple-light font-semibold">PostgreSQL</span>{' '}
-                  e{' '}
+                  , utilizando{' '}
                   <span className="text-purple-light font-semibold">
-                    Google Cloud Platform
-                  </span>
-                  .
+                    PostgreSQL, SQL Server, Redis
+                  </span>{' '}
+                  e APIs REST para garantir velocidade, confiabilidade e
+                  integridade para trilhas de auditoria.
                 </p>
 
                 <p className="mb-6">
-                  Tenho capacidade full-stack (
-                  <span className="text-purple-light font-semibold">
-                    React e TypeScript
-                  </span>
-                  ) e posso contribuir no frontend quando necessário, mas meu foco
-                  e expertise estão em backend.
+                  Sou especialista em abstrair legislacoes rigidas e processos
+                  matematicos complexos, como jornadas dinamicas e tolerancias,
+                  para dentro de queries otimizadas no backend e fluxos de
+                  negocio robustos, sempre alinhados a governanca de TI e
+                  compliance corporativo.
                 </p>
 
                 <p className="mb-6">
-                  Apaixonado por código limpo, APIs bem pensadas e soluções que
-                  fazem diferença real na rotina das pessoas.
+                  No full stack, entrego features ponta a ponta com foco em
+                  excelencia de UI/UX usando{' '}
+                  <span className="text-purple-light font-semibold">
+                    React, TypeScript, JavaScript, AJAX e ecossistema Django
+                  </span>
+                  . Tambem tenho historico em integracoes fisicas no navegador,
+                  como biometria facial e leitura digital sincronizada a nuvem,
+                  com seguranca da informacao e LGPD.
                 </p>
 
                 <p>
-                  Atualmente, estou explorando o uso de{' '}
-                  <span className="text-purple-light font-semibold">
-                    Inteligência Artificial
-                  </span>{' '}
-                  e{' '}
-                  <span className="text-purple-light font-semibold">
-                    automação de processos
-                  </span>{' '}
-                  para criar sistemas mais inteligentes e menos burocráticos.
+                  Trabalho com metodologias ageis, IA para automacao de codigo,
+                  containerizacao com Docker e cloud em GCP. Para mim, nao
+                  existe limite entre web e mundo fisico: gosto de criar e
+                  plugar integracoes de hardware direto no navegador.
                 </p>
               </div>
             </div>

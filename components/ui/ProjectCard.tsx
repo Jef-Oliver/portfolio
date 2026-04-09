@@ -1,4 +1,4 @@
-import { ExternalLink, FileText, Github } from 'lucide-react';
+import { ExternalLink, Github, Linkedin } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 
@@ -14,6 +14,7 @@ type ProjectCardProps = {
     article?: string;
   };
   image?: string;
+  featured?: boolean;
 };
 
 export default function ProjectCard({
@@ -23,10 +24,22 @@ export default function ProjectCard({
   result,
   technologies,
   links,
+  featured = false,
 }: ProjectCardProps) {
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 card-hover">
+    <div
+      className={`bg-gray-800/50 backdrop-blur-sm border rounded-2xl p-6 card-hover ${
+        featured
+          ? 'border-purple-primary/60 shadow-lg shadow-purple-primary/10'
+          : 'border-gray-700/50'
+      }`}
+    >
       <div className="mb-4">
+        {featured && (
+          <span className="inline-flex items-center px-3 py-1 mb-3 rounded-full text-xs font-semibold uppercase tracking-wide bg-purple-primary/20 text-purple-light border border-purple-primary/40">
+            Projeto em destaque
+          </span>
+        )}
         <h3 className="text-xl font-semibold text-light">{title}</h3>
       </div>
 
@@ -90,8 +103,8 @@ export default function ProjectCard({
             className="inline-flex items-center gap-2 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 focus:ring-offset-gray-800 rounded-lg px-3 py-2"
             aria-label={`Ver artigo do projeto ${title} (abre em nova aba)`}
           >
-            <FileText className="w-4 h-4" />
-            Artigo
+            <Linkedin className="w-4 h-4" />
+            Link do projeto
           </a>
         )}
       </div>

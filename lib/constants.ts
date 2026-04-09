@@ -83,8 +83,54 @@ export const SPECIALTIES: Specialty[] = [
 
 export const PROJECTS: ProjectShowcase[] = [
   {
+    id: 'kanban-equipe-produtividade',
+    title: 'Kanban da equipe: produtividade e transparência',
+    problem:
+      'Necessidade de criar uma gestão viva do fluxo de trabalho, com clareza em tempo real sobre responsabilidade, status e comunicação entre equipes.',
+    solution:
+      'Desenvolvimento de uma plataforma com dashboard em tempo real (quem está online e status dos projetos), quadro Kanban dinâmico, regras de acesso por responsabilidade, notificações automatizadas por e-mail/alertas internos e perfis personalizáveis com temas e avatares.',
+    result:
+      'Sistema focado em produtividade e transparência, reduzindo ruído de comunicação, eliminando reuniões desnecessárias e trazendo clareza contínua sobre quem está fazendo o quê.',
+    technologies: [
+      'Python',
+      'Django',
+      'PostgreSQL',
+      'Kanban',
+      'Dashboard em Tempo Real',
+      'Notificações por E-mail',
+      'Controle de Acesso',
+    ],
+    links: {
+      article:
+        'https://www.linkedin.com/feed/update/urn:li:activity:7439372304427507712/',
+    },
+  },
+  {
+    id: 'modernizacao-ponto-digital-facial',
+    title: 'Modernização do sistema de ponto digital e facial',
+    problem:
+      'Necessidade de modernizar um sistema crítico, exigindo cálculos à prova de falhas, maior segurança de dados e total fluidez operacional.',
+    solution:
+      'Revitalização arquitetural com forte foco em engenharia backend, convertendo regras legais complexas de RH e jornadas dinâmicas em cálculos automatizados. Inserção de fluxo biométrico (facial multiângulo e digital) diretamente pelo navegador web.',
+    result:
+      'Software de extrema robustez, experiência de marcação imediata pelos usuários, eliminação de gargalos do RH e rigoroso alinhamento à governança de TI e compliance (LGPD).',
+    technologies: [
+      'Python',
+      'Django',
+      'PostgreSQL',
+      'APIs REST',
+      'Docker',
+      'Celery',
+      'Biometria Web (Facial/Digital)',
+    ],
+    links: {
+      article:
+        'https://www.linkedin.com/feed/update/urn:li:activity:7448027457657393152/',
+    },
+  },
+  {
     id: 'webponto-modernizacao',
-    title: 'Modernização do Sistema Webponto',
+    title: 'Sustentação do sistema legado de registro de ponto dos servidores',
     problem: 'Sistema legado em ASP Clássico com 15+ anos.',
     solution: 'Migração progressiva para Django com APIs RESTful.',
     result: '95% menos erros; 70% menos tempo de deploy.',
@@ -124,7 +170,13 @@ export const SKILLS_BY_CATEGORY = {
   backend: {
     title: 'Backend (Especialidade)',
     icon: Boxes,
-    skills: ['Python (Django, FastAPI, Flask)', 'Java (Spring Boot)', 'ASP Clássico (Legado)'],
+    skills: [
+      'Python (Django, FastAPI, Flask)',
+      'Java (Spring Boot)',
+      'APIs REST (arquitetura e versionamento)',
+      'Celery (jobs assíncronos e filas)',
+      'ASP Clássico (Legado)',
+    ],
   },
   database: {
     title: 'Banco de Dados (Especialidade)',
@@ -134,6 +186,7 @@ export const SKILLS_BY_CATEGORY = {
       'MySQL, SQL Server',
       'Redis (cache, sessions)',
       'MongoDB',
+      'Modelagem orientada a auditoria e compliance',
     ],
   },
   cloud: {
@@ -153,13 +206,20 @@ export const SKILLS_BY_CATEGORY = {
       'Reconhecimento Facial (OpenCV)',
       'Machine Learning (scikit-learn)',
       'Automação de Processos (RPA)',
+      'Automação assistida por IA para desenvolvimento',
       'Web Scraping',
     ],
   },
   frontend: {
-    title: 'Frontend (Capacidade)',
+    title: 'Frontend & Integrações (Capacidade)',
     icon: Sparkles,
-    skills: ['React, TypeScript', 'Tailwind CSS, Next.js', 'JavaScript, HTML5, CSS3'],
+    skills: [
+      'React, TypeScript, JavaScript (Vanilla), AJAX',
+      'Next.js, Tailwind CSS, HTML5, CSS3',
+      'Integrações web com biometria (facial/digital)',
+      'UI/UX orientada a produtividade',
+      'LGPD e segurança de dados sensíveis',
+    ],
   },
 } as const;
 

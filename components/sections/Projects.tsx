@@ -4,6 +4,17 @@ import ProjectCard from '@/components/ui/ProjectCard';
 import { PROJECTS } from '@/lib/constants';
 
 export default function Projects() {
+  const featuredProjectIds = [
+    'kanban-equipe-produtividade',
+    'modernizacao-ponto-digital-facial',
+  ];
+  const featuredProjects = PROJECTS.filter((project) =>
+    featuredProjectIds.includes(project.id),
+  );
+  const regularProjects = PROJECTS.filter(
+    (project) => !featuredProjectIds.includes(project.id),
+  );
+
   return (
     <section id="projetos" className="section-padding bg-gray-900/50">
       <div className="container">
@@ -15,8 +26,26 @@ export default function Projects() {
           </p>
         </div>
 
+        {featuredProjects.length > 0 && (
+          <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            {featuredProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                problem={project.problem}
+                solution={project.solution}
+                result={project.result}
+                technologies={project.technologies}
+                links={project.links}
+                image={project.image}
+                featured
+              />
+            ))}
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS.map((p) => (
+          {regularProjects.map((p) => (
             <ProjectCard
               key={p.id}
               title={p.title}

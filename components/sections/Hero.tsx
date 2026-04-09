@@ -24,13 +24,13 @@ export default function Hero() {
           
           <div className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
             <p className="mb-2">
-              Sistemas corporativos robustos, integrações inteligentes e alta performance.
+              Arquitetura e modernização de sistemas corporativos e governamentais de missão crítica.
             </p>
             <p className="mb-2">
-              4 anos modernizando projetos críticos de ponto, RH e gestão governamental.
+              4 anos transformando regras legais complexas em software confiável, auditável e escalável.
             </p>
             <p>
-              Especialista em Python, Java, PostgreSQL, biometria web e Google Cloud Platform.
+              Especialista em Python, Java, PostgreSQL e integrações biométricas web, com infraestrutura containerizada em Docker para aplicações, banco de dados e automações.
             </p>
           </div>
 

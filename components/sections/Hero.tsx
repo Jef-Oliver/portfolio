@@ -16,7 +16,7 @@ export default function Hero() {
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="max-w-4xl mx-auto animate-fade-in">
           <h1 className="heading-xl text-light mb-6">
-            Backend Developer{' '}
+            Full Stack Python Developer{' '}
             <span className="text-transparent bg-gradient-to-r from-purple-primary to-purple-light bg-clip-text">
               especializado
             </span>
@@ -24,13 +24,13 @@ export default function Hero() {
           
           <div className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
             <p className="mb-2">
-              Arquitetura robusta, performance otimizada e sistemas escaláveis.
+              Sistemas corporativos robustos, integrações inteligentes e alta performance.
             </p>
             <p className="mb-2">
-              4 anos de experiência modernizando sistemas corporativos.
+              4 anos modernizando projetos críticos de ponto, RH e gestão governamental.
             </p>
             <p>
-              Especialista em Python, Java, PostgreSQL e Google Cloud Platform.
+              Especialista em Python, Java, PostgreSQL, biometria web e Google Cloud Platform.
             </p>
           </div>
 

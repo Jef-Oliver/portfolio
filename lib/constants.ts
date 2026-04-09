@@ -61,23 +61,47 @@ export const SPECIALTIES: Specialty[] = [
   {
     title: 'Arquitetura de Sistemas',
     description:
-      'Design de APIs robustas, microserviços e padrões escaláveis com foco em manutenibilidade.',
-    example: 'APIs REST bem definidas + contratos claros + observabilidade.',
+      'Design de APIs robustas, modularização de serviços e padrões escaláveis com foco em governança, manutenibilidade e evolução contínua.',
+    example: 'APIs REST bem definidas, contratos claros e observabilidade desde o desenho.',
     icon: Building2,
   },
   {
     title: 'Otimização de Performance',
     description:
-      'Queries SQL otimizadas, cache com Redis e ajustes de arquitetura para reduzir latência.',
-    example: 'Redução de ~60% na latência em endpoints críticos.',
+      'Otimização de queries, cache inteligente e ajustes de arquitetura para reduzir latência e aumentar estabilidade em cenários críticos.',
+    example: 'Redução de ~60% na latência de endpoints e rotinas de processamento intensivo.',
     icon: Gauge,
   },
   {
     title: 'Modernização de Legados',
     description:
-      'Migração estratégica e progressiva de sistemas antigos para stacks modernas, sem parar o negócio.',
-    example: 'ASP Clássico → Django/FastAPI com rollout incremental.',
+      'Migração estratégica e progressiva de sistemas antigos para stacks modernas, preservando operação e reduzindo risco de transição.',
+    example: 'ASP Clássico para Django/FastAPI com rollout incremental e ganho real de confiabilidade.',
     icon: RefreshCcw,
+  },
+  {
+    title: 'Integração Web-Hardware e Biometria',
+    description:
+      'Captação e processamento do mundo físico direto no navegador, sem plugins pesados, conectando client-side à nuvem com segurança e conformidade LGPD.',
+    example:
+      'Validação de biometria facial 3D multiângulo e leitura digital operando com fluidez na web e controles antifraude.',
+    icon: Gauge,
+  },
+  {
+    title: 'Automação e Regras de Negócio Complexas',
+    description:
+      'Conversão de legislações estritas e lógicas matemáticas pesadas (jornadas, escalas e tolerâncias) em código fluido no servidor com execuções assíncronas via Celery e Redis.',
+    example:
+      'Cálculos massivos de folha processados 100% em background, sem travar o painel e substituindo trabalho manual por autonomia robótica.',
+    icon: RefreshCcw,
+  },
+  {
+    title: 'Infraestrutura e Cloud (DevOps)',
+    description:
+      'Modelagem de aplicações para alta disponibilidade e independência de ambiente com containerização e deploys estáveis em nuvem.',
+    example:
+      'Backend modular e banco de dados integrados via Docker com operação em Google Cloud Platform (GCP).',
+    icon: Network,
   },
 ];
 

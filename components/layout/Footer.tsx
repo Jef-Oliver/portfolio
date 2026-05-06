@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <h3 className="text-2xl font-bold text-light mb-4">Jeferson Oliveira</h3>
             <p className="text-gray-300 leading-relaxed">
-              Backend Developer especializado em Python, Java e soluções robustas que fazem diferença no mundo real.
+              Full Stack Developer especializado em Python, Java e soluções robustas que fazem diferença no mundo real.
             </p>
           </div>
 

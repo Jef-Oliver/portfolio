@@ -16,21 +16,18 @@ export default function Hero() {
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="max-w-4xl mx-auto animate-fade-in">
           <h1 className="heading-xl text-light mb-6">
-            Full Stack Python Developer{' '}
+            Full Stack{' '}
             <span className="text-transparent bg-gradient-to-r from-purple-primary to-purple-light bg-clip-text">
-              especializado
+              Developer
             </span>
           </h1>
           
           <div className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
-            <p className="mb-2">
-              Arquitetura e modernização de sistemas corporativos e governamentais de missão crítica.
-            </p>
-            <p className="mb-2">
-              4 anos transformando regras legais complexas em software confiável, auditável e escalável.
+            <p className="mb-4">
+              Full Stack Developer com forte especialização em Backend (Python/Django/FastAPI/Java Spring Boot/Angular) e Arquitetura de Sistemas.
             </p>
             <p>
-              Especialista em Python, Java, PostgreSQL e integrações biométricas web, com infraestrutura containerizada em Docker para aplicações, banco de dados e automações.
+              5 anos transformando regras de negócio complexas em software confiável, auditável e escalável, com foco em segurança e alta performance.
             </p>
           </div>
 

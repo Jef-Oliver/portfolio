@@ -60,7 +60,7 @@ export default function Contact() {
               <div>
                 <h3 className="heading-sm text-light mb-6">Entre em Contato</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed">
-                  Estou aberto a oportunidades e projetos desafiadores — principalmente
+                  Estou aberto a oportunidades e projetos desafiadores, principalmente
                   em backend, arquitetura e performance. Se fizer sentido, vamos falar.
                 </p>
               </div>

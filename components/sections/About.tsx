@@ -60,62 +60,43 @@ export default function About() {
               <div className="prose prose-lg text-gray-300 leading-relaxed">
                 <p className="mb-6">
                   <span className="text-purple-light font-semibold">
-                    Full Stack Python Developer
+                    Full Stack Developer
                   </span>{' '}
-                  apaixonado por transformar regras de negocio complexas e
-                  exigencias legais em sistemas escalaveis e de alta
-                  performance. Tenho{' '}
-                  <span className="text-purple-light font-semibold">4 anos</span>{' '}
-                  de experiencia desenhando e modernizando sistemas corporativos
-                  e projetos governamentais vitais, com foco em ERP, gestao de
-                  ponto e RH.
+                  especializado em transformar regras de negócio complexas em soluções escaláveis, seguras e performáticas. Tenho{' '}
+                  <span className="text-purple-light font-semibold">5 anos</span>{' '}
+                  de experiência arquitetando e modernizando sistemas corporativos e projetos governamentais de missão crítica.
                 </p>
 
                 <p className="mb-6">
-                  Minha especialidade esta na{' '}
+                  Minha expertise abrange o desenvolvimento completo de sistemas utilizando{' '}
                   <span className="text-purple-light font-semibold">
-                    engenharia backend
+                    Python (Django/FastAPI), Java (Spring Boot) e Angular 19
                   </span>
-                  : arquitetura de dados com{' '}
+                  . Domino a criação de arquiteturas de dados robustas com{' '}
                   <span className="text-purple-light font-semibold">
-                    Python (Django/FastAPI)
-                  </span>{' '}
-                  e{' '}
-                  <span className="text-purple-light font-semibold">
-                    Java (Spring Boot)
+                    PostgreSQL, SQL Server e Redis
                   </span>
-                  , utilizando{' '}
-                  <span className="text-purple-light font-semibold">
-                    PostgreSQL, SQL Server, Redis
-                  </span>{' '}
-                  e APIs REST para garantir velocidade, confiabilidade e
-                  integridade para trilhas de auditoria.
+                  , garantindo integridade e trilhas de auditoria para operações complexas.
                 </p>
 
                 <p className="mb-6">
-                  Sou especialista em abstrair legislacoes rigidas e processos
-                  matematicos complexos, como jornadas dinamicas e tolerancias,
-                  para dentro de queries otimizadas no backend e fluxos de
-                  negocio robustos, sempre alinhados a governanca de TI e
-                  compliance corporativo.
+                  Um grande diferencial no meu fluxo de trabalho é o uso estratégico de{' '}
+                  <span className="text-purple-light font-semibold">
+                    Inteligência Artificial como acelerador de desenvolvimento
+                  </span>
+                  . Sou especialista em criar agentes inteligentes, utilizar MCPs e aplicar engenharia de prompts para otimização de código e correção de bugs, mantendo sempre o controle humano total sobre as decisões arquiteturais e de segurança.
                 </p>
 
                 <p className="mb-6">
-                  No full stack, entrego features ponta a ponta com foco em
-                  excelencia de UI/UX usando{' '}
+                  No frontend, entrego interfaces de alta produtividade com{' '}
                   <span className="text-purple-light font-semibold">
-                    React, TypeScript, JavaScript, AJAX e ecossistema Django
+                    React, Angular, Next.js e Tailwind CSS
                   </span>
-                  . Tambem tenho historico em integracoes fisicas no navegador,
-                  como biometria facial e leitura digital sincronizada a nuvem,
-                  com seguranca da informacao e LGPD.
+                  . Tenho vasta experiência em integrações web-hardware, como biometria facial multiângulo e leitura digital, operando em conformidade com a LGPD.
                 </p>
 
                 <p>
-                  Trabalho com metodologias ageis, IA para automacao de codigo,
-                  containerizacao com Docker e cloud em GCP. Para mim, nao
-                  existe limite entre web e mundo fisico: gosto de criar e
-                  plugar integracoes de hardware direto no navegador.
+                  Trabalho com infraestrutura moderna, utilizando containerização com Docker e deploy em Google Cloud Platform (GCP). Meu foco é extrair o máximo da tecnologia para entregar software confiável que resolve problemas reais do mundo corporativo e governamental.
                 </p>
               </div>
             </div>

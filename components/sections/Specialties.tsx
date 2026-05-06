@@ -9,7 +9,7 @@ export default function Specialties() {
           <h2 className="heading-lg text-light mb-4">Especialidades</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-            Foco em backend: arquitetura, performance e modernização — com entregas
+            Foco em backend: arquitetura, performance e modernização, com entregas
             orientadas a métricas e impacto real.
           </p>
         </div>

@@ -59,48 +59,45 @@ import {
 
 export const SPECIALTIES: Specialty[] = [
   {
-    title: 'Arquitetura de Sistemas',
+    title: 'Construção de Sistemas Sólidos',
     description:
-      'Design de APIs robustas, modularização de serviços e padrões escaláveis com foco em governança, manutenibilidade e evolução contínua.',
-    example: 'APIs REST bem definidas, contratos claros e observabilidade desde o desenho.',
+      'Criação de sistemas organizados e fáceis de manter, focando em código limpo e estruturas que aguentam o crescimento do projeto sem dor de cabeça.',
+    example: 'APIs que funcionam sem erro, fáceis de integrar e prontas para evoluir conforme o negócio cresce.',
     icon: Building2,
   },
   {
-    title: 'Otimização de Performance',
+    title: 'Sistemas Rápidos e Estáveis',
     description:
-      'Otimização de queries, cache inteligente e ajustes de arquitetura para reduzir latência e aumentar estabilidade em cenários críticos.',
-    example: 'Redução de ~60% na latência de endpoints e rotinas de processamento intensivo.',
+      'Ajustes no banco de dados e no código para deixar tudo mais veloz, garantindo que o sistema não trave mesmo quando muita gente estiver usando.',
+    example: 'Consegui deixar as telas e o processamento de dados 60% mais rápidos em sistemas de grande escala.',
     icon: Gauge,
   },
   {
-    title: 'Modernização de Legados',
+    title: 'Renovação de Sistemas Antigos',
     description:
-      'Migração estratégica e progressiva de sistemas antigos para stacks modernas, preservando operação e reduzindo risco de transição.',
-    example: 'ASP Clássico para Django/FastAPI com rollout incremental e ganho real de confiabilidade.',
+      'Troca de tecnologias antigas por ferramentas modernas de forma segura, garantindo que a empresa continue rodando enquanto o software é atualizado.',
+    example: 'Levei sistemas de 15 anos em ASP Clássico para o Django, trazendo mais segurança e facilidade para criar novas funções.',
     icon: RefreshCcw,
   },
   {
-    title: 'Integração Web-Hardware e Biometria',
+    title: 'Conexão com o Mundo Real',
     description:
-      'Captação e processamento do mundo físico direto no navegador, sem plugins pesados, conectando client-side à nuvem com segurança e conformidade LGPD.',
-    example:
-      'Validação de biometria facial 3D multiângulo e leitura digital operando com fluidez na web e controles antifraude.',
+      'Coloco o navegador para conversar com equipamentos físicos, como leitores de digitais e câmeras para reconhecimento facial, tudo de forma simples e segura.',
+    example: 'Reconhecimento facial e leitura de digital funcionando direto no Chrome, com foco total na privacidade dos dados.',
     icon: Gauge,
   },
   {
-    title: 'Automação e Regras de Negócio Complexas',
+    title: 'Automação de Processos Difíceis',
     description:
-      'Conversão de legislações estritas e lógicas matemáticas pesadas (jornadas, escalas e tolerâncias) em código fluido no servidor com execuções assíncronas via Celery e Redis.',
-    example:
-      'Cálculos massivos de folha processados 100% em background, sem travar o painel e substituindo trabalho manual por autonomia robótica.',
+      'Transformo leis, cálculos de folha e regras de RH complicadas em processos automáticos que rodam sozinhos, eliminando o erro humano.',
+    example: 'Cálculos pesados de ponto e RH que antes eram manuais agora rodam em segundos em segundo plano, sem travar o sistema.',
     icon: RefreshCcw,
   },
   {
-    title: 'Infraestrutura e Cloud (DevOps)',
+    title: 'Sistemas Sempre Online',
     description:
-      'Modelagem de aplicações para alta disponibilidade e independência de ambiente com containerização e deploys estáveis em nuvem.',
-    example:
-      'Backend modular e banco de dados integrados via Docker com operação em Google Cloud Platform (GCP).',
+      'Organizo o ambiente onde o software mora (na nuvem) para que ele nunca caia e seja fácil de atualizar, usando tecnologias como Docker e Google Cloud.',
+    example: 'Configuração de servidores que se recuperam sozinhos e bancos de dados seguros e sempre disponíveis.',
     icon: Network,
   },
 ];
@@ -108,13 +105,13 @@ export const SPECIALTIES: Specialty[] = [
 export const PROJECTS: ProjectShowcase[] = [
   {
     id: 'kanban-equipe-produtividade',
-    title: 'Kanban da equipe: produtividade e transparência',
+    title: 'Gerenciamento de Equipe e Produtividade',
     problem:
-      'Necessidade de criar uma gestão viva do fluxo de trabalho, com clareza em tempo real sobre responsabilidade, status e comunicação entre equipes.',
+      'A equipe precisava de um jeito fácil de ver o que cada um estava fazendo, sem precisar de reuniões longas ou trocas constantes de mensagens.',
     solution:
-      'Desenvolvimento de uma plataforma com dashboard em tempo real (quem está online e status dos projetos), quadro Kanban dinâmico, regras de acesso por responsabilidade, notificações automatizadas por e-mail/alertas internos e perfis personalizáveis com temas e avatares.',
+      'Criei uma plataforma com quadros Kanban e um painel que mostra em tempo real quem está online e o status de cada tarefa, com alertas automáticos.',
     result:
-      'Sistema focado em produtividade e transparência, reduzindo ruído de comunicação, eliminando reuniões desnecessárias e trazendo clareza contínua sobre quem está fazendo o quê.',
+      'Reduzimos muito a necessidade de reuniões de status e as dúvidas sobre quem é o responsável por cada parte do projeto.',
     technologies: [
       'Python',
       'Django',
@@ -122,7 +119,6 @@ export const PROJECTS: ProjectShowcase[] = [
       'Kanban',
       'Dashboard em Tempo Real',
       'Notificações por E-mail',
-      'Controle de Acesso',
     ],
     links: {
       article:
@@ -131,13 +127,13 @@ export const PROJECTS: ProjectShowcase[] = [
   },
   {
     id: 'modernizacao-ponto-digital-facial',
-    title: 'Modernização do sistema de ponto digital e facial',
+    title: 'Modernização do Ponto Digital e Facial',
     problem:
-      'Necessidade de modernizar um sistema crítico, exigindo cálculos à prova de falhas, maior segurança de dados e total fluidez operacional.',
+      'O sistema antigo era lento e os cálculos de RH eram muito complexos para serem feitos manualmente ou em sistemas limitados.',
     solution:
-      'Revitalização arquitetural com forte foco em engenharia backend, convertendo regras legais complexas de RH e jornadas dinâmicas em cálculos automatizados. Inserção de fluxo biométrico (facial multiângulo e digital) diretamente pelo navegador web.',
+      'Reconstruí o sistema focando em automatizar as regras de RH e integrei reconhecimento facial multiângulo direto no navegador.',
     result:
-      'Software de extrema robustez, experiência de marcação imediata pelos usuários, eliminação de gargalos do RH e rigoroso alinhamento à governança de TI e compliance (LGPD).',
+      'O sistema ficou extremamente rápido, seguro e totalmente dentro das leis de proteção de dados (LGPD), facilitando a vida do RH.',
     technologies: [
       'Python',
       'Django',
@@ -145,46 +141,48 @@ export const PROJECTS: ProjectShowcase[] = [
       'APIs REST',
       'Docker',
       'Celery',
-      'Biometria Web (Facial/Digital)',
+      'Biometria Web',
     ],
     links: {
       article:
         'https://www.linkedin.com/feed/update/urn:li:activity:7448027457657393152/',
     },
+    image: '/projects-images/ponto-facial.png',
   },
   {
     id: 'webponto-modernizacao',
-    title: 'Sustentação do sistema legado de registro de ponto dos servidores',
-    problem: 'Sistema legado em ASP Clássico com 15+ anos.',
-    solution: 'Migração progressiva para Django com APIs RESTful.',
-    result: '95% menos erros; 70% menos tempo de deploy.',
+    title: 'Sustentação e Evolução de Sistema Legado',
+    problem: 'O sistema usado há mais de 15 anos já não aguentava o volume de dados e era muito difícil de atualizar.',
+    solution: 'Fiz uma migração planejada para Django, criando APIs modernas que permitem o sistema crescer sem quebrar o que já funciona.',
+    result: 'Reduzimos os erros em 95% e agora conseguimos entregar novas funcionalidades muito mais rápido.',
     technologies: ['Python', 'Django', 'PostgreSQL', 'Docker', 'GCP'],
     links: {},
   },
   {
     id: 'reconhecimento-facial',
-    title: 'Sistema de Reconhecimento Facial',
-    problem: 'Registro de ponto manual e propenso a erros.',
-    solution: 'Implementação end-to-end com Python/Django e OpenCV.',
-    result: 'Alta precisão; automação completa do fluxo de ponto.',
+    title: 'Sistema de Reconhecimento Facial Próprio',
+    problem: 'O registro de ponto dependia de equipamentos caros e era difícil de integrar com o software de gestão.',
+    solution: 'Implementei uma solução que usa a câmera do computador para identificar o rosto do funcionário com alta precisão.',
+    result: 'Automação completa do registro de ponto, sem necessidade de hardware extra e com custo quase zero.',
     technologies: ['Python', 'Django', 'OpenCV', 'PostgreSQL'],
     links: {},
+    image: '/projects-images/facial.png',
   },
   {
     id: 'dashboards-gestao',
-    title: 'Sistema de Gestão com Dashboards Interativos',
-    problem: 'Relatórios manuais, lentos e sujeitos a erro.',
-    solution: 'Dashboards com dados em tempo real e automações de rotinas.',
-    result: 'Automação de ~80% dos relatórios.',
+    title: 'Dashboards Inteligentes para Gestão',
+    problem: 'A gestão perdia horas criando relatórios manuais que muitas vezes chegavam com dados desatualizados.',
+    solution: 'Desenvolvi painéis interativos que buscam os dados direto do banco e mostram tudo em tempo real com gráficos claros.',
+    result: 'Automatizamos 80% dos relatórios, dando muito mais agilidade para a tomada de decisão da equipe.',
     technologies: ['Python', 'Django', 'React', 'PostgreSQL', 'Recharts'],
     links: {},
   },
   {
     id: 'db-optimization',
-    title: 'Otimização de Banco de Dados',
-    problem: 'Queries lentas impactando UX e produtividade.',
-    solution: 'Índices estratégicos, tuning e cache com Redis.',
-    result: 'Redução de ~60% na latência.',
+    title: 'Otimização e Performance de Banco de Dados',
+    problem: 'O sistema estava ficando lento com o aumento de usuários, prejudicando o uso no dia a dia.',
+    solution: 'Refiz as consultas mais pesadas e instalei um sistema de cache inteligente para os dados mais acessados.',
+    result: 'Conseguimos reduzir o tempo de espera das telas em 60%, deixando o sistema leve e rápido de novo.',
     technologies: ['PostgreSQL', 'Redis', 'Python'],
     links: {},
   },
@@ -197,6 +195,7 @@ export const SKILLS_BY_CATEGORY = {
     skills: [
       'Python (Django, FastAPI, Flask)',
       'Java (Spring Boot)',
+      'Angular 19',
       'APIs REST (arquitetura e versionamento)',
       'Celery (jobs assíncronos e filas)',
       'ASP Clássico (Legado)',
@@ -227,10 +226,11 @@ export const SKILLS_BY_CATEGORY = {
     title: 'IA & Automação',
     icon: Brain,
     skills: [
+      'Engenharia de Prompts (Otimização e Debug)',
+      'Criação de Agentes Inteligentes e Uso de MCPs',
       'Reconhecimento Facial (OpenCV)',
       'Machine Learning (scikit-learn)',
       'Automação de Processos (RPA)',
-      'Automação assistida por IA para desenvolvimento',
       'Web Scraping',
     ],
   },
@@ -238,8 +238,8 @@ export const SKILLS_BY_CATEGORY = {
     title: 'Frontend & Integrações (Capacidade)',
     icon: Sparkles,
     skills: [
-      'React, TypeScript, JavaScript (Vanilla), AJAX',
-      'Next.js, Tailwind CSS, HTML5, CSS3',
+      'React, Angular 19, TypeScript, JavaScript',
+      'Next.js, Tailwind CSS, Bootstrap, HTML5, CSS3',
       'Integrações web com biometria (facial/digital)',
       'UI/UX orientada a produtividade',
       'LGPD e segurança de dados sensíveis',
@@ -258,27 +258,23 @@ export const EXPERIENCE: ExperienceItem[] = [
       'Implementação de pipeline CI/CD com Docker e GCP',
       'Definição de padrões de API, logging e observabilidade para serviços críticos',
     ],
-    technologies: ['Python', 'Django', 'PostgreSQL', 'Docker', 'GCP', 'React'],
+    technologies: ['Python', 'Django', 'Angular', 'Java Spring Boot', 'PostgreSQL', 'Docker', 'GCP'],
     metrics: ['95% redução em erros', '60% melhoria em performance', '99.5% uptime em sistemas críticos'],
   },
 ];
 
 export const LEARNING: LearningItem[] = [
   {
-    title: 'Algoritmos de Matching e Sistemas de Recomendação',
-    description: 'Sistemas de recomendação e matching por regras/dados para melhorar conversão e experiência. Buscando sempre alcançar maior precisão; app publicado na Play Store.',
+    title: 'Engenharia de IA e LLMs',
+    description: 'Mergulhando de cabeça em como as IAs realmente funcionam. Estou estudando LLMs, embeddings e toda a engenharia por trás para criar ferramentas que não só respondem, mas resolvem problemas reais com confiança.',
   },
   {
-    title: 'Inteligência Artificial e Automação de Processos',
-    description: 'Explorando IA e automação para reduzir burocracia e acelerar fluxos.',
+    title: 'Sistemas de Recomendação e Matching',
+    description: 'Aprimorando algoritmos que conectam os dados certos às pessoas certas. Já tenho um app na Play Store rodando com essas lógicas, e agora o foco é levar essa precisão para um novo nível.',
   },
   {
-    title: 'Arquitetura de Microserviços',
-    description: 'Padrões de comunicação, versionamento e resiliência em serviços.',
-  },
-  {
-    title: 'Sistemas Distribuídos e Escalabilidade',
-    description: 'Observabilidade, consistência e estratégias para crescer com segurança.',
+    title: 'Arquitetura de Microserviços e Escala',
+    description: 'Estudando como desenhar sistemas que aguentam o tranco. O objetivo é construir serviços que se comunicam bem, são fáceis de atualizar e nunca deixam o usuário na mão, não importa o volume de acessos.',
   },
 ];
 

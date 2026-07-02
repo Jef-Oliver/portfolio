@@ -8,7 +8,7 @@ export default function LinkedInProjects() {
   const featuredProjects = getFeaturedProjects();
 
   return (
-    <section id="linkedin-projects" className="section-padding bg-dark">
+    <section id="projetos" className="section-padding bg-dark">
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="heading-lg text-light mb-4">Projetos em Destaque</h2>

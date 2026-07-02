@@ -1,4 +1,6 @@
-import { ExternalLink, Linkedin, Briefcase, Calendar, Users, Database, Code, Zap } from "lucide-react";
+'use client';
+
+import { ExternalLink, Linkedin, Briefcase, Calendar, Users, Code, Zap } from "lucide-react";
 import { getFeaturedProjects } from "@/data/projects";
 import ProjectImageGallery from "@/components/ui/ProjectImageGallery";
 

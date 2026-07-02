@@ -22,14 +22,21 @@ export default function LinkedInProjects() {
             {featuredProjects.map((project) => (
               <div key={project.id} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:bg-gray-800/70 transition-all duration-300">
                 {/* Project Header */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-                    <Briefcase className="w-6 h-6 text-white" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Briefcase className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-light">{project.title}</h3>
+                      <p className="text-sm text-gray-400">{project.category}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-light">{project.title}</h3>
-                    <p className="text-sm text-gray-400">{project.category}</p>
-                  </div>
+                  {project.commercial && (
+                    <div className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${project.commercial.status === 'Vendido' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'}`}>
+                      {project.commercial.status}
+                    </div>
+                  )}
                 </div>
 
                 {/* Project Description */}
@@ -90,7 +97,29 @@ export default function LinkedInProjects() {
                 ) : null}
 
                 {/* Project Actions */}
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-4">
+                  {project.commercial && (
+                    <a
+                      href="#contato"
+                      onClick={() => {
+                        setTimeout(() => {
+                          const msgInput = document.getElementById('message') as HTMLTextAreaElement;
+                          if (msgInput) {
+                            msgInput.value = `Olá Jeferson, tenho interesse em desenvolver um sistema similar ao "${project.title}". Podemos conversar sobre um orçamento?`;
+                            // Trigger change event if using React state
+                            const event = new Event('input', { bubbles: true });
+                            msgInput.dispatchEvent(event);
+                          }
+                        }, 100);
+                      }}
+                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:scale-[1.02]"
+                    >
+                      <Zap className="w-5 h-5" />
+                      {project.commercial.ctaText}
+                    </a>
+                  )}
+                  
+                  <div className="flex flex-wrap gap-4">
                   {project.linkedinUrl && (
                     <a
                       href={project.linkedinUrl}
@@ -126,6 +155,7 @@ export default function LinkedInProjects() {
                       Demo
                     </a>
                   )}
+                  </div>
                 </div>
               </div>
             ))}

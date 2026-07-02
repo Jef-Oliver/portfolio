@@ -45,6 +45,7 @@ export const CONTACT = {
   linkedinProjects:
     'https://www.linkedin.com/in/jeefisantos/details/projects/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAACc5gSoBmGoDQ8V0NvIXh_ekT6s3KOtELWc',
   resumePath: '/CV-JEFERSON-DE-OLIVEIRA-SANTOS.pdf',
+  whatsapp: '5563992678596',
 } as const;
 
 import {

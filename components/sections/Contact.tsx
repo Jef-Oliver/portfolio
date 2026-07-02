@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Github, Send, CheckCircle, ExternalLink } from 'lucide-react';
+import { Mail, Github, Send, CheckCircle, ExternalLink, MessageCircle } from 'lucide-react';
 
 import { CONTACT } from '@/lib/constants';
 
@@ -20,7 +20,7 @@ export default function Contact() {
     
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const subject = encodeURIComponent(`Contato de ${formData.name}`);
+    const subject = encodeURIComponent(`Contato Comercial/Orçamento: ${formData.name}`);
     const body = encodeURIComponent(`Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`);
     const mailtoLink = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
     
@@ -46,10 +46,10 @@ export default function Contact() {
     <section id="contato" className="section-padding bg-gray-900/50">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="heading-lg text-light mb-4">Vamos Conversar</h2>
+          <h2 className="heading-lg text-light mb-4">Solicite um Orçamento</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Vamos conversar sobre backend, arquitetura ou seus desafios técnicos?
+            Impulsione seu negócio com soluções de alta performance e sistemas sob medida.
           </p>
         </div>
 
@@ -58,10 +58,9 @@ export default function Contact() {
             {/* Contact Info */}
             <div className="space-y-8">
               <div>
-                <h3 className="heading-sm text-light mb-6">Entre em Contato</h3>
+                <h3 className="heading-sm text-light mb-6">Fale sobre o seu Projeto</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed">
-                  Estou aberto a oportunidades e projetos desafiadores, principalmente
-                  em backend, arquitetura e performance. Se fizer sentido, vamos falar.
+                  Especialista em desenvolvimento de software corporativo, automação de processos e produtos comerciais. Entre em contato para adquirirmos uma solução ou para discutirmos um projeto sob medida para a sua empresa.
                 </p>
               </div>
 
@@ -109,6 +108,22 @@ export default function Contact() {
                   <div>
                     <h4 className="text-light font-semibold">LinkedIn</h4>
                     <p className="text-gray-400">linkedin.com/in/jef-oliver</p>
+                  </div>
+                </a>
+
+                <a
+                  href={`https://wa.me/${CONTACT.whatsapp}?text=Olá,%20tenho%20interesse%20em%20um%20projeto%2Fproduto.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-xl hover:bg-green-600/10 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                  aria-label="Falar no WhatsApp"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-green-900/20">
+                    <MessageCircle className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-light font-semibold">WhatsApp</h4>
+                    <p className="text-gray-400">(63) 99267-8596</p>
                   </div>
                 </a>
               </div>
@@ -168,7 +183,7 @@ export default function Contact() {
                     disabled={isSubmitting}
                     rows={5}
                     className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-xl text-light placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-primary focus:border-transparent transition-all duration-300 disabled:opacity-50 resize-vertical"
-                    placeholder="Descreva seu projeto, dúvida ou proposta..."
+                    placeholder="Descreva sua demanda comercial ou solicite um orçamento..."
                     aria-describedby="message-help"
                   />
                   <span id="message-help" className="sr-only">Digite sua mensagem detalhada</span>

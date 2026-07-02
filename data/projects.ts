@@ -11,9 +11,30 @@ export interface Project {
   demoUrl?: string;
   images?: string[];
   featured: boolean;
+  commercial?: {
+    status: 'Vendido' | 'Produto Disponível';
+    ctaText: string;
+  };
 }
 
 export const projects: Project[] = [
+  {
+    id: "prestacao-contas-espolio",
+    title: "Sistema de Prestação de Contas para Espólios",
+    category: "Legal Tech & Finanças",
+    description: "Sistema para inventariantes e advogados gerarem relatórios padrão 'mercantil' (Art. 551 CPC), com separação de receitas/despesas, vínculo de Notas Fiscais e código Hash (SHA-256) de auditoria anti-fraude.",
+    year: "2026",
+    team: "Individual",
+    technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "SHA-256"],
+    featured: true,
+    commercial: {
+      status: 'Vendido',
+      ctaText: 'Tenho interesse em um sistema similar'
+    },
+    images: [
+      "/projects-images/sist.png"
+    ]
+  },
   {
     id: "site-grupo-artpalco",
     title: "Site do Grupo Artpalco",

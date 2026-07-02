@@ -42,9 +42,13 @@ export default function LinkedInProjects() {
                 </div>
 
                 {/* Project Description */}
-                <p className="text-gray-300 mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
+                <div className="text-gray-300 mb-4 text-sm leading-relaxed space-y-1">
+                  {project.description.split('\n').map((line, i) =>
+                    line.trim() === '' ? null : (
+                      <p key={i}>{line}</p>
+                    )
+                  )}
+                </div>
 
                 {/* Project Meta */}
                 <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
@@ -107,7 +111,7 @@ export default function LinkedInProjects() {
                         setTimeout(() => {
                           const msgInput = document.getElementById('message') as HTMLTextAreaElement;
                           if (msgInput) {
-                            msgInput.value = `Olá Jeferson, tenho interesse em desenvolver um sistema similar ao "${project.title}". Podemos conversar sobre um orçamento?`;
+                            msgInput.value = `Olá Jeferson, tenho interesse em desenvolver um sistema similar ao de Inventário`;
                             // Trigger change event if using React state
                             const event = new Event('input', { bubbles: true });
                             msgInput.dispatchEvent(event);

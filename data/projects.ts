@@ -22,7 +22,7 @@ export const projects: Project[] = [
     id: "prestacao-contas-espolio",
     title: "Inventário parado por conta da prestação de contas? O juiz não aprova as planilhas de Excel?",
     category: "Sistema de Prestação de Contas para Espólios",
-    description: "A parte mais estressante de ser o Inventariante não é dividir os bens. É provar para o Juiz cada centavo que entra e sai.\n\nO judiciário não aceita mais 'caderninho' ou planilha bagunçada. A prestação de contas precisa seguir o padrão 'mercantil' (Art. 551 do CPC) – caso contrário, o processo trava.\n\nO que o sistema faz: ✅ Separa receitas e despesas por imóvel. ✅ Exige vínculo de documento (Nota Fiscal/Recibo) em cada gasto. ✅ Gera o Relatório Oficial formatado para peritos. ✅ Tecnologia Militar: Hash de Auditoria (SHA-256) antifraude.\n\nSe você é Advogado ou Inventariante e quer blindar o seu processo contra acusações, eu tenho a solução técnica definitiva.",
+    description: "O judiciário exige o padrão mercantil (Art. 551 do CPC). Planilhas e cadernos são rejeitados.\n\n✅ Separa receitas e despesas por imóvel\n✅ Exige vínculo de Nota Fiscal/Recibo em cada gasto\n✅ Gera Relatório Oficial formatado para peritos\n✅ Tecnologia anti-fraude: Hash SHA-256 em cada relatório\n\nBlindar o seu processo nunca foi tão simples.",
     year: "2026",
     team: "Individual",
     technologies: ["React", "Next.js", "Node.js", "PostgreSQL", "SHA-256"],

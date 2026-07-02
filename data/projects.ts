@@ -45,8 +45,12 @@ export const projects: Project[] = [
     technologies: ["React", "Next.js", "Tailwind CSS", "Firebase"],
     linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7376267861905997824/",
     featured: true,
+    commercial: {
+      status: 'Vendido',
+      ctaText: 'Tenho interesse em um site similar'
+    },
     images: [
-      "/projects-images/im1.png"
+      "/projects-images/art-palco.png"
     ]
   },
   {

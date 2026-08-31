@@ -21,7 +21,7 @@ export default function About() {
                 <div className="w-full h-full bg-gradient-to-br from-purple-primary to-purple-light rounded-2xl p-1">
                   <div className="w-full h-full bg-dark rounded-xl overflow-hidden">
                     <img
-                      src="/projects-images/cp.png"
+                      src="/projects-images/profile.jpg"
                       alt="Jeferson Oliver - Foto de Perfil"
                       className="w-full h-full object-cover"
                     />
@@ -63,7 +63,7 @@ export default function About() {
                     Full Stack Developer
                   </span>{' '}
                   especializado em transformar regras de negócio complexas em soluções escaláveis, seguras e performáticas. Tenho{' '}
-                  <span className="text-purple-light font-semibold">5 anos</span>{' '}
+                  <span className="text-purple-light font-semibold">4 anos</span>{' '}
                   de experiência arquitetando e modernizando sistemas corporativos e projetos governamentais de missão crítica.
                 </p>
 

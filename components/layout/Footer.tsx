@@ -1,109 +1,89 @@
-import { Github, Mail, ExternalLink } from 'lucide-react';
+'use client';
 
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Mail, Zap, MessageCircle } from 'lucide-react';
 import { CONTACT } from '@/lib/constants';
 
-const quickLinks = [
-  { href: '#especialidades', label: 'Especialidades' },
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#experiencia', label: 'Experiência' },
-  { href: '#projetos', label: 'Projetos' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#aprendendo', label: 'Aprendendo' },
-  { href: '#contato', label: 'Contato' },
-];
-
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark border-t border-gray-800">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+    <footer className="relative border-t border-dark-border bg-black">
+      <div className="absolute inset-0 bg-grid-neon opacity-30 pointer-events-none" />
+
+      <div className="container mx-auto px-6 py-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold text-light mb-4">Jeferson Oliveira</h3>
-            <p className="text-gray-300 leading-relaxed">
-              Full Stack Developer especializado em Python, Java e soluções robustas que fazem diferença no mundo real.
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-neon flex items-center justify-center">
+                <Zap className="w-4 h-4 text-black" />
+              </div>
+              <span className="text-xl font-bold font-grotesk">
+                Jef<span className="text-neon">Oliver</span>
+              </span>
+            </div>
+            <p className="text-gray-text text-sm leading-relaxed max-w-xs">
+              Transformo problemas reais em sistemas que funcionam. Soluções sob medida para o seu negócio.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
           <div>
-            <h4 className="text-lg font-semibold text-light mb-4">Links Rápidos</h4>
+            <h3 className="text-white font-semibold font-grotesk mb-4">Navegação</h3>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
+              {[
+                { label: 'Produtos', href: '/' },
+                { label: 'Portfólio', href: '/portfolio' },
+                { label: 'Contato', href: '#contato' },
+                { label: 'Currículo', href: CONTACT.resumePath },
+              ].map((item) => (
+                <li key={item.label}>
                   <a
-                    href={link.href}
-                    className="text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
+                    href={item.href}
+                    className="text-gray-text hover:text-neon text-sm transition-colors"
                   >
-                    {link.label}
+                    {item.label}
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  href={CONTACT.resumePath}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light inline-flex items-center gap-1"
-                  aria-label="Baixar currículo (PDF)"
-                >
-                  Currículo
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </li>
             </ul>
           </div>
 
-          {/* Social & Contact */}
+          {/* Social */}
           <div>
-            <h4 className="text-lg font-semibold text-light mb-4">Conecte-se</h4>
-            <div className="space-y-4">
-              <a
-                href={CONTACT.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
-                aria-label="Ver perfil no GitHub (abre em nova aba)"
-              >
-                <Github className="w-5 h-5" />
-                GitHub
-              </a>
-              <a
-                href={CONTACT.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
-                aria-label="Ver perfil no LinkedIn (abre em nova aba)"
-              >
-                <ExternalLink className="w-5 h-5" />
-                LinkedIn
-              </a>
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="flex items-center gap-3 text-gray-300 hover:text-purple-light transition-colors duration-300 focus:outline-none focus:text-purple-light"
-                aria-label="Enviar email"
-              >
-                <Mail className="w-5 h-5" />
-                {CONTACT.email}
-              </a>
+            <h3 className="text-white font-semibold font-grotesk mb-4">Conecte-se</h3>
+            <div className="flex flex-col gap-3">
+              {[
+                { icon: MessageCircle, label: 'WhatsApp', href: `https://wa.me/${CONTACT.whatsapp}` },
+                { icon: Linkedin, label: 'LinkedIn', href: CONTACT.linkedin },
+                { icon: Github, label: 'GitHub', href: CONTACT.github },
+                { icon: Mail, label: 'E-mail', href: `mailto:${CONTACT.email}` },
+              ].map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-gray-text hover:text-neon text-sm transition-colors group"
+                >
+                  <Icon className="w-4 h-4 group-hover:text-neon" />
+                  {label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              © {currentYear} Jeferson Oliveira. Todos os direitos reservados.
-            </p>
-            
-            <p className="text-gray-400 text-sm">
-              Feito com Next.js, TypeScript e Tailwind CSS
-            </p>
-          </div>
+        <div className="divider-neon mb-6" />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-gray-muted text-xs font-mono">
+            © {year} Jef Oliver. Todos os direitos reservados.
+          </p>
+          <p className="text-gray-muted text-xs font-mono">
+            Feito com <span className="text-neon">{'<'}/{'>'}</span> e café
+          </p>
         </div>
       </div>
     </footer>

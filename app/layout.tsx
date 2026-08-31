@@ -1,61 +1,57 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Space_Grotesk } from 'next/font/google';
+import { JetBrains_Mono } from 'next/font/google';
 
 import { CONTACT } from '@/lib/constants';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio-jeferson-blond.vercel.app'),
-  title: 'Jeferson Olivera | Backend Developer',
+  title: 'Jef Oliver | Sistemas Sob Medida para seu Negócio',
   description:
-    'Backend Developer especializado em arquitetura, performance e modernização de sistemas corporativos. Python, Java, PostgreSQL e Google Cloud Platform.',
+    'Transformo seu negócio com sistemas profissionais: gestão imobiliária, controle de ponto, inventário e muito mais. Soluções sob medida, entregues com qualidade.',
   keywords: [
-    'Backend Developer',
-    'Arquitetura de Software',
+    'Sistema de Gestão',
+    'Sistema Personalizado',
+    'Desenvolvimento de Software',
+    'Sistema Imobiliário',
+    'Controle de Ponto',
     'Python',
     'Django',
-    'FastAPI',
-    'Java',
-    'Spring Boot',
+    'React',
+    'Next.js',
     'PostgreSQL',
-    'Redis',
-    'Docker',
-    'Google Cloud Platform',
-    'APIs REST',
-    'Microserviços',
-    'Otimização de Performance',
+    'Desenvolvedor Full Stack',
+    'Jeferson Oliveira',
   ],
-  authors: [{ name: 'Jeferson Olivera' }],
-  creator: 'Jeferson Olivera',
+  authors: [{ name: 'Jeferson Oliveira' }],
+  creator: 'Jeferson Oliveira',
   openGraph: {
-    title: 'Jeferson Olivera | Backend Developer',
-    description:
-      'Arquitetura robusta, performance otimizada e sistemas escaláveis.',
+    title: 'Jef Oliver | Sistemas Sob Medida',
+    description: 'Seu negócio merece um sistema feito sob medida. Elimine planilhas, erros e retrabalho.',
     url: 'https://portfolio-jeferson-blond.vercel.app',
-    siteName: 'Jeferson Olivera Portfolio',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Jeferson Olivera - Backend Developer',
-      },
-    ],
+    siteName: 'Jef Oliver Systems',
     locale: 'pt_BR',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Jeferson Olivera | Backend Developer',
-    description:
-      'Arquitetura robusta, performance otimizada e sistemas escaláveis.',
-    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -68,32 +64,17 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Jeferson Olivera',
-  jobTitle: 'Backend Developer',
+  name: 'Jeferson Oliveira',
+  jobTitle: 'Full Stack Developer',
   email: CONTACT.email,
   url: CONTACT.github,
   sameAs: [CONTACT.github, CONTACT.linkedin],
-  knowsAbout: [
-    'Python',
-    'Django',
-    'FastAPI',
-    'Java',
-    'Spring Boot',
-    'PostgreSQL',
-    'Redis',
-    'Docker',
-    'Google Cloud Platform',
-  ],
-  description:
-    'Backend Developer especializado em arquitetura, performance e modernização de sistemas corporativos.',
+  description: 'Desenvolvedor Full Stack especializado em sistemas sob medida para empresas.',
 };
 
 export default function RootLayout({
@@ -102,19 +83,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZQ432423T"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-VZQ432423T', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-dark text-light antialiased`}>
         {children}
       </body>
     </html>

@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RestaurantePRO — Painel de Gestão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:        #dc2626;
+      --red-light:  #ef4444;
+      --red-dark:   #991b1b;
+      --orange:     #f97316;
+      --amber:      #f59e0b;
+      --amber-soft: #fef3c7;
+      --green:      #16a34a;
+      --green-soft: #dcfce7;
+      --yellow:     #ca8a04;
+      --yellow-soft:#fef9c3;
+      --blue:       #2563eb;
+      --purple:     #7c3aed;
+      --sidebar-bg: #0f0a0a;
+      --sidebar-w:  240px;
+      --bg:         #f8f7f7;
+      --card:       #ffffff;
+      --border:     #e5e7eb;
+      --text:       #111827;
+      --muted:      #6b7280;
+      --radius:     14px;
+      --shadow:     0 2px 16px rgba(0,0,0,.07);
+      --shadow-lg:  0 8px 40px rgba(0,0,0,.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      padding: 0 0 20px;
+    }
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .sidebar-logo h1 { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -.3px; }
+    .sidebar-logo h1 span { color: var(--red-light); }
+    .sidebar-logo p { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 3px; letter-spacing: .5px; text-transform: uppercase; }
+
+    .tenant-badge {
+      margin: 14px 16px;
+      background: rgba(220,38,38,.12);
+      border: 1px solid rgba(220,38,38,.25);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .tenant-avatar {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .tenant-info p { font-size: 11px; font-weight: 600; color: #fff; }
+    .tenant-info span { font-size: 10px; color: rgba(255,255,255,.4); }
+
+    nav { flex: 1; padding: 8px 10px; overflow-y: auto; }
+    .nav-section-label {
+      font-size: 9.5px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; color: rgba(255,255,255,.25); padding: 12px 10px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 9px; cursor: pointer;
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.5);
+      transition: all .18s; margin-bottom: 2px; text-decoration: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.85); }
+    .nav-item.active { background: rgba(220,38,38,.18); color: #fff; font-weight: 600; }
+    .nav-item.active .nav-icon { color: var(--red-light); }
+    .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-badge {
+      margin-left: auto; background: var(--red); color: #fff;
+      font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 99px;
+    }
+    .sidebar-footer { padding: 12px 16px 0; border-top: 1px solid rgba(255,255,255,.06); }
+    .user-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px; border-radius: 9px; cursor: pointer; transition: background .18s;
+    }
+    .user-row:hover { background: rgba(255,255,255,.05); }
+    .user-avatar {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff;
+    }
+    .user-info p { font-size: 12px; font-weight: 600; color: #fff; }
+    .user-info span { font-size: 10px; color: rgba(255,255,255,.35); }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 0 28px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .topbar-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .topbar-subtitle { font-size: 12px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 9px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all .18s;
+    }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(220,38,38,.3); }
+    .btn-primary:disabled { background: #d1d5db; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg); color: var(--text); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-green:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(22,163,74,.3); }
+
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; transition: all .18s; position: relative;
+    }
+    .icon-btn:hover { background: #fff; box-shadow: var(--shadow); }
+    .notif-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 7px; height: 7px; background: var(--red);
+      border-radius: 50%; border: 1.5px solid #fff;
+    }
+
+    /* ── CONTENT ── */
+    .content { padding: 24px 28px; flex: 1; }
+    .page-content { display: none; }
+    .page-content.active { display: block; animation: fadeIn .2s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .dummy-panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .dummy-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .dummy-list-item:last-child { border-bottom: none; }
+
+    /* ── KPI CARDS ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .kpi-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
+    .kpi-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .kpi-value { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -.5px; }
+    .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .kpi-trend { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; margin-top: 6px; }
+    .trend-up { color: var(--green); }
+
+    /* ── SECTION ── */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .status-bar { display: flex; gap: 8px; align-items: center; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 99px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      border: 1.5px solid transparent; transition: all .18s;
+    }
+    .pill-all { background: var(--text); color: #fff; }
+    .pill-livre { background: var(--green-soft); color: var(--green); border-color: #bbf7d0; }
+    .pill-ocupada { background: #fee2e2; color: var(--red); border-color: #fca5a5; }
+    .pill-reservada { background: var(--yellow-soft); color: var(--yellow); border-color: #fde68a; }
+    .pill-conta { background: #ede9fe; color: var(--purple); border-color: #c4b5fd; }
+
+    /* ── MESAS GRID ── */
+    .mesas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 14px; }
+    .mesa-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 18px 14px 14px;
+      cursor: pointer; transition: all .22s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .mesa-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 4px; border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .mesa-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .mesa-livre { border-color: #bbf7d0; }
+    .mesa-livre::before { background: var(--green); }
+    .mesa-livre:hover { border-color: var(--green); }
+    .mesa-ocupada { border-color: #fca5a5; background: #fff8f8; }
+    .mesa-ocupada::before { background: var(--red); }
+    .mesa-ocupada:hover { border-color: var(--red); }
+    .mesa-reservada { border-color: #fde68a; }
+    .mesa-reservada::before { background: var(--amber); }
+    .mesa-reservada:hover { border-color: var(--amber); }
+    .mesa-conta { border-color: #c4b5fd; background: #faf8ff; }
+    .mesa-conta::before { background: var(--purple); }
+    .mesa-conta:hover { border-color: var(--purple); }
+    .mesa-numero { font-size: 28px; font-weight: 900; color: var(--text); letter-spacing: -1px; margin-bottom: 2px; }
+    .mesa-nome { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 10px; }
+    .mesa-status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; border-radius: 99px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .badge-livre { background: var(--green-soft); color: var(--green); }
+    .badge-ocupada { background: #fee2e2; color: var(--red); }
+    .badge-reservada { background: var(--yellow-soft); color: var(--yellow); }
+    .badge-conta { background: #ede9fe; color: var(--purple); }
+    .mesa-info { margin-top: 10px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 9px; }
+    .mesa-info strong { color: var(--text); font-weight: 600; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+      z-index: 200; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .22s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #fff; border-radius: 18px;
+      width: 580px; max-height: 92vh; overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,.25);
+      transform: translateY(20px) scale(.97);
+      transition: all .22s cubic-bezier(.4,0,.2,1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      padding: 22px 24px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between;
+      position: sticky; top: 0; background: #fff; z-index: 10; border-radius: 18px 18px 0 0;
+    }
+    .modal-title { font-size: 18px; font-weight: 800; }
+    .modal-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .modal-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; color: var(--muted); flex-shrink: 0; transition: all .15s;
+    }
+    .modal-close:hover { background: #fee2e2; color: var(--red); }
+    .modal-body { padding: 20px 24px; }
+
+    /* ── ITENS ── */
+    .itens-list { margin-bottom: 20px; }
+    .item-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .item-emoji { font-size: 20px; }
+    .item-info { flex: 1; }
+    .item-name { font-size: 13px; font-weight: 600; }
+    .item-obs { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .item-qty { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 24px; height: 24px; border-radius: 6px;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); transition: all .15s;
+    }
+    .qty-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+    .qty-num { font-size: 13px; font-weight: 700; min-width: 20px; text-align: center; }
+    .item-price { font-size: 13px; font-weight: 700; color: var(--text); min-width: 68px; text-align: right; }
+
+    /* ── RESUMO FINANCEIRO ── */
+    .resumo-box {
+      background: var(--bg); border-radius: 12px; padding: 16px;
+      margin-bottom: 20px;
+    }
+    .resumo-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: var(--muted); padding: 3px 0;
+    }
+    .resumo-row.total {
+      border-top: 1px solid var(--border); margin-top: 8px; padding-top: 10px;
+      font-size: 15px; font-weight: 800; color: var(--text);
+    }
+    .resumo-row.pago { color: var(--green); font-weight: 600; }
+    .resumo-row.restante {
+      font-size: 18px; font-weight: 900;
+      color: var(--red); border-top: 1px dashed #fca5a5;
+      margin-top: 8px; padding-top: 10px;
+    }
+    .resumo-row.restante.quitado { color: var(--green); }
+
+    /* ── PAGAMENTOS REGISTRADOS ── */
+    .pgtos-section { margin-bottom: 20px; }
+    .pgtos-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--muted); margin-bottom: 10px;
+    }
+    .pgto-registrado {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--green-soft);
+      border: 1px solid #bbf7d0;
+      border-radius: 9px; padding: 10px 12px;
+      margin-bottom: 6px;
+      animation: slideIn .2s ease;
+    }
+    @keyframes slideIn { from { opacity:0; transform: translateX(-8px); } to { opacity:1; transform: translateX(0); } }
+    .pgto-registrado .pgto-emoji { font-size: 18px; }
+    .pgto-registrado .pgto-desc { flex: 1; font-size: 13px; font-weight: 600; color: #15803d; }
+    .pgto-registrado .pgto-val { font-size: 14px; font-weight: 800; color: #15803d; }
+    .pgto-registrado .pgto-del {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: rgba(220,38,38,.1); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: var(--red); transition: all .15s;
+    }
+    .pgto-registrado .pgto-del:hover { background: #fee2e2; }
+
+    /* ── ADICIONAR PAGAMENTO ── */
+    .add-pgto-box {
+      border: 2px dashed var(--border); border-radius: 12px;
+      padding: 16px; margin-bottom: 16px;
+      transition: border-color .2s;
+    }
+    .add-pgto-box:focus-within { border-color: var(--red); border-style: solid; }
+    .add-pgto-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--muted); margin-bottom: 12px;
+    }
+    .add-pgto-row { display: flex; gap: 8px; align-items: center; }
+
+    .pgto-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .pgto-chip {
+      display: flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: 99px;
+      border: 1.5px solid var(--border); background: #fff;
+      font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s;
+    }
+    .pgto-chip:hover { border-color: var(--red); color: var(--red); }
+    .pgto-chip.ativo { border-color: var(--red); background: #fff5f5; color: var(--red); }
+
+    .valor-input {
+      flex: 1; padding: 10px 14px; border-radius: 9px;
+      border: 1.5px solid var(--border); font-size: 14px; font-weight: 700;
+      font-family: 'Inter', sans-serif; outline: none; color: var(--text);
+      transition: border-color .15s;
+    }
+    .valor-input:focus { border-color: var(--red); }
+    .valor-input::placeholder { font-weight: 400; color: #d1d5db; }
+
+    .btn-add-pgto {
+      padding: 10px 16px; border-radius: 9px;
+      background: var(--red); color: #fff; border: none;
+      font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn-add-pgto:hover { background: var(--red-dark); }
+    .btn-add-pgto:disabled { background: #d1d5db; cursor: not-allowed; }
+
+    /* ── TROCO ── */
+    .troco-box {
+      background: #fef3c7; border: 1px solid #fde68a;
+      border-radius: 10px; padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; display: none;
+    }
+    .troco-box.show { display: flex; animation: slideIn .25s ease; }
+    .troco-label { font-size: 13px; font-weight: 700; color: #92400e; }
+    .troco-value { font-size: 20px; font-weight: 900; color: #92400e; }
+
+    /* ── QUITADO BANNER ── */
+    .quitado-banner {
+      background: var(--green-soft); border: 1.5px solid #86efac;
+      border-radius: 10px; padding: 14px 16px;
+      text-align: center; margin-bottom: 14px;
+      display: none;
+    }
+    .quitado-banner.show { display: block; animation: slideIn .25s ease; }
+    .quitado-banner p { font-size: 14px; font-weight: 700; color: #15803d; }
+    .quitado-banner span { font-size: 12px; color: #16a34a; }
+
+    .modal-footer {
+      padding: 16px 24px; border-top: 1px solid var(--border);
+      display: flex; gap: 10px;
+      position: sticky; bottom: 0; background: #fff; border-radius: 0 0 18px 18px;
+    }
+    .modal-footer .btn { flex: 1; justify-content: center; padding: 11px; }
+    .btn-outline-red { background: #fff5f5; color: var(--red); border: 1.5px solid #fca5a5; }
+    .btn-outline-red:hover { background: #fee2e2; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #111; color: #fff;
+      padding: 12px 18px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; z-index: 300;
+      opacity: 0; transform: translateY(12px); transition: all .25s;
+      display: flex; align-items: center; gap: 10px; max-width: 340px;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>Restaurante<span>PRO</span></h1>
+      <p>Sistema de Gestão · v1.0</p>
+    </div>
+    <div class="tenant-badge">
+      <div class="tenant-avatar">M</div>
+      <div class="tenant-info">
+        <p>Restaurante Exemplo</p>
+        <span>Plano Premium ✦</span>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-section-label">Principal</div>
+      <a class="nav-item" href="#" onclick="setPage('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item active" href="#" onclick="setPage('mesas',this)"><span class="nav-icon">🍽️</span> Mesas <span class="nav-badge">3</span></a>
+      <a class="nav-item" href="#" onclick="setPage('pedidos',this)"><span class="nav-icon">🧾</span> Pedidos <span class="nav-badge">5</span></a>
+      <a class="nav-item" href="#" onclick="setPage('caixa',this)"><span class="nav-icon">💰</span> Caixa</a>
+      <div class="nav-section-label">Gestão</div>
+      <a class="nav-item" href="#" onclick="setPage('cardapio',this)"><span class="nav-icon">📋</span> Cardápio</a>
+      <a class="nav-item" href="#" onclick="setPage('estoque',this)"><span class="nav-icon">📦</span> Estoque</a>
+      <a class="nav-item" href="#" onclick="setPage('relatorios',this)"><span class="nav-icon">📈</span> Relatórios</a>
+      <a class="nav-item" href="#" onclick="setPage('usuarios',this)"><span class="nav-icon">👥</span> Usuários</a>
+      <div class="nav-section-label">Sistema</div>
+      <a class="nav-item" href="#" onclick="setPage('fiscal',this)"><span class="nav-icon">🧾</span> Emissão Fiscal</a>
+      <a class="nav-item" href="#" onclick="setPage('config',this)"><span class="nav-icon">⚙️</span> Configurações</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar">JO</div>
+        <div class="user-info"><p>Jeferson Oliveira</p><span>Administrador</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title" id="pageTitle">Mesas & Comandas</div>
+          <div class="topbar-subtitle" id="pageDate"></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="icon-btn" title="Notificações">🔔<span class="notif-dot"></span></div>
+        <div class="icon-btn" title="Impressora">🖨️</div>
+        <button class="btn btn-primary" onclick="showToast('🆕 Selecione uma mesa livre para abrir a comanda.')">➕ Nova Comanda</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- PAGE: MESAS -->
+      <div id="page-mesas" class="page-content active">
+        <!-- KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-label">Vendas Hoje</span><div class="kpi-icon" style="background:#fee2e2">💰</div></div>
+            <div class="kpi-value">R$ 1.847</div>
+            <div class="kpi-trend trend-up">▲ 12% vs ontem</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-label">Mesas Ocupadas</span><div class="kpi-icon" style="background:#dcfce7">🍽️</div></div>
+            <div class="kpi-value">3 / 12</div>
+            <div class="kpi-sub">4 reservadas para hoje à noite</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-label">Ticket Médio</span><div class="kpi-icon" style="background:#fef3c7">🎫</div></div>
+            <div class="kpi-value">R$ 84,50</div>
+            <div class="kpi-trend trend-up">▲ 7% vs semana passada</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-top"><span class="kpi-label">NFC-e Emitidas</span><div class="kpi-icon" style="background:#ede9fe">🧾</div></div>
+            <div class="kpi-value">18</div>
+            <div class="kpi-sub">1 pendente de autorização</div>
+          </div>
+        </div>
+
+        <!-- Mesas -->
+        <div class="section-header">
+          <div>
+            <div class="section-title">Mapa de Mesas</div>
+            <div class="section-sub">Clique em uma mesa para gerenciar a comanda</div>
+          </div>
+          <div class="status-bar">
+            <span class="pill pill-all">Todas (12)</span>
+            <span class="pill pill-livre">🟢 Livres (7)</span>
+            <span class="pill pill-ocupada">🔴 Ocupadas (3)</span>
+            <span class="pill pill-reservada">🟡 Reservadas (1)</span>
+            <span class="pill pill-conta">🟣 Pedindo Conta (1)</span>
+          </div>
+        </div>
+        <div class="mesas-grid" id="mesasGrid"></div>
+      </div>
+
+      <!-- PAGE: DASHBOARD -->
+      <div id="page-dashboard" class="page-content">
+        <div class="dummy-panel">
+          <h3>Resumo Geral</h3>
+          <p style="color:var(--muted); font-size:14px; margin-top:8px;">Bem-vindo ao dashboard de controle.</p>
+          <div class="kpi-grid" style="margin-top:20px;">
+            <div class="kpi-card">
+              <div class="kpi-value">R$ 45.230</div>
+              <div class="kpi-sub">Faturamento Mensal</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value">1.432</div>
+              <div class="kpi-sub">Pedidos no Mês</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: PEDIDOS -->
+      <div id="page-pedidos" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Fila da Cozinha</h3>
+          <div class="dummy-list-item">
+            <div><strong>#1024 - Mesa 03</strong><br><span style="font-size:12px;color:var(--muted)">2x Hambúrguer Artesanal, 1x Fritas</span></div>
+            <span class="pill pill-ocupada">⏳ Em preparo (15 min)</span>
+          </div>
+          <div class="dummy-list-item">
+            <div><strong>#1025 - Delivery</strong><br><span style="font-size:12px;color:var(--muted)">1x Pizza Margherita</span></div>
+            <span class="pill pill-reservada">🟡 Na fila (2 min)</span>
+          </div>
+          <div class="dummy-list-item">
+            <div><strong>#1023 - Mesa 09</strong><br><span style="font-size:12px;color:var(--muted)">3x Suco Natural, 2x Sorvete</span></div>
+            <span class="pill pill-livre">✅ Pronto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: CAIXA -->
+      <div id="page-caixa" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Fluxo de Caixa - Hoje</h3>
+          <div class="kpi-grid">
+            <div class="kpi-card"><div class="kpi-value" style="color:var(--green)">+ R$ 1.847,00</div><div class="kpi-sub">Entradas</div></div>
+            <div class="kpi-card"><div class="kpi-value" style="color:var(--red)">- R$ 320,00</div><div class="kpi-sub">Saídas</div></div>
+            <div class="kpi-card"><div class="kpi-value" style="color:var(--blue)">R$ 1.527,00</div><div class="kpi-sub">Saldo Líquido</div></div>
+          </div>
+          <h4 style="margin-top:20px;margin-bottom:10px">Últimas Transações</h4>
+          <div class="dummy-list-item"><span>Mesa 05 (PIX)</span><strong>+ R$ 124,00</strong></div>
+          <div class="dummy-list-item"><span>Fornecedor Bebidas (Dinheiro)</span><strong style="color:var(--red)">- R$ 150,00</strong></div>
+        </div>
+      </div>
+
+      <!-- PAGE: CARDAPIO -->
+      <div id="page-cardapio" class="page-content">
+        <div class="dummy-panel">
+          <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+            <h3>Cardápio Digital</h3>
+            <button class="btn btn-primary">➕ Novo Item</button>
+          </div>
+          <div class="dummy-list-item"><span>🍕 Pizza Margherita</span><strong>R$ 45,90</strong></div>
+          <div class="dummy-list-item"><span>🍔 Hambúrguer Artesanal</span><strong>R$ 42,00</strong></div>
+          <div class="dummy-list-item"><span>🥤 Refrigerante Lata</span><strong>R$ 8,00</strong></div>
+          <div class="dummy-list-item"><span>🍰 Pudim de Leite</span><strong>R$ 14,50</strong></div>
+        </div>
+      </div>
+
+      <!-- PAGE: ESTOQUE -->
+      <div id="page-estoque" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Controle de Estoque</h3>
+          <div class="dummy-list-item">
+            <span>Coca-Cola Lata 350ml</span>
+            <div><strong style="color:var(--green)">142 un</strong> no estoque</div>
+          </div>
+          <div class="dummy-list-item">
+            <span>Farinha de Trigo (kg)</span>
+            <div><strong style="color:var(--orange)">12 kg</strong> no estoque (Atenção)</div>
+          </div>
+          <div class="dummy-list-item">
+            <span>Queijo Muçarela (kg)</span>
+            <div><strong style="color:var(--red)">2 kg</strong> no estoque (Baixo)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: RELATORIOS -->
+      <div id="page-relatorios" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Relatórios Gerenciais</h3>
+          <p>Selecione um relatório para gerar:</p>
+          <div style="margin-top:15px; display:flex; gap:10px;">
+            <button class="btn btn-ghost">Vendas por Período</button>
+            <button class="btn btn-ghost">Itens mais Vendidos</button>
+            <button class="btn btn-ghost">Comissão de Garçons</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: USUARIOS -->
+      <div id="page-usuarios" class="page-content">
+        <div class="dummy-panel">
+          <div style="display:flex;justify-content:space-between;margin-bottom:15px;">
+            <h3>Usuários e Permissões</h3>
+            <button class="btn btn-primary">➕ Novo Usuário</button>
+          </div>
+          <div class="dummy-list-item"><span>Jeferson Oliveira</span><span class="pill pill-all">Administrador</span></div>
+          <div class="dummy-list-item"><span>Ana Silva</span><span class="pill pill-livre">Garçom</span></div>
+          <div class="dummy-list-item"><span>Carlos Pereira</span><span class="pill pill-livre">Garçom</span></div>
+          <div class="dummy-list-item"><span>João Cozinha</span><span class="pill pill-reservada">Cozinha</span></div>
+        </div>
+      </div>
+
+      <!-- PAGE: FISCAL -->
+      <div id="page-fiscal" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Emissão Fiscal (NFC-e)</h3>
+          <div class="dummy-list-item"><span>Certificado Digital</span><span class="pill pill-livre">Válido (Vence em 12/12/2027)</span></div>
+          <div class="dummy-list-item"><span>Série NFC-e</span><strong>1</strong></div>
+          <div class="dummy-list-item"><span>Próximo Número</span><strong>142</strong></div>
+          <div style="margin-top:20px"><button class="btn btn-ghost">Ver notas emitidas hoje</button></div>
+        </div>
+      </div>
+
+      <!-- PAGE: CONFIG -->
+      <div id="page-config" class="page-content">
+        <div class="dummy-panel">
+          <h3 style="margin-bottom:15px">Configurações do Sistema</h3>
+          <div class="dummy-list-item"><span>Nome do Restaurante</span><strong>Restaurante Exemplo</strong></div>
+          <div class="dummy-list-item"><span>Taxa de Serviço Padrão</span><strong>10%</strong></div>
+          <div class="dummy-list-item"><span>Impressora Padrão</span><strong>Impressora Caixa (USB)</strong></div>
+          <div style="margin-top:20px"><button class="btn btn-primary">Salvar Alterações</button></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════ MODAL COMANDA ═══════════════ -->
+  <div class="modal-overlay" id="modalOverlay" onclick="fecharModal(event)">
+    <div class="modal" id="modalComanda">
+
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitulo">Mesa 03 — Comanda</div>
+          <div class="modal-sub" id="modalSub">4 pessoas · Aberta há 42 min · Garçom: Carlos</div>
+        </div>
+        <div class="modal-close" onclick="fecharModal(null,true)">✕</div>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Itens pedidos -->
+        <div class="itens-list" id="itensList"></div>
+
+        <!-- Resumo financeiro -->
+        <div class="resumo-box">
+          <div class="resumo-row"><span>Subtotal</span><span id="rSubtotal">R$ 0,00</span></div>
+          <div class="resumo-row"><span>Serviço (10%)</span><span id="rServico">R$ 0,00</span></div>
+          <div class="resumo-row total"><span>Total</span><span id="rTotal">R$ 0,00</span></div>
+          <div class="resumo-row pago"><span>✅ Total pago</span><span id="rPago">R$ 0,00</span></div>
+          <div class="resumo-row restante" id="rowRestante"><span>💳 Restante</span><span id="rRestante">R$ 0,00</span></div>
+        </div>
+
+        <!-- Troco (aparece quando pago > total) -->
+        <div class="troco-box" id="trocoBox">
+          <div class="troco-label">🪙 Troco a devolver</div>
+          <div class="troco-value" id="trocoValue">R$ 0,00</div>
+        </div>
+
+        <!-- Banner quitado -->
+        <div class="quitado-banner" id="quitadoBanner">
+          <p>✅ Conta totalmente quitada!</p>
+          <span>Clique em "Fechar & Emitir NFC-e" para finalizar a mesa.</span>
+        </div>
+
+        <!-- Pagamentos já registrados -->
+        <div class="pgtos-section">
+          <div class="pgtos-title">💳 Pagamentos registrados</div>
+          <div id="pgtosList">
+            <div id="pgtos-vazio" style="font-size:12px;color:var(--muted);padding:8px 0;">Nenhum pagamento registrado ainda.</div>
+          </div>
+        </div>
+
+        <!-- Adicionar pagamento -->
+        <div class="add-pgto-box">
+          <div class="add-pgto-label">➕ Adicionar pagamento</div>
+
+          <!-- Chips de forma de pagamento -->
+          <div class="pgto-chips">
+            <div class="pgto-chip ativo" data-forma="Dinheiro" data-emoji="💵" onclick="selecionarForma(this)">💵 Dinheiro</div>
+            <div class="pgto-chip" data-forma="Débito" data-emoji="💳" onclick="selecionarForma(this)">💳 Débito</div>
+            <div class="pgto-chip" data-forma="Crédito" data-emoji="💳" onclick="selecionarForma(this)">💳 Crédito</div>
+            <div class="pgto-chip" data-forma="PIX" data-emoji="📱" onclick="selecionarForma(this)">📱 PIX</div>
+            <div class="pgto-chip" data-forma="Vale Refeição" data-emoji="🎫" onclick="selecionarForma(this)">🎫 Vale Refeição</div>
+          </div>
+
+          <div class="add-pgto-row">
+            <input class="valor-input" type="number" id="valorPgto" placeholder="R$ 0,00" min="0.01" step="0.01" onkeydown="if(event.key==='Enter')adicionarPagamento()" />
+            <button class="btn-add-pgto" onclick="adicionarPagamento()">Confirmar ✓</button>
+          </div>
+
+          <!-- Atalho: pagar restante -->
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="preencherRestante()">
+              Pagar valor restante
+            </button>
+            <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="dividirIgual()">
+              Dividir igualmente
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /modal-body -->
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-red" onclick="fecharModal(null,true)">✕ Cancelar</button>
+        <button class="btn btn-ghost" onclick="showToast('🖨️ Comanda impressa!')">🖨️ Imprimir</button>
+        <button class="btn btn-green" id="btnFechar" disabled onclick="fecharConta()">✅ Fechar & Emitir NFC-e</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ═══════════════ BANNER PROTÓTIPO ═══════════════ -->
+  <div id="prototype-banner" style="
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9999;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+    border-top: 1px solid rgba(0,255,65,0.3);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 -4px 30px rgba(0,255,65,0.12);
+    font-family: 'Inter', sans-serif;
+  ">
+    <!-- Left: badge + text -->
+    <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+      <div style="
+        background: #00FF41;
+        color: #000;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        flex-shrink: 0;
+      ">🔬 PROTÓTIPO</div>
+      <p style="
+        color: rgba(255,255,255,0.7);
+        font-size: 12px;
+        margin: 0;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      ">
+        Este é um <strong style="color:#fff;">protótipo interativo</strong> do
+        <strong style="color:#00FF41;">RestaurantePRO</strong> — sistema de gestão completo para restaurantes.
+        Explore todas as funcionalidades livremente!
+      </p>
+    </div>
+
+    <!-- Right: CTAs -->
+    <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+      <a href="/" style="
+        color: rgba(255,255,255,0.5);
+        font-size: 12px;
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        transition: all 0.2s;
+        white-space: nowrap;
+      " onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.3)'"
+         onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.borderColor='rgba(255,255,255,0.1)'">
+        ← Voltar ao site
+      </a>
+      <a href="https://wa.me/5563992678596?text=Olá!%20Vi%20o%20protótipo%20do%20RestaurantePRO%20e%20tenho%20interesse%20em%20um%20sistema%20assim!" target="_blank" style="
+        background: #00FF41;
+        color: #000;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        box-shadow: 0 0 16px rgba(0,255,65,0.3);
+        transition: all 0.2s;
+      " onmouseover="this.style.boxShadow='0 0 30px rgba(0,255,65,0.6)';this.style.background='#39FF14'"
+         onmouseout="this.style.boxShadow='0 0 16px rgba(0,255,65,0.3)';this.style.background='#00FF41'">
+        💬 Quero este sistema
+      </a>
+      <button onclick="document.getElementById('prototype-banner').style.display='none'" style="
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.3);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px 8px;
+        line-height: 1;
+        transition: color 0.2s;
+      " onmouseover="this.style.color='rgba(255,255,255,0.7)'"
+         onmouseout="this.style.color='rgba(255,255,255,0.3)'"
+         title="Fechar banner">✕</button>
+    </div>
+  </div>
+
+  <!-- Padding para não esconder conteúdo atrás do banner -->
+  <style>
+    body { padding-bottom: 56px !important; }
+    @media (max-width: 640px) {
+      #prototype-banner { flex-direction: column; padding: 12px 16px; gap: 10px; }
+      #prototype-banner > div:first-child { width: 100%; }
+      #prototype-banner > div:last-child { width: 100%; justify-content: center; }
+    }
+  </style>
+
+  <!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+  <script>
+    /* ── Dados das mesas ── */
+    const mesas = [
+      { n:1, status:'ocupada', pessoas:2, garcom:'Ana', tempo:'1h 12min', itens:[
+        { emoji:'🍕', nome:'Pizza Margherita',   qty:1, preco:45.90, obs:'Sem cebola' },
+        { emoji:'🥤', nome:'Refrigerante Lata',  qty:2, preco:8.00,  obs:'' },
+        { emoji:'🍰', nome:'Pudim de Leite',      qty:1, preco:14.50, obs:'' },
+      ]},
+      { n:2, status:'livre' },
+      { n:3, status:'ocupada', pessoas:4, garcom:'Carlos', tempo:'42min', itens:[
+        { emoji:'🍖', nome:'Picanha Grelhada',   qty:2, preco:89.90, obs:'Bem passada' },
+        { emoji:'🍺', nome:'Cerveja 600ml',       qty:4, preco:14.00, obs:'' },
+        { emoji:'🥗', nome:'Salada Caesar',       qty:1, preco:28.00, obs:'' },
+      ]},
+      { n:4, status:'livre' },
+      { n:5, status:'conta', pessoas:3, garcom:'Ana', tempo:'1h 55min', itens:[
+        { emoji:'🍝', nome:'Espaguete Carbonara', qty:3, preco:38.00, obs:'' },
+        { emoji:'🍷', nome:'Vinho Tinto (taça)',   qty:2, preco:22.00, obs:'' },
+        { emoji:'🍮', nome:'Tiramisù',             qty:2, preco:18.00, obs:'' },
+      ]},
+      { n:6, status:'reservada', reserva:'19:30 – Família Silva' },
+      { n:7, status:'livre' },
+      { n:8, status:'livre' },
+      { n:9, status:'ocupada', pessoas:6, garcom:'Pedro', tempo:'28min', itens:[
+        { emoji:'🍔', nome:'Hambúrguer Artesanal', qty:3, preco:42.00, obs:'' },
+        { emoji:'🍟', nome:'Batata Frita (G)',      qty:2, preco:18.00, obs:'' },
+        { emoji:'🥤', nome:'Suco Natural 500ml',   qty:4, preco:13.00, obs:'Manga' },
+        { emoji:'🍦', nome:'Sorvete 2 bolas',      qty:3, preco:12.00, obs:'' },
+      ]},
+      { n:10, status:'livre' },
+      { n:11, status:'livre' },
+      { n:12, status:'livre' },
+    ];
+
+    /* ── Estado do modal ── */
+    let mesaSelecionada = null;
+    let pagamentos = [];          // [{forma, emoji, valor}]
+    let formaSelecionada = { forma:'Dinheiro', emoji:'💵' };
+
+    /* ══════════════════════════════════════════
+       RENDERIZAR MESAS
+    ══════════════════════════════════════════ */
+    function renderMesas() {
+      const grid = document.getElementById('mesasGrid');
+      grid.innerHTML = mesas.map(m => {
+        const cls   = { livre:'mesa-livre', ocupada:'mesa-ocupada', reservada:'mesa-reservada', conta:'mesa-conta' }[m.status];
+        const bCls  = { livre:'badge-livre', ocupada:'badge-ocupada', reservada:'badge-reservada', conta:'badge-conta' }[m.status];
+        const label = { livre:'● Livre', ocupada:'● Ocupada', reservada:'● Reservada', conta:'● Pedindo Conta' }[m.status];
+        const num   = String(m.n).padStart(2,'0');
+
+        let extra = '';
+        if (m.status === 'ocupada' || m.status === 'conta') {
+          const total = calcTotal(m.itens);
+          extra = `<div class="mesa-info">
+            <div>👤 ${m.pessoas} pessoas · ${m.garcom}</div>
+            <div style="margin-top:4px">🕐 <strong>${m.tempo}</strong></div>
+            <div style="margin-top:4px;font-weight:700;color:var(--text)">R$ ${fmt(total)}</div>
+          </div>`;
+        } else if (m.status === 'reservada') {
+          extra = `<div class="mesa-info">📅 ${m.reserva}</div>`;
+        }
+
+        return `<div class="mesa-card ${cls}" onclick="abrirComanda(${m.n})">
+          <div class="mesa-numero">${num}</div>
+          <div class="mesa-nome">Mesa ${m.n}</div>
+          <span class="mesa-status-badge ${bCls}">${label}</span>
+          ${extra}
+        </div>`;
+      }).join('');
+    }
+
+    /* ══════════════════════════════════════════
+       UTILITÁRIOS
+    ══════════════════════════════════════════ */
+    const fmt  = v => v.toFixed(2).replace('.',',');
+    const fmtR = v => 'R$ ' + fmt(v);
+
+    function calcSubtotal(itens) { return itens.reduce((s,i) => s + i.qty * i.preco, 0); }
+    function calcTotal(itens)    { return calcSubtotal(itens) * 1.10; }
+    function totalPago()         { return pagamentos.reduce((s,p) => s + p.valor, 0); }
+    function restante()          {
+      const m = mesas.find(x => x.n === mesaSelecionada);
+      if (!m) return 0;
+      return Math.max(0, calcTotal(m.itens) - totalPago());
+    }
+
+    /* ══════════════════════════════════════════
+       ABRIR COMANDA
+    ══════════════════════════════════════════ */
+    function abrirComanda(n) {
+      const m = mesas.find(x => x.n === n);
+      if (!m || m.status === 'livre' || m.status === 'reservada') {
+        showToast(`🍽️ Mesa ${n} está livre — iniciando nova comanda…`);
+        return;
+      }
+
+      mesaSelecionada = n;
+      pagamentos = [];
+
+      document.getElementById('modalTitulo').textContent = `Mesa ${String(n).padStart(2,'0')} — Comanda`;
+      document.getElementById('modalSub').textContent =
+        `${m.pessoas} ${m.pessoas === 1 ? 'pessoa' : 'pessoas'} · Aberta há ${m.tempo} · Garçom: ${m.garcom}`;
+
+      renderItens(m);
+      atualizarResumo();
+      renderPagamentos();
+
+      document.getElementById('valorPgto').value = '';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    /* ── Renderiza lista de itens ── */
+    function renderItens(m) {
+      document.getElementById('itensList').innerHTML = m.itens.map((it,i) => `
+        <div class="item-row">
+          <span class="item-emoji">${it.emoji}</span>
+          <div class="item-info">
+            <div class="item-name">${it.nome}</div>
+            ${it.obs ? `<div class="item-obs">📝 ${it.obs}</div>` : ''}
+          </div>
+          <div class="item-qty">
+            <div class="qty-btn" onclick="alterarQty(${m.n},${i},-1)">−</div>
+            <span class="qty-num" id="qty-${m.n}-${i}">${it.qty}</span>
+            <div class="qty-btn" onclick="alterarQty(${m.n},${i},+1)">+</div>
+          </div>
+          <div class="item-price" id="preco-${m.n}-${i}">${fmtR(it.qty*it.preco)}</div>
+        </div>`).join('');
+    }
+
+    function alterarQty(mesa, idx, delta) {
+      const m = mesas.find(x => x.n === mesa);
+      m.itens[idx].qty = Math.max(1, m.itens[idx].qty + delta);
+      document.getElementById(`qty-${mesa}-${idx}`).textContent = m.itens[idx].qty;
+      document.getElementById(`preco-${mesa}-${idx}`).textContent = fmtR(m.itens[idx].qty * m.itens[idx].preco);
+      atualizarResumo();
+    }
+
+    /* ══════════════════════════════════════════
+       RESUMO FINANCEIRO
+    ══════════════════════════════════════════ */
+    function atualizarResumo() {
+      const m = mesas.find(x => x.n === mesaSelecionada);
+      if (!m) return;
+
+      const sub    = calcSubtotal(m.itens);
+      const serv   = sub * 0.10;
+      const total  = sub + serv;
+      const pago   = totalPago();
+      const rest   = Math.max(0, total - pago);
+      const troco  = Math.max(0, pago - total);
+
+      document.getElementById('rSubtotal').textContent = fmtR(sub);
+      document.getElementById('rServico').textContent  = fmtR(serv);
+      document.getElementById('rTotal').textContent    = fmtR(total);
+      document.getElementById('rPago').textContent     = fmtR(pago);
+      document.getElementById('rRestante').textContent = fmtR(rest);
+
+      const rowRest = document.getElementById('rowRestante');
+      rowRest.classList.toggle('quitado', rest === 0 && pago > 0);
+
+      // Troco
+      const trocoBox = document.getElementById('trocoBox');
+      if (troco > 0) {
+        document.getElementById('trocoValue').textContent = fmtR(troco);
+        trocoBox.classList.add('show');
+      } else {
+        trocoBox.classList.remove('show');
+      }
+
+      // Banner quitado
+      const quitado = rest === 0 && pago > 0;
+      document.getElementById('quitadoBanner').classList.toggle('show', quitado);
+
+      // Botão fechar
+      document.getElementById('btnFechar').disabled = !quitado;
+    }
+
+    /* ══════════════════════════════════════════
+       PAGAMENTOS
+    ══════════════════════════════════════════ */
+    function selecionarForma(el) {
+      document.querySelectorAll('.pgto-chip').forEach(c => c.classList.remove('ativo'));
+      el.classList.add('ativo');
+      formaSelecionada = { forma: el.dataset.forma, emoji: el.dataset.emoji };
+    }
+
+    function adicionarPagamento() {
+      const input = document.getElementById('valorPgto');
+      const valor = parseFloat(input.value);
+
+      if (!valor || valor <= 0) {
+        showToast('⚠️ Informe um valor válido.');
+        input.focus();
+        return;
+      }
+
+      pagamentos.push({ ...formaSelecionada, valor });
+      input.value = '';
+      renderPagamentos();
+      atualizarResumo();
+      showToast(`✅ ${fmtR(valor)} em ${formaSelecionada.forma} registrado!`);
+    }
+
+    function removerPagamento(idx) {
+      pagamentos.splice(idx, 1);
+      renderPagamentos();
+      atualizarResumo();
+    }
+
+    function renderPagamentos() {
+      const list  = document.getElementById('pgtosList');
+      const vazio = document.getElementById('pgtos-vazio');
+
+      if (pagamentos.length === 0) {
+        list.innerHTML = '<div id="pgtos-vazio" style="font-size:12px;color:var(--muted);padding:8px 0;">Nenhum pagamento registrado ainda.</div>';
+        return;
+      }
+
+      list.innerHTML = pagamentos.map((p,i) => `
+        <div class="pgto-registrado">
+          <span class="pgto-emoji">${p.emoji}</span>
+          <span class="pgto-desc">${p.forma}</span>
+          <span class="pgto-val">${fmtR(p.valor)}</span>
+          <button class="pgto-del" onclick="removerPagamento(${i})" title="Remover">✕</button>
+        </div>`).join('');
+    }
+
+    /* ── Atalhos ── */
+    function preencherRestante() {
+      const r = restante();
+      if (r <= 0) { showToast('✅ Conta já quitada!'); return; }
+      document.getElementById('valorPgto').value = r.toFixed(2);
+      document.getElementById('valorPgto').focus();
+    }
+
+    function dividirIgual() {
+      const m = mesas.find(x => x.n === mesaSelecionada);
+      if (!m) return;
+      const r = restante();
+      if (r <= 0) { showToast('✅ Conta já quitada!'); return; }
+      const por = (r / m.pessoas).toFixed(2);
+      document.getElementById('valorPgto').value = por;
+      showToast(`💡 R$ ${por.replace('.',',')} por pessoa (${m.pessoas} pessoas)`);
+      document.getElementById('valorPgto').focus();
+    }
+
+    /* ══════════════════════════════════════════
+       FECHAR CONTA
+    ══════════════════════════════════════════ */
+    function fecharConta() {
+      const m = mesas.find(x => x.n === mesaSelecionada);
+      if (!m) return;
+      m.status = 'livre';
+      fecharModal(null, true);
+      renderMesas();
+      showToast(`✅ NFC-e emitida! Mesa ${String(mesaSelecionada).padStart(2,'0')} liberada com sucesso.`);
+    }
+
+    function fecharModal(e, force) {
+      if (!force && e && e.target !== document.getElementById('modalOverlay')) return;
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+
+    /* ══════════════════════════════════════════
+       NAVEGAÇÃO / MISC
+    ══════════════════════════════════════════ */
+    function setPage(page, el) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      const titles = {
+        dashboard:'Dashboard', mesas:'Mesas & Comandas',
+        pedidos:'Pedidos em Aberto', caixa:'Caixa do Dia',
+        cardapio:'Cardápio', estoque:'Controle de Estoque',
+        relatorios:'Relatórios', usuarios:'Usuários & Permissões',
+        fiscal:'Emissão Fiscal (NFC-e)', config:'Configurações'
+      };
+      document.getElementById('pageTitle').textContent = titles[page] || page;
+      
+      document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+      const pageEl = document.getElementById('page-' + page);
+      if (pageEl) {
+        pageEl.classList.add('active');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    function updateDate() {
+      const now = new Date();
+      document.getElementById('pageDate').textContent =
+        now.toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' }) +
+        ' · ' + now.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    renderMesas();
+    updateDate();
+    setInterval(updateDate, 60000);
+  </script>
+</body>
+</html>

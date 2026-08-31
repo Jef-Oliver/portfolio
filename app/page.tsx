@@ -4,6 +4,7 @@ import SalesHero from '@/components/sections/sales/SalesHero';
 import ProductsGrid from '@/components/sections/sales/ProductsGrid';
 import RestaurantePromo from '@/components/sections/sales/RestaurantePromo';
 import SocialProof from '@/components/sections/sales/SocialProof';
+import Testimonials from '@/components/sections/sales/Testimonials';
 import SalesCTA from '@/components/sections/sales/SalesCTA';
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <ProductsGrid />
       <RestaurantePromo />
       <SocialProof />
+      <Testimonials />
       <SalesCTA />
       <Footer />
     </main>

@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, MessageCircle, ChevronRight, Play } from 'lucide-react';
+import { ArrowDown, MessageCircle, ChevronRight, Play, User, Check, AlertCircle } from 'lucide-react';
 import { CONTACT } from '@/lib/constants';
+import { useGame } from '@/context/GameContext';
+import { validatePlayerName } from '@/lib/profanityFilter';
 
 const TYPING_LINES = [
   '> Iniciando página...',
@@ -18,11 +20,25 @@ function TerminalContent({
   currentLine,
   currentChar,
   done,
+  inputName,
+  setInputName,
+  inputError,
+  handleNameSubmit,
+  handleGuestSubmit,
+  isAskingName,
+  playerName,
 }: {
   lines: string[];
   currentLine: number;
   currentChar: number;
   done: boolean;
+  inputName?: string;
+  setInputName?: (val: string) => void;
+  inputError?: string;
+  handleNameSubmit?: (e: React.FormEvent) => void;
+  handleGuestSubmit?: () => void;
+  isAskingName?: boolean;
+  playerName?: string;
 }) {
   const progressPercent = done
     ? 100
@@ -80,9 +96,68 @@ function TerminalContent({
             <span className="animate-pulse text-[#00FF41] font-bold">█</span>
           </div>
         )}
+
+        {/* Name prompt when asking for visitor name */}
+        {isAskingName && handleNameSubmit && setInputName && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-3 pt-3 border-t border-[#1A1A1A] space-y-2.5"
+          >
+            <div className="text-white text-xs font-semibold flex items-center gap-1.5">
+              <span className="text-neon">🤖 JARVIS:</span> Olá visitante! Antes de continuar me diga, qual é o seu nome?
+            </div>
+
+            <form onSubmit={handleNameSubmit} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <User className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500" />
+                  <input
+                    type="text"
+                    maxLength={20}
+                    value={inputName || ''}
+                    onChange={(e) => setInputName(e.target.value)}
+                    placeholder="Seu nome..."
+                    autoFocus
+                    className="w-full bg-black/80 border border-[#00FF41]/40 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-gray-600 focus:outline-none focus:border-[#00FF41] focus:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all font-mono"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-[#00FF41] hover:bg-[#39FF14] text-black font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1 shadow-[0_0_12px_rgba(0,255,65,0.5)] transition-all flex-shrink-0"
+                >
+                  <span>Entrar</span>
+                  <Check className="w-3 h-3 stroke-[3]" />
+                </button>
+              </div>
+
+              {inputError && (
+                <div className="flex items-center gap-1 text-[10px] text-red-400 font-mono">
+                  <AlertCircle className="w-3 h-3 flex-shrink-0" />
+                  <span>{inputError}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-[9px] text-gray-500">
+                  * Seu nome aparecerá no ranking de visitantes
+                </span>
+                {handleGuestSubmit && (
+                  <button
+                    type="button"
+                    onClick={handleGuestSubmit}
+                    className="text-[10px] text-gray-400 hover:text-white underline"
+                  >
+                    Entrar como visitante
+                  </button>
+                )}
+              </div>
+            </form>
+          </motion.div>
+        )}
       </div>
 
-      {/* Progress line */}
+      {/* Progress line during booting */}
       {!done && (
         <div className="mt-3 w-full bg-[#1A1A1A] h-1 rounded-full overflow-hidden">
           <div
@@ -101,11 +176,16 @@ function TerminalContent({
 }
 
 export default function SalesHero() {
+  const { playerName, setPlayerName, hasAskedName } = useGame();
   const [lines, setLines] = useState<string[]>([]);
   const [currentLine, setCurrentLine] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
   const [done, setDone] = useState(false);
+  const [isAskingName, setIsAskingName] = useState(false);
   const [isDocked, setIsDocked] = useState(false);
+
+  const [inputName, setInputName] = useState('');
+  const [inputError, setInputError] = useState('');
 
   // 1. Fast typing logic (~1.8 seconds total)
   useEffect(() => {
@@ -129,30 +209,60 @@ export default function SalesHero() {
     }
   }, [currentChar, currentLine, done]);
 
-  // 2. Automatically transition to full page once typing is done (no click needed!)
+  // 2. Once typing completes: if name already exists, dock immediately; if not, ask for name!
   useEffect(() => {
     if (done && !isDocked) {
-      const timer = setTimeout(() => {
-        setIsDocked(true);
-      }, 300);
-      return () => clearTimeout(timer);
+      if (playerName) {
+        // Player already registered before
+        const timer = setTimeout(() => {
+          setIsDocked(true);
+        }, 400);
+        return () => clearTimeout(timer);
+      } else {
+        // Prompt for visitor name
+        setIsAskingName(true);
+      }
     }
-  }, [done, isDocked]);
+  }, [done, isDocked, playerName]);
 
-  // 3. Fallback safety timer: guarantees page opens within 3 seconds regardless
-  useEffect(() => {
-    const safetyTimer = setTimeout(() => {
-      setLines(TYPING_LINES);
-      setDone(true);
+  // Handle Name Submit
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const validation = validatePlayerName(inputName);
+    if (!validation.valid) {
+      setInputError(validation.error || 'Nome inválido.');
+      return;
+    }
+
+    setInputError('');
+    setPlayerName(validation.cleanName);
+    setLines((prev) => [...prev, `> Acesso autorizado: Bem-vindo(a), ${validation.cleanName}!`]);
+    setIsAskingName(false);
+
+    setTimeout(() => {
       setIsDocked(true);
-    }, 3200);
-    return () => clearTimeout(safetyTimer);
-  }, []);
+    }, 400);
+  };
+
+  // Handle Guest Entry
+  const handleGuestSubmit = () => {
+    const guestName = `Visitante #${Math.floor(100 + Math.random() * 900)}`;
+    setPlayerName(guestName);
+    setLines((prev) => [...prev, `> Acesso liberado como ${guestName}`]);
+    setIsAskingName(false);
+
+    setTimeout(() => {
+      setIsDocked(true);
+    }, 300);
+  };
 
   // Instant skip button
   const handleSkip = () => {
     setLines(TYPING_LINES);
     setDone(true);
+    if (!playerName) {
+      setPlayerName(`Visitante #${Math.floor(100 + Math.random() * 900)}`);
+    }
     setIsDocked(true);
   };
 
@@ -188,7 +298,7 @@ export default function SalesHero() {
         />
       ))}
 
-      {/* ── 1. CENTERED FULLSCREEN LOADER SCREEN (COVERS EVERYTHING WHILE BOOTING) ── */}
+      {/* ── 1. CENTERED FULLSCREEN LOADER SCREEN (PROMPTS VISITOR NAME) ── */}
       <AnimatePresence>
         {!isDocked && (
           <motion.div
@@ -216,6 +326,13 @@ export default function SalesHero() {
                 currentLine={currentLine}
                 currentChar={currentChar}
                 done={done}
+                inputName={inputName}
+                setInputName={setInputName}
+                inputError={inputError}
+                handleNameSubmit={handleNameSubmit}
+                handleGuestSubmit={handleGuestSubmit}
+                isAskingName={isAskingName}
+                playerName={playerName}
               />
             </motion.div>
 
@@ -227,7 +344,7 @@ export default function SalesHero() {
               className="mt-6 flex items-center gap-4 z-10"
             >
               <span className="text-xs font-mono text-gray-500">
-                {done ? 'Pronto! Carregando página...' : 'Carregando ambiente de produção...'}
+                {isAskingName ? 'Aguardando identificação...' : done ? 'Pronto!' : 'Carregando JARVIS...'}
               </span>
               <button
                 onClick={handleSkip}
@@ -366,6 +483,7 @@ export default function SalesHero() {
                     currentLine={currentLine}
                     currentChar={currentChar}
                     done={done}
+                    playerName={playerName}
                   />
                 </motion.div>
               )}

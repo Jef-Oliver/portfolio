@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useGame } from '@/context/GameContext';
 
 // SVG Pixel Art Sprites
 function SpaceInvaderSprite({ isDamaged }: { isDamaged: boolean }) {
@@ -115,6 +116,7 @@ interface FloatingCharacterProps {
   delay?: number;
   size?: number;
   maxHp?: number;
+  expReward?: number;
   name: string;
   renderSprite: (isDamaged: boolean) => React.ReactNode;
 }
@@ -126,12 +128,14 @@ function FloatingCharacter({
   delay = 0,
   size = 36,
   maxHp = 3,
+  expReward = 30,
   name,
   renderSprite,
 }: FloatingCharacterProps) {
+  const { addScore } = useGame();
   const [hp, setHp] = useState(maxHp);
   const [isDamaged, setIsDamaged] = useState(false);
-  const [floatingText, setFloatingText] = useState<{ id: number; text: string }[]>([]);
+  const [floatingText, setFloatingText] = useState<{ id: number; text: string; isExp?: boolean }[]>([]);
   const isDead = hp <= 0;
 
   // Handle hit
@@ -144,12 +148,23 @@ function FloatingCharacter({
     setIsDamaged(true);
     setTimeout(() => setIsDamaged(false), 200);
 
-    const hitLabel = newHp <= 0 ? '💥 K.O.!' : newHp === 1 ? '⚠️ CRITICAL!' : '🎯 HIT! -1 HP';
     const textId = Date.now() + Math.random();
-    setFloatingText((prev) => [...prev, { id: textId, text: hitLabel }]);
+
+    if (newHp <= 0) {
+      // Defeated! Award EXP
+      addScore(expReward);
+      setFloatingText((prev) => [
+        ...prev,
+        { id: textId, text: `💥 +${expReward} EXP!`, isExp: true },
+      ]);
+    } else {
+      const hitLabel = newHp === 1 ? '⚠️ CRITICAL!' : '🎯 HIT! -1 HP';
+      setFloatingText((prev) => [...prev, { id: textId, text: hitLabel }]);
+    }
+
     setTimeout(() => {
       setFloatingText((prev) => prev.filter((item) => item.id !== textId));
-    }, 900);
+    }, 1000);
   };
 
   // Automatic Respawn after 4.5 seconds if dead
@@ -225,7 +240,7 @@ function FloatingCharacter({
 
             {/* Target name tooltip */}
             <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-black/90 border border-neon/30 text-[8px] font-mono text-neon whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              {name} ({hp}/{maxHp} HP)
+              {name} (+{expReward} EXP)
             </div>
           </motion.div>
         )}
@@ -237,14 +252,14 @@ function FloatingCharacter({
           <motion.div
             key={item.id}
             initial={{ opacity: 1, y: 0, scale: 0.8 }}
-            animate={{ opacity: 0, y: -28, scale: 1.15 }}
+            animate={{ opacity: 0, y: -30, scale: 1.25 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className={`absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold whitespace-nowrap pointer-events-none px-1.5 py-0.5 rounded bg-black/90 border ${
-              item.text.includes('RESPAWN')
-                ? 'text-[#00FF41] border-[#00FF41]'
-                : item.text.includes('K.O.')
-                ? 'text-yellow-400 border-yellow-400 animate-bounce'
+            transition={{ duration: 0.85 }}
+            className={`absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold whitespace-nowrap pointer-events-none px-2 py-0.5 rounded bg-black/95 border ${
+              item.isExp
+                ? 'text-[#00FF41] border-[#00FF41] shadow-[0_0_12px_rgba(0,255,65,0.8)] scale-110'
+                : item.text.includes('RESPAWN')
+                ? 'text-cyan-400 border-cyan-400'
                 : 'text-red-500 border-red-500'
             }`}
           >
@@ -259,7 +274,7 @@ function FloatingCharacter({
 export default function FloatingGameCharacters() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-20">
-      {/* 1. Space Invader */}
+      {/* 1. Space Invader (30 EXP) */}
       <FloatingCharacter
         initialX={4}
         initialY={14}
@@ -267,11 +282,12 @@ export default function FloatingGameCharacters() {
         delay={0}
         size={38}
         maxHp={3}
+        expReward={30}
         name="👾 Space Invader"
         renderSprite={(isDamaged) => <SpaceInvaderSprite isDamaged={isDamaged} />}
       />
 
-      {/* 2. Cyber Ghost */}
+      {/* 2. Cyber Ghost (30 EXP) */}
       <FloatingCharacter
         initialX={92}
         initialY={22}
@@ -279,11 +295,12 @@ export default function FloatingGameCharacters() {
         delay={1}
         size={36}
         maxHp={3}
+        expReward={30}
         name="👻 Cyber Ghost"
         renderSprite={(isDamaged) => <GhostSprite isDamaged={isDamaged} />}
       />
 
-      {/* 3. Retro Starship */}
+      {/* 3. Retro Starship (40 EXP) */}
       <FloatingCharacter
         initialX={6}
         initialY={62}
@@ -291,11 +308,12 @@ export default function FloatingGameCharacters() {
         delay={2}
         size={42}
         maxHp={4}
+        expReward={40}
         name="🚀 Starship PRO"
         renderSprite={(isDamaged) => <StarshipSprite isDamaged={isDamaged} />}
       />
 
-      {/* 4. Pixel Mage */}
+      {/* 4. Pixel Mage (50 EXP) */}
       <FloatingCharacter
         initialX={90}
         initialY={75}
@@ -303,11 +321,12 @@ export default function FloatingGameCharacters() {
         delay={1.5}
         size={40}
         maxHp={3}
+        expReward={50}
         name="🧙‍♂️ Code Mage"
         renderSprite={(isDamaged) => <PixelWizardSprite isDamaged={isDamaged} />}
       />
 
-      {/* 5. Energy Coin */}
+      {/* 5. Energy Coin (20 EXP) */}
       <FloatingCharacter
         initialX={15}
         initialY={88}
@@ -315,6 +334,7 @@ export default function FloatingGameCharacters() {
         delay={0.5}
         size={30}
         maxHp={2}
+        expReward={20}
         name="🪙 1-UP Coin"
         renderSprite={(isDamaged) => <PixelCoinSprite isDamaged={isDamaged} />}
       />

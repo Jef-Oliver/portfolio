@@ -82,6 +82,8 @@ const jsonLd = {
   description: 'Desenvolvedor Full Stack especializado em sistemas sob medida para empresas.',
 };
 
+import { GameProvider } from '@/context/GameContext';
+
 export default function RootLayout({
   children,
 }: {
@@ -119,7 +121,7 @@ export default function RootLayout({
         className={`${inter.className} bg-black text-white antialiased`}
         style={{ backgroundColor: '#000000', color: '#ffffff', margin: 0 }}
       >
-        {children}
+        <GameProvider>{children}</GameProvider>
       </body>
     </html>
   );

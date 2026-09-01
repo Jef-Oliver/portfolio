@@ -3,6 +3,8 @@ import Footer from '@/components/layout/Footer';
 import Marquee from '@/components/ui/Marquee';
 import FloatingGameCharacters from '@/components/ui/FloatingGameCharacters';
 import CrosshairCursor from '@/components/ui/CrosshairCursor';
+import VisitorRankingWidget from '@/components/ui/VisitorRankingWidget';
+import { GameProvider } from '@/context/GameContext';
 import SalesHero from '@/components/sections/sales/SalesHero';
 import ProductsGrid from '@/components/sections/sales/ProductsGrid';
 import RestaurantePromo from '@/components/sections/sales/RestaurantePromo';
@@ -12,19 +14,22 @@ import SalesCTA from '@/components/sections/sales/SalesCTA';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-dark relative">
-      <CrosshairCursor />
-      <FloatingGameCharacters />
-      <Header />
-      <SalesHero />
-      <Marquee variant="hero" />
-      <ProductsGrid />
-      <RestaurantePromo />
-      <Marquee variant="divider" />
-      <SocialProof />
-      <Testimonials />
-      <SalesCTA />
-      <Footer />
-    </main>
+    <GameProvider>
+      <main className="min-h-screen bg-dark relative">
+        <CrosshairCursor />
+        <FloatingGameCharacters />
+        <VisitorRankingWidget />
+        <Header />
+        <SalesHero />
+        <Marquee variant="hero" />
+        <ProductsGrid />
+        <RestaurantePromo />
+        <Marquee variant="divider" />
+        <SocialProof />
+        <Testimonials />
+        <SalesCTA />
+        <Footer />
+      </main>
+    </GameProvider>
   );
 }

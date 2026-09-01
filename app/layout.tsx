@@ -91,6 +91,7 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      style={{ backgroundColor: '#000000', color: '#ffffff' }}
     >
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -114,7 +115,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} bg-dark text-light antialiased`}>
+      <body
+        className={`${inter.className} bg-black text-white antialiased`}
+        style={{ backgroundColor: '#000000', color: '#ffffff', margin: 0 }}
+      >
         {children}
       </body>
     </html>

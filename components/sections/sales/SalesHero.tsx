@@ -27,60 +27,72 @@ function TerminalContent({
   const progressPercent = Math.min(
     100,
     Math.round(
-      ((lines.length + (currentLine < TYPING_LINES.length ? currentChar / (TYPING_LINES[currentLine]?.length || 1) : 0)) /
+      ((lines.length +
+        (currentLine < TYPING_LINES.length
+          ? currentChar / (TYPING_LINES[currentLine]?.length || 1)
+          : 0)) /
         TYPING_LINES.length) *
         100
     )
   );
 
   return (
-    <div className="relative card-dark p-6 border-neon/30 shadow-[0_0_50px_rgba(0,255,65,0.2)] bg-black/95 rounded-2xl overflow-hidden">
-      {/* Subtle top neon border line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neon to-transparent" />
+    <div
+      style={{ backgroundColor: '#070707', borderColor: 'rgba(0, 255, 65, 0.25)' }}
+      className="relative card-dark p-5 md:p-6 border shadow-[0_0_50px_rgba(0,255,65,0.18)] rounded-2xl overflow-hidden text-left"
+    >
+      {/* Top neon line accent */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00FF41] to-transparent" />
 
       {/* Terminal header */}
-      <div className="flex items-center justify-between pb-4 mb-4 border-b border-dark-border">
+      <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-[#1A1A1A]">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-500/80" />
           <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-          <div className="w-3 h-3 rounded-full bg-neon/80 shadow-[0_0_8px_rgba(0,255,65,0.8)]" />
+          <div className="w-3 h-3 rounded-full bg-[#00FF41]/80 shadow-[0_0_8px_rgba(0,255,65,0.8)]" />
           <span className="ml-2 text-gray-400 text-xs font-mono">
             sistema_cliente.log
           </span>
         </div>
-        <span className="text-[10px] font-mono text-neon font-semibold bg-neon/10 px-2.5 py-0.5 rounded border border-neon/30">
+        <span
+          style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', borderColor: 'rgba(0, 255, 65, 0.3)' }}
+          className="text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded border"
+        >
           {done ? 'ONLINE' : `BOOTING ${progressPercent}%`}
         </span>
       </div>
 
       {/* Terminal Body */}
-      <div className="font-mono text-xs text-neon/90 bg-black/80 border border-neon/20 rounded-xl p-4 text-left min-h-[160px] flex flex-col justify-start">
+      <div
+        style={{ backgroundColor: '#000000', borderColor: 'rgba(0, 255, 65, 0.2)', color: '#00FF41' }}
+        className="font-mono text-xs border rounded-xl p-4 min-h-[160px] flex flex-col justify-start leading-6"
+      >
         {lines.map((line, i) => (
-          <div key={i} className="leading-6">
+          <div key={i} className="text-[#00FF41]">
             {line}
           </div>
         ))}
         {!done && currentLine < TYPING_LINES.length && (
-          <div className="leading-6">
+          <div className="text-[#00FF41]">
             {TYPING_LINES[currentLine].slice(0, currentChar)}
-            <span className="animate-pulse text-neon font-bold">█</span>
+            <span className="animate-pulse text-[#00FF41] font-bold">█</span>
           </div>
         )}
       </div>
 
       {/* Progress line */}
       {!done && (
-        <div className="mt-3 w-full bg-dark-border h-1 rounded-full overflow-hidden">
+        <div className="mt-3 w-full bg-[#1A1A1A] h-1 rounded-full overflow-hidden">
           <div
-            className="h-full bg-neon transition-all duration-100 ease-out"
+            className="h-full bg-[#00FF41] transition-all duration-100 ease-out shadow-[0_0_8px_rgba(0,255,65,0.8)]"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
       )}
 
-      <div className="mt-4 pt-4 border-t border-dark-border text-xs font-mono text-gray-400 flex items-center justify-between">
+      <div className="mt-3.5 pt-3.5 border-t border-[#1A1A1A] text-xs font-mono text-gray-400 flex items-center justify-between">
         <span>{'// '}Sistema em produção há 2 meses com zero downtime</span>
-        {done && <span className="text-neon text-[11px] font-bold">✓ 100% OK</span>}
+        {done && <span className="text-[#00FF41] text-[11px] font-bold">✓ 100% OK</span>}
       </div>
     </div>
   );
@@ -93,28 +105,27 @@ export default function SalesHero() {
   const [done, setDone] = useState(false);
   const [isDocked, setIsDocked] = useState(false);
 
-  // Fast & responsive typing logic
+  // Fast typing logic (~2 seconds total)
   useEffect(() => {
     if (done) return;
     if (currentLine >= TYPING_LINES.length) {
       setDone(true);
-      // Wait a short moment then dock smoothly to hero
       const timer = setTimeout(() => {
         setIsDocked(true);
-      }, 400);
+      }, 350);
       return () => clearTimeout(timer);
     }
 
     const line = TYPING_LINES[currentLine];
     if (currentChar < line.length) {
-      const t = setTimeout(() => setCurrentChar((c) => c + 1), 18);
+      const t = setTimeout(() => setCurrentChar((c) => c + 1), 16);
       return () => clearTimeout(t);
     } else {
       const t = setTimeout(() => {
         setLines((prev) => [...prev, line]);
         setCurrentLine((l) => l + 1);
         setCurrentChar(0);
-      }, 140);
+      }, 120);
       return () => clearTimeout(t);
     }
   }, [currentChar, currentLine, done]);
@@ -127,7 +138,10 @@ export default function SalesHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section
+      style={{ backgroundColor: '#000000', color: '#ffffff' }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+    >
       {/* Background grid */}
       <div className="absolute inset-0 bg-grid-neon" />
 
@@ -162,7 +176,8 @@ export default function SalesHero() {
             key="preloader-overlay"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.45 }}
+            transition={{ duration: 0.4 }}
+            style={{ backgroundColor: '#000000' }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-2xl p-6"
           >
             {/* Background neon ambient aura */}
@@ -197,10 +212,10 @@ export default function SalesHero() {
               </span>
               <button
                 onClick={handleSkip}
-                className="text-xs font-mono text-neon hover:text-white underline hover:no-underline transition-colors flex items-center gap-1 bg-neon/10 border border-neon/20 px-2.5 py-1 rounded"
+                className="text-xs font-mono text-[#00FF41] hover:text-white underline hover:no-underline transition-colors flex items-center gap-1 bg-[#00FF41]/10 border border-[#00FF41]/30 px-2.5 py-1 rounded"
               >
                 <span>Pular intro</span>
-                <Play className="w-3 h-3 fill-neon" />
+                <Play className="w-3 h-3 fill-[#00FF41]" />
               </button>
             </motion.div>
           </motion.div>

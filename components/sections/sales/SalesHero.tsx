@@ -6,7 +6,7 @@ import { ArrowDown, MessageCircle, ChevronRight, Play } from 'lucide-react';
 import { CONTACT } from '@/lib/constants';
 
 const TYPING_LINES = [
-  '> Iniciando sistema de gestão...',
+  '> Iniciando página...',
   '> Módulo financeiro carregado ✓',
   '> Conectando ao banco de dados...',
   '> Integrações ativas ✓',
@@ -52,8 +52,8 @@ function TerminalContent({
           <div className="w-3 h-3 rounded-full bg-red-500/80" />
           <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
           <div className="w-3 h-3 rounded-full bg-[#00FF41]/80 shadow-[0_0_8px_rgba(0,255,65,0.8)]" />
-          <span className="ml-2 text-gray-400 text-xs font-mono">
-            sistema_cliente.log
+          <span className="ml-2 text-neon text-xs font-mono font-bold tracking-wider">
+            JARVIS
           </span>
         </div>
         <span

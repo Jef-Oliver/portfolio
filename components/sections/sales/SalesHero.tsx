@@ -24,17 +24,19 @@ function TerminalContent({
   currentChar: number;
   done: boolean;
 }) {
-  const progressPercent = Math.min(
-    100,
-    Math.round(
-      ((lines.length +
-        (currentLine < TYPING_LINES.length
-          ? currentChar / (TYPING_LINES[currentLine]?.length || 1)
-          : 0)) /
-        TYPING_LINES.length) *
-        100
-    )
-  );
+  const progressPercent = done
+    ? 100
+    : Math.min(
+        99,
+        Math.round(
+          ((lines.length +
+            (currentLine < TYPING_LINES.length
+              ? currentChar / (TYPING_LINES[currentLine]?.length || 1)
+              : 0)) /
+            TYPING_LINES.length) *
+            100
+        )
+      );
 
   return (
     <div
@@ -105,30 +107,47 @@ export default function SalesHero() {
   const [done, setDone] = useState(false);
   const [isDocked, setIsDocked] = useState(false);
 
-  // Fast typing logic (~2 seconds total)
+  // 1. Fast typing logic (~1.8 seconds total)
   useEffect(() => {
     if (done) return;
     if (currentLine >= TYPING_LINES.length) {
       setDone(true);
-      const timer = setTimeout(() => {
-        setIsDocked(true);
-      }, 350);
-      return () => clearTimeout(timer);
+      return;
     }
 
     const line = TYPING_LINES[currentLine];
     if (currentChar < line.length) {
-      const t = setTimeout(() => setCurrentChar((c) => c + 1), 16);
+      const t = setTimeout(() => setCurrentChar((c) => c + 1), 14);
       return () => clearTimeout(t);
     } else {
       const t = setTimeout(() => {
         setLines((prev) => [...prev, line]);
         setCurrentLine((l) => l + 1);
         setCurrentChar(0);
-      }, 120);
+      }, 90);
       return () => clearTimeout(t);
     }
   }, [currentChar, currentLine, done]);
+
+  // 2. Automatically transition to full page once typing is done (no click needed!)
+  useEffect(() => {
+    if (done && !isDocked) {
+      const timer = setTimeout(() => {
+        setIsDocked(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [done, isDocked]);
+
+  // 3. Fallback safety timer: guarantees page opens within 3 seconds regardless
+  useEffect(() => {
+    const safetyTimer = setTimeout(() => {
+      setLines(TYPING_LINES);
+      setDone(true);
+      setIsDocked(true);
+    }, 3200);
+    return () => clearTimeout(safetyTimer);
+  }, []);
 
   // Instant skip button
   const handleSkip = () => {
@@ -175,10 +194,10 @@ export default function SalesHero() {
           <motion.div
             key="preloader-overlay"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.45, ease: 'easeInOut' }}
             style={{ backgroundColor: '#000000' }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-2xl p-6"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95 backdrop-blur-2xl p-6 pointer-events-auto"
           >
             {/* Background neon ambient aura */}
             <div className="absolute w-[500px] h-[500px] bg-neon/10 blur-[140px] rounded-full pointer-events-none" />
@@ -208,7 +227,7 @@ export default function SalesHero() {
               className="mt-6 flex items-center gap-4 z-10"
             >
               <span className="text-xs font-mono text-gray-500">
-                Carregando ambiente de produção...
+                {done ? 'Pronto! Carregando página...' : 'Carregando ambiente de produção...'}
               </span>
               <button
                 onClick={handleSkip}

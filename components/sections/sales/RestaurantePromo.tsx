@@ -113,7 +113,7 @@ export default function RestaurantePromo() {
                 {/* Overlay with play button */}
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <a
-                    href="/prototipo-restaurante.html"
+                    href="/prototipo-restaurante/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex flex-col items-center gap-3 group"
@@ -174,7 +174,7 @@ export default function RestaurantePromo() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
               <motion.a
-                href="/prototipo-restaurante.html"
+                href="/prototipo-restaurante/"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.03 }}

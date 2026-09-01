@@ -48,7 +48,7 @@ export default function Header() {
                 <Zap className="w-4 h-4 text-black" />
               </div>
               <span className="text-xl font-bold text-white font-grotesk">
-                Jef<span className="text-neon">Oliver</span>
+                Jeferson <span className="text-neon">Oliveira</span>
               </span>
             </motion.div>
           </Link>

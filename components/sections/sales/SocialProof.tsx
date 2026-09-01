@@ -4,12 +4,6 @@ import { motion } from 'framer-motion';
 import { MessageCircle, ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/lib/constants';
 
-const STATS = [
-  { value: '4+', label: 'Anos de experiência', sub: 'em desenvolvimento de sistemas' },
-  { value: '+7', label: 'Sistemas entregues', sub: 'para empresas e clientes reais' },
-  { value: '95%', label: 'Redução de erros', sub: 'em processos automatizados' },
-  { value: '60%', label: 'Ganho de performance', sub: 'em sistemas otimizados' },
-];
 
 const REASONS = [
   {
@@ -41,30 +35,6 @@ export default function SocialProof() {
 
   return (
     <>
-      {/* Stats section */}
-      <section className="py-16 bg-dark-surface border-y border-dark-border relative overflow-hidden">
-        <div className="absolute inset-0 bg-radial-neon opacity-40" />
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-neon font-grotesk glow-neon-text mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-white text-sm font-semibold mb-1">{stat.label}</div>
-                <div className="text-gray-muted text-xs">{stat.sub}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Why hire me section */}
       <section id="sobre" className="section-padding bg-black relative">

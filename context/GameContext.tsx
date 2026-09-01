@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 export interface LeaderboardEntry {
   name: string;
@@ -25,6 +25,7 @@ interface GameContextType {
   hasAskedName: boolean;
   setHasAskedName: (val: boolean) => void;
   level: number;
+  isLoadingLeaderboard: boolean;
 }
 
 const defaultContextValue: GameContextType = {
@@ -36,6 +37,7 @@ const defaultContextValue: GameContextType = {
   hasAskedName: false,
   setHasAskedName: () => {},
   level: 1,
+  isLoadingLeaderboard: false,
 };
 
 const GameContext = createContext<GameContextType>(defaultContextValue);
@@ -44,9 +46,32 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [playerName, setPlayerNameState] = useState<string>('');
   const [score, setScore] = useState<number>(0);
   const [hasAskedName, setHasAskedName] = useState<boolean>(false);
+  const [globalLeaderboard, setGlobalLeaderboard] = useState<LeaderboardEntry[]>(DEFAULT_LEADERBOARD);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
+  const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load player from localStorage on mount
+  // 1. Fetch global leaderboard from Supabase on mount
   useEffect(() => {
+    const fetchGlobalLeaderboard = async () => {
+      try {
+        setIsLoadingLeaderboard(true);
+        const res = await fetch('/api/leaderboard');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.leaderboard && json.leaderboard.length > 0) {
+            setGlobalLeaderboard(json.leaderboard);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch global leaderboard:', err);
+      } finally {
+        setIsLoadingLeaderboard(false);
+      }
+    };
+
+    fetchGlobalLeaderboard();
+
+    // Load saved local user info
     if (typeof window !== 'undefined') {
       const savedName = localStorage.getItem('portfolio_player_name');
       const savedScore = localStorage.getItem('portfolio_player_score');
@@ -60,12 +85,37 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // 2. Sync player score with Supabase backend
+  const syncScoreToBackend = (nameToSync: string, scoreToSync: number) => {
+    if (!nameToSync) return;
+    if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+
+    syncTimeoutRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/leaderboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: nameToSync, score: scoreToSync }),
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.leaderboard && json.leaderboard.length > 0) {
+            setGlobalLeaderboard(json.leaderboard);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to sync score to backend:', err);
+      }
+    }, 600);
+  };
+
   const setPlayerName = (name: string) => {
     setPlayerNameState(name);
     setHasAskedName(true);
     if (typeof window !== 'undefined') {
       localStorage.setItem('portfolio_player_name', name);
     }
+    syncScoreToBackend(name, score);
   };
 
   const addScore = (points: number) => {
@@ -74,17 +124,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (typeof window !== 'undefined') {
         localStorage.setItem('portfolio_player_score', newScore.toString());
       }
+      if (playerName) {
+        syncScoreToBackend(playerName, newScore);
+      }
       return newScore;
     });
   };
 
-  // Level calculated by EXP
+  // Level calculated by EXP (each level requires 100 EXP)
   const level = Math.floor(score / 100) + 1;
 
-  // Build sorted leaderboard with the current player included
-  const activeLeaderboard: LeaderboardEntry[] = [...DEFAULT_LEADERBOARD];
+  // Build sorted active leaderboard with current player highlighted
+  const activeLeaderboard: LeaderboardEntry[] = [...globalLeaderboard];
   if (playerName) {
-    const existingIndex = activeLeaderboard.findIndex((e) => e.name === playerName);
+    const existingIndex = activeLeaderboard.findIndex((e) => e.name.toLowerCase() === playerName.toLowerCase());
     if (existingIndex >= 0) {
       activeLeaderboard[existingIndex].score = Math.max(activeLeaderboard[existingIndex].score, score);
       activeLeaderboard[existingIndex].isCurrentPlayer = true;
@@ -101,10 +154,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         setPlayerName,
         score,
         addScore,
-        leaderboard: activeLeaderboard.slice(0, 6),
+        leaderboard: activeLeaderboard.slice(0, 7),
         hasAskedName,
         setHasAskedName,
         level,
+        isLoadingLeaderboard,
       }}
     >
       {children}

@@ -26,9 +26,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio-jeferson-blond.vercel.app'),
-  title: 'Jef Oliver | Sistemas Sob Medida para seu Negócio',
+  title: 'Jeferson Oliveira | Sistemas Sob Medida para seu Negócio',
   description:
     'Transformo seu negócio com sistemas profissionais: gestão imobiliária, controle de ponto, inventário e muito mais. Soluções sob medida, entregues com qualidade.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   keywords: [
     'Sistema de Gestão',
     'Sistema Personalizado',
@@ -46,10 +51,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'Jeferson Oliveira' }],
   creator: 'Jeferson Oliveira',
   openGraph: {
-    title: 'Jef Oliver | Sistemas Sob Medida',
+    title: 'Jeferson Oliveira | Sistemas Sob Medida',
     description: 'Seu negócio merece um sistema feito sob medida. Elimine planilhas, erros e retrabalho.',
     url: 'https://portfolio-jeferson-blond.vercel.app',
-    siteName: 'Jef Oliver Systems',
+    siteName: 'Jeferson Oliveira Systems',
     locale: 'pt_BR',
     type: 'website',
   },
@@ -88,7 +93,8 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, ChevronUp, ChevronDown, User, Zap, ShieldAlert, Sparkles } from 'lucide-react';
+import { Trophy, ChevronUp, ChevronDown, User, Zap, Swords } from 'lucide-react';
 import { useGame } from '@/context/GameContext';
 
 export default function VisitorRankingWidget() {
-  const { playerName, score, level, leaderboard } = useGame();
+  const { playerName, score, level, leaderboard, wave } = useGame();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // If no name chosen yet, hide or show minimal guest badge
   const displayName = playerName || 'Visitante Convidado';
 
   return (
@@ -31,10 +30,13 @@ export default function VisitorRankingWidget() {
                   <Trophy className="w-3.5 h-3.5 text-[#00FF41]" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white tracking-wide">
-                    RANKING DE VISITANTES
+                  <h4 className="text-xs font-bold text-white tracking-wide flex items-center gap-1.5">
+                    <span>RANKING GLOBAL</span>
+                    <span className="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
+                      WAVE {wave}/5
+                    </span>
                   </h4>
-                  <span className="text-[9px] text-gray-400">Acerte os monstros e ganhe EXP</span>
+                  <span className="text-[9px] text-gray-400">Derrote as 5 waves para vencer</span>
                 </div>
               </div>
               <button
@@ -54,7 +56,7 @@ export default function VisitorRankingWidget() {
                     key={`${player.name}-${index}`}
                     className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
                       isMe
-                        ? 'bg-[#00FF41]/10 border border-[#00FF41]/40 text-white font-bold'
+                        ? 'bg-[#00FF41]/10 border border-[#00FF41]/40 text-white font-bold shadow-[0_0_10px_rgba(0,255,65,0.2)]'
                         : 'bg-black/40 text-gray-300 border border-transparent'
                     }`}
                   >
@@ -88,7 +90,7 @@ export default function VisitorRankingWidget() {
             <div className="pt-2 border-t border-[#1A1A1A] flex items-center justify-between text-[11px]">
               <div className="flex items-center gap-1.5 text-gray-300">
                 <User className="w-3 h-3 text-[#00FF41]" />
-                <span className="truncate max-w-[120px]">{displayName}</span>
+                <span className="truncate max-w-[110px]">{displayName}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] bg-[#00FF41]/10 text-[#00FF41] px-1.5 py-0.5 rounded border border-[#00FF41]/20 font-bold">
@@ -117,12 +119,12 @@ export default function VisitorRankingWidget() {
             <span className="text-xs font-bold text-white tracking-wide truncate max-w-[110px]">
               {displayName}
             </span>
-            <span className="text-[9px] bg-[#00FF41]/15 text-[#00FF41] px-1 rounded font-bold">
-              Lvl {level}
+            <span className="text-[9px] bg-purple-500/25 text-purple-300 px-1 rounded font-bold">
+              W{wave}
             </span>
           </div>
           <span className="text-[10px] text-[#00FF41] font-bold">
-            {score} EXP
+            {score} EXP · Lvl {level}
           </span>
         </div>
         <div className="text-gray-400 group-hover:text-white pl-1">

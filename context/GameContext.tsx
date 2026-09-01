@@ -26,6 +26,9 @@ interface GameContextType {
   setHasAskedName: (val: boolean) => void;
   level: number;
   isLoadingLeaderboard: boolean;
+  wave: number;
+  setWave: (wave: number) => void;
+  nextWave: () => void;
 }
 
 const defaultContextValue: GameContextType = {
@@ -38,6 +41,9 @@ const defaultContextValue: GameContextType = {
   setHasAskedName: () => {},
   level: 1,
   isLoadingLeaderboard: false,
+  wave: 1,
+  setWave: () => {},
+  nextWave: () => {},
 };
 
 const GameContext = createContext<GameContextType>(defaultContextValue);
@@ -48,6 +54,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [hasAskedName, setHasAskedName] = useState<boolean>(false);
   const [globalLeaderboard, setGlobalLeaderboard] = useState<LeaderboardEntry[]>(DEFAULT_LEADERBOARD);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
+  const [wave, setWave] = useState<number>(1);
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 1. Fetch global leaderboard from Supabase on mount
@@ -131,7 +138,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  // Level calculated by EXP (each level requires 100 EXP)
+  const nextWave = () => {
+    setWave((prev) => (prev < 5 ? prev + 1 : 1));
+  };
+
+  // Level calculated by EXP
   const level = Math.floor(score / 100) + 1;
 
   // Build sorted active leaderboard with current player highlighted
@@ -159,6 +170,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         setHasAskedName,
         level,
         isLoadingLeaderboard,
+        wave,
+        setWave,
+        nextWave,
       }}
     >
       {children}

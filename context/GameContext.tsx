@@ -58,7 +58,18 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
   const [wave, setWave] = useState<number>(1);
   const [sessionToken, setSessionToken] = useState<string>('');
+  const playerNameRef = useRef<string>('');
+  const sessionTokenRef = useRef<string>('');
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Keep refs in sync with states to prevent stale closures during rapid clicking
+  useEffect(() => {
+    playerNameRef.current = playerName;
+  }, [playerName]);
+
+  useEffect(() => {
+    sessionTokenRef.current = sessionToken;
+  }, [sessionToken]);
 
   // 1. Fetch global leaderboard from Supabase on mount
   useEffect(() => {
@@ -88,19 +99,33 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const savedWave = localStorage.getItem('portfolio_player_wave');
       const savedToken = localStorage.getItem('portfolio_session_token');
 
+      let currentName = '';
+      let currentScore = 0;
+      let currentToken = '';
+
       if (savedToken) {
+        currentToken = savedToken;
         setSessionToken(savedToken);
+        sessionTokenRef.current = savedToken;
       }
 
       if (savedName) {
+        currentName = savedName;
         setPlayerNameState(savedName);
+        playerNameRef.current = savedName;
         setHasAskedName(true);
       }
       if (savedScore) {
-        setScore(parseInt(savedScore, 10) || 0);
+        currentScore = parseInt(savedScore, 10) || 0;
+        setScore(currentScore);
       }
       if (savedWave) {
         setWave(parseInt(savedWave, 10) || 1);
+      }
+
+      // If user refreshed the page with an existing score and token, immediately sync to backend
+      if (currentName && currentToken && currentScore > 0) {
+        syncScoreToBackend(currentName, currentScore, currentToken);
       }
     }
   }, []);
@@ -108,7 +133,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   // 2. Sync player score with Supabase backend, sending cryptographic token
   const syncScoreToBackend = (nameToSync: string, scoreToSync: number, tokenToSync?: string) => {
     if (!nameToSync) return;
-    const token = tokenToSync || sessionToken;
+    const token = tokenToSync || sessionTokenRef.current || sessionToken;
     if (!token) return; // Cannot sync score without valid authenticated session token
 
     if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
@@ -129,7 +154,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         console.error('Failed to sync score to backend:', err);
       }
-    }, 600);
+    }, 400);
   };
 
   const setPlayerName = async (name: string, isGuest = false) => {
@@ -147,7 +172,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         const token = data.sessionToken;
 
         setPlayerNameState(validName);
+        playerNameRef.current = validName;
         setSessionToken(token);
+        sessionTokenRef.current = token;
         setHasAskedName(true);
 
         if (typeof window !== 'undefined') {
@@ -168,8 +195,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (typeof window !== 'undefined') {
         localStorage.setItem('portfolio_player_score', newScore.toString());
       }
-      if (playerName && sessionToken) {
-        syncScoreToBackend(playerName, newScore);
+      const activeName = playerNameRef.current || playerName;
+      const activeToken = sessionTokenRef.current || sessionToken;
+      if (activeName && activeToken) {
+        syncScoreToBackend(activeName, newScore, activeToken);
       }
       return newScore;
     });

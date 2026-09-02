@@ -228,13 +228,12 @@ function generateProceduralWave(wave: number): EnemyConfig[] {
 
   // 1. If Boss Wave, add the Bosses along top periphery / side wings
   if (isBossWave) {
-    const bossHp = 6 + Math.floor(wave / 5) * 2;
+    const bossHp = 6 + Math.floor(wave / 5) * 3;
     const bossExp = 150 + Math.floor(wave / 5) * 50;
 
     for (let b = 1; b <= numBosses; b++) {
-      // Position bosses safely at side wings or top margin
       const posX = b % 2 === 1 ? 6 + (b - 1) * 6 : 86 - (b - 2) * 6;
-      const posY = 10 + (b % 3) * 12;
+      const posY = 20 + (b % 3) * 12;
 
       list.push({
         id: `boss-${wave}-${b}`,
@@ -243,7 +242,7 @@ function generateProceduralWave(wave: number): EnemyConfig[] {
         expReward: bossExp,
         size: 64,
         initialX: Math.min(92, Math.max(4, posX)),
-        initialY: posY,
+        initialY: Math.min(85, Math.max(20, posY)),
         duration: 4.5 + b * 0.4,
         delay: b * 0.3,
         isBoss: true,
@@ -265,11 +264,10 @@ function generateProceduralWave(wave: number): EnemyConfig[] {
   if (wave >= 4) availableTypes.push('skull', 'snake');
 
   // Spawn perimeter zones (Left Column, Right Column, Top Gutter, Bottom Gutter)
-  // This completely protects the central content column (20% to 80% width) from being blocked
   for (let i = 0; i < regularCount; i++) {
     const type = availableTypes[i % availableTypes.length];
     const isSnake = type === 'snake';
-    const hpScale = Math.min(6, 2 + Math.floor(wave / 8));
+    const hpScale = Math.min(12, 2 + Math.floor(wave / 4));
     const expBase = isSnake ? 45 : type === 'mage' ? 55 : type === 'skull' ? 50 : type === 'slime' ? 40 : 30;
 
     const zone = i % 4;
@@ -277,26 +275,21 @@ function generateProceduralWave(wave: number): EnemyConfig[] {
     let y = 20;
 
     if (zone === 0) {
-      // Left side gutter (2% - 14%)
       x = 3 + (i % 3) * 4;
-      y = 14 + Math.floor(i / 2) * 16;
+      y = 22 + Math.floor(i / 2) * 14;
     } else if (zone === 1) {
-      // Right side gutter (84% - 95%)
-      x = 84 + (i % 3) * 4;
-      y = 16 + Math.floor(i / 2) * 16;
+      x = 84 + (i % 3) * 3;
+      y = 24 + Math.floor(i / 2) * 14;
     } else if (zone === 2) {
-      // Top floating band (outside center heading)
-      x = 18 + (i * 14) % 64;
-      y = 8 + (i % 2) * 6;
+      x = 20 + (i * 13) % 60;
+      y = 20 + (i % 3) * 4;
     } else {
-      // Bottom floating band (outside center buttons)
-      x = 16 + (i * 15) % 68;
-      y = 86 + (i % 2) * 6;
+      x = 18 + (i * 14) % 64;
+      y = 86 + (i % 2) * 4;
     }
 
-    // Keep within valid boundaries
-    x = Math.min(94, Math.max(3, x));
-    y = Math.min(92, Math.max(7, y));
+    x = Math.min(93, Math.max(3, x));
+    y = Math.min(91, Math.max(20, y));
 
     list.push({
       id: `w${wave}-enemy-${i}`,
@@ -403,17 +396,20 @@ function EnemyEntity({
     }
   };
 
+  // The outer div is the ANCHOR (fixed position). The animated motion.div inside
+  // is the VISUAL SPRITE. The onClick must live on the motion.div so the click
+  // target always matches exactly where the sprite is visually rendered.
   return (
     <div
       data-game-target="true"
-      className="fixed pointer-events-auto select-none z-10 group"
+      // z-[55] is above the header (z-50) so monsters near the top are always clickable
+      className="fixed pointer-events-none select-none z-[55] group"
       style={{
         left: `${config.initialX}%`,
         top: `${config.initialY}%`,
         width: config.size,
         height: config.size,
       }}
-      onClick={handleHit}
     >
       <AnimatePresence>
         {!isDead && (
@@ -422,19 +418,19 @@ function EnemyEntity({
             initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: isDamaged ? 1 : config.isBoss ? 1 : 0.9,
-              // REAL CRAWLING WAVE FOR SNAKES ACROSS MAP
+              // Keep drift small so the sprite stays visually centered on its hitbox
               y: isDamaged
                 ? [-4, 4, -2, 2, 0]
                 : config.isSnake
-                ? [-14, 14, -14]
-                : [-16, 16, -16],
+                ? [-8, 8, -8]
+                : [-8, 8, -8],
               x: isDamaged
-                ? [-6, 6, -4, 4, 0]
+                ? [-4, 4, -2, 2, 0]
                 : config.isSnake
-                ? [-35, 35, -35]
-                : [-12, 12, -12],
-              rotate: isDamaged ? [-12, 12, 0] : config.isSnake ? [-10, 10, -10] : [-5, 5, -5],
-              scaleX: config.isSnake ? [1, 1, -1, -1, 1] : 1, // Snake flips direction when slithering
+                ? [-6, 6, -6]
+                : [-5, 5, -5],
+              rotate: isDamaged ? [-10, 10, 0] : config.isSnake ? [-8, 8, -8] : [-4, 4, -4],
+              scaleX: config.isSnake ? [1, 1, -1, -1, 1] : 1,
               scale: isDamaged ? 1.3 : 1,
             }}
             exit={{
@@ -449,13 +445,17 @@ function EnemyEntity({
               rotate: { duration: config.duration * 1.2, repeat: Infinity, ease: 'easeInOut', delay: config.delay },
               scaleX: { duration: (config.duration + 1.5) * 2, repeat: Infinity, ease: 'easeInOut', delay: config.delay },
             }}
+            // onClick is here on the VISUAL element so click = what the user sees
+            onClick={handleHit}
             whileHover={{ scale: 1.25, opacity: 1 }}
-            className={`w-full h-full cursor-crosshair relative ${config.isBoss ? 'drop-shadow-[0_0_25px_rgba(168,85,247,0.9)]' : ''}`}
+            className={`w-full h-full cursor-crosshair relative pointer-events-auto ${
+              config.isBoss ? 'drop-shadow-[0_0_25px_rgba(168,85,247,0.9)]' : ''
+            }`}
           >
             {/* Health Bar */}
             <div
               className={`absolute -top-3.5 left-1/2 -translate-x-1/2 bg-black/90 border border-gray-700 rounded-full overflow-hidden ${
-                config.isBoss ? 'w-18 h-2.5 border-purple-500 shadow-neon' : 'w-9 h-1'
+                config.isBoss ? 'w-20 h-2.5 border-purple-500' : 'w-9 h-1.5'
               }`}
             >
               <div
@@ -467,18 +467,25 @@ function EnemyEntity({
               />
             </div>
 
+            {/* HP counter for enemies with more than 2 HP */}
+            {config.maxHp > 2 && !config.isBoss && (
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 text-[8px] font-mono font-bold text-white/70 pointer-events-none">
+                {hp}/{config.maxHp}
+              </div>
+            )}
+
             {/* Boss Crown Badge */}
             {config.isBoss && (
               <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-purple-300 bg-black/95 px-2 py-0.5 rounded border border-purple-500 whitespace-nowrap animate-pulse flex items-center gap-1 shadow-[0_0_12px_rgba(168,85,247,0.6)]">
                 <Crown className="w-3 h-3 text-yellow-400" />
-                <span>BOSS ({hp}/{config.maxHp} HP)</span>
+                <span>BOSS {hp}/{config.maxHp} HP</span>
               </div>
             )}
 
             {/* Sprite */}
             {renderSprite()}
 
-            {/* Target name tooltip */}
+            {/* Target name tooltip on hover */}
             <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-black/90 border border-neon/30 text-[8px] font-mono text-neon whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               {config.name} (+{config.expReward} EXP)
             </div>
@@ -486,19 +493,19 @@ function EnemyEntity({
         )}
       </AnimatePresence>
 
-      {/* Floating Damage / EXP Popup */}
+      {/* Floating Damage / EXP Popup — rendered outside motion.div so it doesn't animate with it */}
       <AnimatePresence>
         {floatingText.map((item) => (
           <motion.div
             key={item.id}
             initial={{ opacity: 1, y: 0, scale: 0.8 }}
-            animate={{ opacity: 0, y: -34, scale: 1.35 }}
+            animate={{ opacity: 0, y: -40, scale: 1.4 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.85 }}
-            className={`absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold whitespace-nowrap pointer-events-none px-2 py-0.5 rounded bg-black/95 border ${
+            transition={{ duration: 0.9 }}
+            className={`absolute -top-8 left-1/2 -translate-x-1/2 text-[11px] font-mono font-bold whitespace-nowrap pointer-events-none px-2 py-0.5 rounded bg-black/95 border ${
               item.isExp
-                ? 'text-[#00FF41] border-[#00FF41] shadow-[0_0_15px_rgba(0,255,65,0.9)] scale-110'
-                : 'text-red-500 border-red-500'
+                ? 'text-[#00FF41] border-[#00FF41] shadow-[0_0_15px_rgba(0,255,65,0.9)]'
+                : 'text-red-400 border-red-500'
             }`}
           >
             {item.text}

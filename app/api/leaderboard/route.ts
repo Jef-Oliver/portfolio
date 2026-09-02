@@ -112,3 +112,32 @@ export async function POST(req: Request) {
   }
 }
 
+// Admin-only DELETE: remove a cheated/invalid player by name
+// Usage: DELETE /api/leaderboard with body { name: "PlayerName" }
+// Requires Authorization: Bearer <ADMIN_SECRET> header
+export async function DELETE(req: Request) {
+  try {
+    const adminSecret = process.env.ADMIN_SECRET || 'jef-admin-secret-2025';
+    const authHeader = req.headers.get('authorization') || '';
+    if (authHeader !== `Bearer ${adminSecret}`) {
+      return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const { name } = body;
+    if (!name || typeof name !== 'string') {
+      return NextResponse.json({ error: 'Nome inválido.' }, { status: 400 });
+    }
+
+    const { error } = await supabase.from('visitors').delete().eq('name', name);
+    if (error) {
+      console.error('Supabase delete error:', error);
+      return NextResponse.json({ error: 'Erro ao deletar.' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, message: `"${name}" removido do ranking.` });
+  } catch (err) {
+    console.error('Leaderboard DELETE error:', err);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}

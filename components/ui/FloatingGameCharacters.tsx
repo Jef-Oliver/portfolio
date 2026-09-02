@@ -396,20 +396,19 @@ function EnemyEntity({
     }
   };
 
-  // The outer div is the ANCHOR (fixed position). The animated motion.div inside
-  // is the VISUAL SPRITE. The onClick must live on the motion.div so the click
-  // target always matches exactly where the sprite is visually rendered.
+  // The outer div is the ANCHOR (fixed position) with z-[9999] and pointer-events-auto
+  // so it is ALWAYS in front of all page content (header, sections, cards, text).
   return (
     <div
       data-game-target="true"
-      // z-[55] is above the header (z-50) so monsters near the top are always clickable
-      className="fixed pointer-events-none select-none z-[55] group"
+      className="fixed pointer-events-auto select-none z-[9999] group cursor-crosshair"
       style={{
         left: `${config.initialX}%`,
         top: `${config.initialY}%`,
         width: config.size,
         height: config.size,
       }}
+      onClick={handleHit}
     >
       <AnimatePresence>
         {!isDead && (
@@ -573,7 +572,7 @@ export default function FloatingGameCharacters() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-10 font-mono">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[9998] font-mono">
       {/* Wave Banner Notification */}
       <AnimatePresence>
         {waveBanner && (

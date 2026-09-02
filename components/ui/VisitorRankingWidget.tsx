@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, ChevronUp, ChevronDown, User, Zap, Swords } from 'lucide-react';
+import { Trophy, ChevronUp, ChevronDown, User, Flame, Crown } from 'lucide-react';
 import { useGame } from '@/context/GameContext';
 
 export default function VisitorRankingWidget() {
@@ -10,6 +10,7 @@ export default function VisitorRankingWidget() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const displayName = playerName || 'Visitante Convidado';
+  const isBossWave = wave % 5 === 0;
 
   return (
     <div className="fixed bottom-4 right-4 z-40 pointer-events-auto select-none font-mono">
@@ -32,11 +33,20 @@ export default function VisitorRankingWidget() {
                 <div>
                   <h4 className="text-xs font-bold text-white tracking-wide flex items-center gap-1.5">
                     <span>RANKING GLOBAL</span>
-                    <span className="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
-                      WAVE {wave}/5
+                    <span
+                      className={`text-[9px] px-1.5 py-0.5 rounded border font-bold flex items-center gap-0.5 ${
+                        isBossWave
+                          ? 'bg-purple-500/25 text-purple-300 border-purple-500/40 animate-pulse'
+                          : 'bg-neon/10 text-neon border-neon/30'
+                      }`}
+                    >
+                      {isBossWave && <Crown className="w-2.5 h-2.5 text-yellow-400" />}
+                      <span>WAVE {wave}/99</span>
                     </span>
                   </h4>
-                  <span className="text-[9px] text-gray-400">Derrote as 5 waves para vencer</span>
+                  <span className="text-[9px] text-gray-400">
+                    {isBossWave ? '🔥 Cuidado: Bosses no mapa!' : 'Limpe a wave para avançar'}
+                  </span>
                 </div>
               </div>
               <button
@@ -116,10 +126,16 @@ export default function VisitorRankingWidget() {
         </div>
         <div className="flex flex-col text-left">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-bold text-white tracking-wide truncate max-w-[110px]">
+            <span className="text-xs font-bold text-white tracking-wide truncate max-w-[100px]">
               {displayName}
             </span>
-            <span className="text-[9px] bg-purple-500/25 text-purple-300 px-1 rounded font-bold">
+            <span
+              className={`text-[9px] px-1.5 py-0.2 rounded font-bold ${
+                isBossWave
+                  ? 'bg-purple-500/30 text-purple-300 border border-purple-500/40'
+                  : 'bg-neon/15 text-neon'
+              }`}
+            >
               W{wave}
             </span>
           </div>

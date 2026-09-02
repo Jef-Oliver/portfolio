@@ -1,26 +1,40 @@
-// Profanity filter utility for visitor names
+// Profanity and XSS filter utility for visitor names
 const BLOCKED_TERMS = [
   'precheca', 'prexeca', 'filha da puta', 'filho da puta', 'fdp', 'pinto', 'pau', 'rola',
   'buceta', 'bct', 'penis', 'caralho', 'crl', 'porra', 'puta', 'puto', 'cu', 'vai tomar no cu',
   'vtnc', 'arrombado', 'arrombada', 'viado', 'viadinho', 'corno', 'xoxota', 'choxota',
   'bosta', 'merda', 'cacete', 'foder', 'fode', 'fodase', 'foda-se', 'boquete', 'siririca',
   'punheta', 'esporra', 'vagabundo', 'vagabunda', 'otario', 'otaria', 'babaca', 'nazista',
-  'hitler', 'sexo', 'porn', 'xxx', 'dick', 'pussy', 'bitch', 'asshole', 'fuck'
+  'hitler', 'sexo', 'porn', 'xxx', 'dick', 'pussy', 'bitch', 'asshole', 'fuck',
+  'script', 'iframe', 'javascript', 'onload', 'onerror', 'eval', 'document', 'cookie', 'window'
 ];
 
-export function validatePlayerName(name: string): { valid: boolean; error?: string; cleanName: string } {
-  const trimmed = name.trim();
+export function sanitizeText(input: string): string {
+  if (!input) return '';
+  return input
+    // Strip any HTML tags
+    .replace(/<[^>]*>?/gm, '')
+    // Remove dangerous characters for XSS/injection
+    .replace(/[<>"'`;/\\{}()&$=*%]/g, '')
+    // Allow only letters, numbers, spaces, dots, hyphens and accented letters
+    .replace(/[^a-zA-Z0-9À-ÿ\s.\-_]/g, '')
+    .trim();
+}
 
-  if (!trimmed || trimmed.length < 2) {
-    return { valid: false, error: 'O nome precisa ter pelo menos 2 letras.', cleanName: '' };
+export function validatePlayerName(name: string): { valid: boolean; error?: string; cleanName: string } {
+  // 1. Initial sanitization against HTML / XSS
+  const sanitized = sanitizeText(name || '');
+
+  if (!sanitized || sanitized.length < 2) {
+    return { valid: false, error: 'O nome precisa ter pelo menos 2 caracteres válidos (sem tags HTML).', cleanName: '' };
   }
 
-  if (trimmed.length > 20) {
+  if (sanitized.length > 20) {
     return { valid: false, error: 'O nome pode ter no máximo 20 letras.', cleanName: '' };
   }
 
-  // Normalize to check for accented/leetspeak profanity
-  const normalized = trimmed
+  // 2. Normalize to check for accented/leetspeak profanity
+  const normalized = sanitized
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -37,14 +51,14 @@ export function validatePlayerName(name: string): { valid: boolean; error?: stri
     if (termRegex.test(normalized)) {
       return {
         valid: false,
-        error: 'Nome impróprio ou não permitido. Por favor, insira seu nome real.',
+        error: 'Nome impróprio ou não permitido. Por favor, insira um nome válido.',
         cleanName: ''
       };
     }
   }
 
-  // Capitalize nicely (e.g. "joao silva" -> "João Silva")
-  const formatted = trimmed
+  // 3. Capitalize nicely (e.g. "joao silva" -> "João Silva")
+  const formatted = sanitized
     .split(' ')
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
@@ -52,3 +66,4 @@ export function validatePlayerName(name: string): { valid: boolean; error?: stri
 
   return { valid: true, cleanName: formatted };
 }
+

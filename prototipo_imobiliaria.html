@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImobPRO — Ecossistema de Inteligência e Gestão Imobiliária</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #38bdf8;
+      --primary-subtle: #f0f9ff;
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --sidebar-bg: #090d16;
+      --sidebar-w: 260px;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --text: #0f172a;
+      --muted: #64748b;
+      --emerald: #10b981;
+      --emerald-subtle: #ecfdf5;
+      --amber: #f59e0b;
+      --amber-subtle: #fffbeb;
+      --rose: #f43f5e;
+      --rose-subtle: #fff1f2;
+      --indigo: #6366f1;
+      --indigo-subtle: #eef2ff;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 36px -4px rgba(15, 23, 42, 0.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .sidebar-brand {
+      padding: 24px 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: #fff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+    }
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 19px; font-weight: 700;
+      color: #fff; letter-spacing: -0.5px;
+    }
+    .brand-title span { color: var(--primary-light); }
+    .brand-tag {
+      font-size: 9px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .creci-banner {
+      margin: 14px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .creci-info small { display: block; font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-weight: 600; }
+    .creci-info strong { font-size: 12px; color: #fff; font-weight: 600; }
+    .creci-badge {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399; font-size: 10px;
+      padding: 3px 8px; border-radius: 20px; font-weight: 700;
+    }
+
+    nav { flex: 1; padding: 10px 12px; overflow-y: auto; }
+    .nav-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: rgba(255,255,255,0.3);
+      padding: 14px 10px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 14px; border-radius: 9px; cursor: pointer;
+      font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,0.6);
+      transition: all 0.2s; margin-bottom: 3px; user-select: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(2, 132, 199, 0.25), rgba(2, 132, 199, 0.1));
+      color: #fff; font-weight: 600;
+      border-left: 3px solid var(--primary-light);
+    }
+    .nav-item .icon { font-size: 17px; width: 22px; text-align: center; }
+    .nav-counter {
+      margin-left: auto;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 99px;
+      background: rgba(255,255,255,0.1); color: #fff;
+    }
+    .nav-counter.alert { background: var(--rose); }
+
+    .sidebar-footer {
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.2);
+    }
+    .broker-profile {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .broker-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #0284c7);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: 13px;
+    }
+    .broker-meta h4 { font-size: 12.5px; color: #fff; font-weight: 600; }
+    .broker-meta p { font-size: 10.5px; color: rgba(255,255,255,0.4); }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .topbar-title-wrap h2 { font-size: 17px; font-weight: 800; color: var(--navy); }
+    .topbar-title-wrap p { font-size: 12px; color: var(--muted); }
+    .topbar-actions { display: flex; align-items: center; gap: 12px; }
+
+    .search-input-wrap {
+      position: relative;
+      width: 280px;
+    }
+    .search-input-wrap input {
+      width: 100%;
+      padding: 8px 14px 8px 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12.5px;
+      outline: none;
+      background: var(--bg);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .search-input-wrap input:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+    .search-input-wrap .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--primary); color: #fff;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-emerald {
+      background: var(--emerald); color: #fff;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    .btn-emerald:hover { background: #059669; transform: translateY(-1px); }
+    .btn-outline {
+      background: #fff; color: var(--navy);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--bg); border-color: #cbd5e1; }
+    .btn-sm { padding: 5px 10px; font-size: 11.5px; border-radius: 6px; }
+
+    /* ── CONTENT CONTAINER ── */
+    .content-body {
+      padding: 28px 32px 40px;
+      flex: 1;
+    }
+    .tab-pane { display: none; animation: fadeIn 0.22s ease-out; }
+    .tab-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── KPI METRICS BANNER ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .kpi-card::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--kpi-color, var(--primary));
+    }
+    .kpi-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .kpi-title { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }
+    .kpi-icon-pill {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      background: var(--kpi-bg, var(--primary-subtle));
+      color: var(--kpi-color, var(--primary));
+    }
+    .kpi-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px; font-weight: 700; color: var(--navy);
+      letter-spacing: -0.5px; margin-bottom: 4px;
+    }
+    .kpi-footnote {
+      font-size: 11.5px; color: var(--muted);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .trend-pos { color: var(--emerald); font-weight: 700; }
+    .trend-neg { color: var(--rose); font-weight: 700; }
+
+    /* ── PANELS & GRIDS ── */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 22px;
+      margin-bottom: 26px;
+    }
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+    }
+    .panel-title { font-size: 14.5px; font-weight: 700; color: var(--navy); }
+    .panel-subtitle { font-size: 11.5px; color: var(--muted); }
+    .panel-body { padding: 20px; }
+
+    /* ── PROPERTY CARDS GRID ── */
+    .filter-bar {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-select {
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-family: inherit;
+      color: var(--navy);
+      background: var(--bg);
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-pills { display: flex; gap: 6px; margin-left: auto; }
+    .filter-pill {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .filter-pill.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 22px;
+    }
+    .property-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .property-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: #cbd5e1;
+    }
+    .prop-image-wrap {
+      height: 190px;
+      position: relative;
+      background: #0f172a;
+      overflow: hidden;
+    }
+    .prop-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .property-card:hover .prop-image-wrap img {
+      transform: scale(1.05);
+    }
+    .prop-badges {
+      position: absolute;
+      top: 12px; left: 12px;
+      display: flex; gap: 6px;
+    }
+    .badge-tag {
+      font-size: 10px; font-weight: 700;
+      padding: 4px 9px; border-radius: 6px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge-venda { background: rgba(2, 132, 199, 0.9); color: #fff; backdrop-filter: blur(4px); }
+    .badge-aluguel { background: rgba(16, 185, 129, 0.9); color: #fff; backdrop-filter: blur(4px); }
+    .badge-exclusivo { background: rgba(245, 158, 11, 0.95); color: #000; font-weight: 800; }
+    .prop-fav {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px;
+      transition: background 0.2s;
+    }
+    .prop-fav:hover { background: #fff; transform: scale(1.1); }
+    .prop-body {
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .prop-ref { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 2px; }
+    .prop-title { font-size: 15px; font-weight: 700; color: var(--navy); line-height: 1.3; margin-bottom: 6px; }
+    .prop-address { font-size: 12px; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 4px; }
+    
+    .prop-specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 14px;
+    }
+    .spec-item { text-align: center; }
+    .spec-item span { font-size: 11px; color: var(--muted); display: block; }
+    .spec-item strong { font-size: 12.5px; font-weight: 700; color: var(--navy); }
+
+    .prop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .prop-price-label { font-size: 10px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .prop-price-val { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: var(--navy); }
+    .prop-condo { font-size: 10.5px; color: var(--muted); }
+
+    /* ── PIPELINE KANBAN (CRM) ── */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .kanban-col {
+      background: #f1f5f9;
+      border-radius: var(--radius);
+      padding: 12px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      max-height: 720px;
+    }
+    .kanban-col-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 10px;
+      border-bottom: 2px solid var(--col-color, #cbd5e1);
+      margin-bottom: 10px;
+    }
+    .kanban-col-title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--navy);
+    }
+    .kanban-count {
+      font-size: 11px; font-weight: 700;
+      background: #fff; padding: 2px 7px; border-radius: 99px;
+      color: var(--navy); border: 1px solid var(--border);
+    }
+    .kanban-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .lead-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .lead-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: #cbd5e1; }
+    .lead-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .lead-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .lead-score {
+      font-size: 9.5px; font-weight: 700;
+      padding: 2px 6px; border-radius: 4px;
+    }
+    .score-hot { background: var(--rose-subtle); color: var(--rose); border: 1px solid #fecdd3; }
+    .score-warm { background: var(--amber-subtle); color: var(--amber); border: 1px solid #fde68a; }
+    .score-cold { background: #f1f5f9; color: var(--muted); }
+    .lead-interest { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+    .lead-budget { font-weight: 700; font-size: 12px; color: var(--emerald); margin-bottom: 8px; }
+    .lead-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 10.5px; color: var(--muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 8px;
+    }
+    .sla-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10px; font-weight: 600;
+    }
+    .sla-ok { color: var(--emerald); }
+    .sla-alert { color: var(--rose); font-weight: 700; }
+
+    /* ── SIMULADOR FINANCEIRO ── */
+    .sim-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+    }
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-control {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12); }
+    .range-wrap { display: flex; align-items: center; gap: 12px; }
+    .range-wrap input[type=range] { flex: 1; accent-color: var(--primary); }
+    .range-val { font-size: 13px; font-weight: 700; min-width: 60px; text-align: right; }
+
+    .sim-result-box {
+      background: linear-gradient(145deg, #0f172a, #1e293b);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .result-kpi-block { margin-bottom: 18px; }
+    .result-kpi-block small { font-size: 11px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 600; letter-spacing: 0.5px; }
+    .result-kpi-block h3 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; color: var(--primary-light); margin-top: 2px; }
+
+    .bank-comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 12px;
+    }
+    .bank-comparison-table th { text-align: left; padding: 6px 8px; color: rgba(255,255,255,0.5); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .bank-comparison-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+    /* ── TABELA DE CONTRATOS & LOCAÇÃO ── */
+    .data-table-wrap {
+      overflow-x: auto;
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: #f8fafc;
+      padding: 12px 16px;
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--navy);
+      vertical-align: middle;
+    }
+    .data-table tr:hover td { background: #f8fafc; }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 99px;
+      font-size: 11px; font-weight: 700;
+    }
+    .status-ativo { background: var(--emerald-subtle); color: var(--emerald); }
+    .status-atraso { background: var(--rose-subtle); color: var(--rose); }
+    .status-reajuste { background: var(--amber-subtle); color: var(--amber); }
+
+    /* ── MODAIS ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease;
+      padding: 20px;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #fff;
+      border-radius: 18px;
+      width: 720px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px) scale(0.97);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: #fff; z-index: 10;
+    }
+    .modal-title { font-size: 16px; font-weight: 800; color: var(--navy); }
+    .modal-close {
+      background: #f1f5f9; border: none; width: 32px; height: 32px;
+      border-radius: 8px; cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: #e2e8f0; }
+    .modal-body { padding: 24px; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 10px;
+      background: #f8fafc;
+      position: sticky; bottom: 0;
+    }
+
+    /* ── TOAST NOTIFICATIONS ── */
+    .toast-container {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 999;
+    }
+    .toast {
+      background: #0f172a; color: #fff;
+      padding: 14px 18px; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      transform: translateX(100px); opacity: 0;
+      transition: all 0.25s ease;
+    }
+    .toast.show { transform: translateX(0); opacity: 1; }
+    .toast-icon { font-size: 18px; color: var(--emerald); }
+
+    /* ── MARKET HEATMAP / INSIGHTS ── */
+    .neighborhood-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+    .neighborhood-name { width: 140px; font-size: 12.5px; font-weight: 600; }
+    .bar-track { flex: 1; height: 10px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--primary), #38bdf8); }
+    .neighborhood-val { width: 100px; text-align: right; font-size: 12px; font-weight: 700; color: var(--navy); }
+
+    @media (max-width: 1024px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .grid-2col { grid-template-columns: 1fr; }
+      .sim-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .kpi-row { grid-template-columns: 1fr; }
+      .topbar { padding: 0 16px; }
+      .content-body { padding: 16px; }
+      .kanban-board { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🏢</div>
+      <div>
+        <div class="brand-title">Imob<span>PRO</span></div>
+        <span class="brand-tag">Enterprise Real Estate</span>
+      </div>
+    </div>
+
+    <div class="creci-banner">
+      <div class="creci-info">
+        <small>Licença Operacional</small>
+        <strong>CRECI-SP: 42.890-J</strong>
+      </div>
+      <span class="creci-badge">● Verificado</span>
+    </div>
+
+    <nav>
+      <div class="nav-label">Módulos de Gestão</div>
+      <div class="nav-item active" onclick="switchTab('dashboard')">
+        <span class="icon">📊</span>
+        <span>Dashboard & KPIs</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('imoveis')">
+        <span class="icon">🏠</span>
+        <span>Carteira de Imóveis</span>
+        <span class="nav-counter" id="totalImoveisBadge">24</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('crm')">
+        <span class="icon">👥</span>
+        <span>Funil de Leads (CRM)</span>
+        <span class="nav-counter alert" id="newLeadsBadge">5 novos</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('visitas')">
+        <span class="icon">📅</span>
+        <span>Agenda de Visitas</span>
+        <span class="nav-counter">8 hoje</span>
+      </div>
+
+      <div class="nav-label">Financeiro & Negócios</div>
+      <div class="nav-item" onclick="switchTab('simulador')">
+        <span class="icon">🧮</span>
+        <span>Simulador de Crédito</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('locacao')">
+        <span class="icon">📑</span>
+        <span>Locações & Repasses</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('inteligencia')">
+        <span class="icon">📈</span>
+        <span>Inteligência de Mercado</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="broker-profile">
+        <div class="broker-avatar">JO</div>
+        <div class="broker-meta">
+          <h4>Jeferson Oliveira</h4>
+          <p>Consultor Tech & Imobiliário</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN WRAPPER ── -->
+  <main class="main">
+    <!-- ── TOPBAR ── -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title-wrap">
+          <h2 id="pageTitle">Dashboard Geral & Métricas</h2>
+          <p id="pageSubtitle">Visão executiva de VGV, conversão de leads e carteira ativa</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearch" placeholder="Buscar por código, bairro ou cliente..." oninput="handleGlobalSearch(this.value)" />
+        </div>
+        <button class="btn btn-outline" onclick="openNewLeadModal()">
+          <span>+</span> Novo Lead
+        </button>
+        <button class="btn btn-primary" onclick="openNewPropertyModal()">
+          <span>+</span> Cadastrar Imóvel
+        </button>
+      </div>
+    </header>
+
+    <!-- ── CONTENT BODY ── -->
+    <div class="content-body">
+
+      <!-- ============================================================ -->
+      <!-- TAB 1: DASHBOARD -->
+      <!-- ============================================================ -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <!-- KPIs Principais -->
+        <div class="kpi-row">
+          <div class="kpi-card" style="--kpi-color: #0284c7; --kpi-bg: #f0f9ff;">
+            <div class="kpi-header">
+              <span class="kpi-title">VGV em Carteira (Vendas)</span>
+              <div class="kpi-icon-pill">💎</div>
+            </div>
+            <div class="kpi-number" id="kpiVgv">R$ 48.650.000</div>
+            <div class="kpi-footnote">
+              <span class="trend-pos">↑ +14.2%</span> vs trimestre anterior
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--kpi-color: #10b981; --kpi-bg: #ecfdf5;">
+            <div class="kpi-header">
+              <span class="kpi-title">Taxa de Conversão SLA</span>
+              <div class="kpi-icon-pill">⚡</div>
+            </div>
+            <div class="kpi-number">28.4%</div>
+            <div class="kpi-footnote">
+              <span class="trend-pos">↑ Resposta média: 4 min</span>
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--kpi-color: #f59e0b; --kpi-bg: #fffbeb;">
+            <div class="kpi-header">
+              <span class="kpi-title">Taxa de Vacância (Locação)</span>
+              <div class="kpi-icon-pill">📉</div>
+            </div>
+            <div class="kpi-number">4.2%</div>
+            <div class="kpi-footnote">
+              <span class="trend-pos">↓ -1.8%</span> Excelente índice
+            </div>
+          </div>
+
+          <div class="kpi-card" style="--kpi-color: #6366f1; --kpi-bg: #eef2ff;">
+            <div class="kpi-header">
+              <span class="kpi-title">Comissão Projetada (Mês)</span>
+              <div class="kpi-icon-pill">💰</div>
+            </div>
+            <div class="kpi-number">R$ 142.800</div>
+            <div class="kpi-footnote">
+              <span>🎯 86% da meta atingida</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layout 2 Colunas: Funil + Destaques -->
+        <div class="grid-2col">
+          <!-- Visão Rápida de Atividades & Integrações de Portais -->
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Integração Multicanal de Leads & Portais</h3>
+                <p class="panel-subtitle">Sincronização em tempo real via XML/API (ZAP, VivaReal, OLX e Meta Ads)</p>
+              </div>
+              <span class="status-badge status-ativo">● Webhook Ativo</span>
+            </div>
+            <div class="panel-body">
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+                <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
+                  <strong style="font-size: 11px; color: var(--muted); display: block;">ZAP Imóveis</strong>
+                  <span style="font-size: 18px; font-weight: 800; color: #0284c7;">42 leads</span>
+                  <small style="display:block; color: var(--emerald); font-size: 10px; font-weight: 700;">4 fechamentos</small>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
+                  <strong style="font-size: 11px; color: var(--muted); display: block;">VivaReal</strong>
+                  <span style="font-size: 18px; font-weight: 800; color: #0284c7;">38 leads</span>
+                  <small style="display:block; color: var(--emerald); font-size: 10px; font-weight: 700;">3 fechamentos</small>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
+                  <strong style="font-size: 11px; color: var(--muted); display: block;">Instagram/Meta</strong>
+                  <span style="font-size: 18px; font-weight: 800; color: #0284c7;">29 leads</span>
+                  <small style="display:block; color: var(--emerald); font-size: 10px; font-weight: 700;">2 fechamentos</small>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
+                  <strong style="font-size: 11px; color: var(--muted); display: block;">Site Direto</strong>
+                  <span style="font-size: 18px; font-weight: 800; color: #0284c7;">19 leads</span>
+                  <small style="display:block; color: var(--emerald); font-size: 10px; font-weight: 700;">2 fechamentos</small>
+                </div>
+              </div>
+
+              <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: var(--navy);">Leads Prioritários Aguardando Resposta (SLA &lt; 15 min)</h4>
+              <div id="urgentLeadsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Próximas Visitas Agendadas -->
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Visitas de Hoje</h3>
+                <p class="panel-subtitle">Sincronizado com Google Calendar</p>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="switchTab('visitas')">Ver Todas</button>
+            </div>
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 12px;" id="dashboardVisits">
+              <!-- Dinâmico -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Imóveis em Destaque no Dashboard -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Oportunidades com Alto Potencial de Fechamento</h3>
+              <p class="panel-subtitle">Imóveis com mais de 10 interessados qualificados no CRM</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="switchTab('imoveis')">Explorar Todos</button>
+          </div>
+          <div class="panel-body">
+            <div class="properties-grid" id="dashFeaturedProperties">
+              <!-- Renderizado via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 2: GESTÃO DE IMÓVEIS -->
+      <!-- ============================================================ -->
+      <section id="tab-imoveis" class="tab-pane">
+        <div class="filter-bar">
+          <select class="filter-select" id="filterType" onchange="applyPropertyFilters()">
+            <option value="ALL">Todos os Tipos</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Casa em Condomínio">Casa em Condomínio</option>
+            <option value="Cobertura">Cobertura</option>
+            <option value="Comercial">Sala Comercial</option>
+          </select>
+
+          <select class="filter-select" id="filterPurpose" onchange="applyPropertyFilters()">
+            <option value="ALL">Finalidade: Todas</option>
+            <option value="Venda">Venda</option>
+            <option value="Locação">Locação</option>
+          </select>
+
+          <select class="filter-select" id="filterBairro" onchange="applyPropertyFilters()">
+            <option value="ALL">Todos os Bairros</option>
+            <option value="Jardins">Jardins</option>
+            <option value="Vila Nova Conceição">Vila Nova Conceição</option>
+            <option value="Moema">Moema</option>
+            <option value="Pinheiros">Pinheiros</option>
+            <option value="Itaim Bibi">Itaim Bibi</option>
+          </select>
+
+          <div class="filter-pills">
+            <button class="filter-pill active" onclick="setQuickPill(this, 'ALL')">Todos (<span id="countAll">0</span>)</button>
+            <button class="filter-pill" onclick="setQuickPill(this, 'Venda')">Venda</button>
+            <button class="filter-pill" onclick="setQuickPill(this, 'Locação')">Locação</button>
+            <button class="filter-pill" onclick="setQuickPill(this, 'Exclusivo')">Exclusivos</button>
+          </div>
+        </div>
+
+        <div class="properties-grid" id="propertiesCatalog">
+          <!-- Renderizado via JS -->
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 3: FUNIL DE LEADS & CRM -->
+      <!-- ============================================================ -->
+      <section id="tab-crm" class="tab-pane">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--navy);">Pipeline de Negociações Ativas</h3>
+            <p style="font-size: 12px; color: var(--muted);">Arraste ou clique nos cards para evoluir a etapa do cliente</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" onclick="exportLeadsCSV()">📥 Exportar Relatório CRM</button>
+            <button class="btn btn-primary btn-sm" onclick="openNewLeadModal()">+ Adicionar Lead</button>
+          </div>
+        </div>
+
+        <div class="kanban-board" id="kanbanBoard">
+          <!-- 5 Colunas Kanban Renderizadas Dinamicamente -->
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 4: AGENDA DE VISITAS -->
+      <!-- ============================================================ -->
+      <section id="tab-visitas" class="tab-pane">
+        <div class="grid-2col">
+          <div class="panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Agendamentos Confirmados</h3>
+              <button class="btn btn-emerald btn-sm" onclick="openScheduleVisitModal()">+ Agendar Visita</button>
+            </div>
+            <div class="panel-body">
+              <div style="display: flex; flex-direction: column; gap: 14px;" id="visitasListFull">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Checklist Pós-Visita do Corretor</h3>
+            </div>
+            <div class="panel-body">
+              <p style="font-size: 12.5px; color: var(--muted); margin-bottom: 14px;">
+                Padronização para envio de proposta e coleta de percepção do comprador:
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" checked /> Enviar mensagem no WhatsApp 1h após a visita
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" checked /> Registrar feedback sobre valor vs estado de conservação
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" checked /> Enviar espelho de proposta digital se houver interesse
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" /> Notificar proprietário via painel com dados da visita
+                </label>
+              </div>
+
+              <div style="margin-top: 20px; padding: 14px; background: var(--primary-subtle); border-radius: 10px; border: 1px solid #bae6fd;">
+                <h4 style="font-size: 12.5px; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px;">💡 Disparo Inteligente WhatsApp</h4>
+                <p style="font-size: 11.5px; color: var(--navy); margin-bottom: 10px;">Clique para abrir a conversa já com modelo pronto para o lead.</p>
+                <button class="btn btn-emerald btn-sm" style="width: 100%; justify-content: center;" onclick="sendWhatsAppDirect('Olá! Como foi sua experiência na visita de hoje? Gostaria de tirar alguma dúvida ou formular uma proposta?')">
+                  📱 Disparar Mensagem de Follow-up
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 5: SIMULADOR DE CRÉDITO IMOBILIÁRIO -->
+      <!-- ============================================================ -->
+      <section id="tab-simulador" class="tab-pane">
+        <div class="sim-card">
+          <div style="margin-bottom: 22px;">
+            <h3 style="font-size: 18px; font-weight: 800; color: var(--navy);">Simulador de Financiamento Imobiliário Multibancos</h3>
+            <p style="font-size: 13px; color: var(--muted);">Calcule parcelas nos sistemas SAC (decrescente) e Price (fixa) com comparativo de taxas nominais.</p>
+          </div>
+
+          <div class="sim-grid">
+            <div>
+              <div class="form-group">
+                <label class="form-label">Valor do Imóvel (R$)</label>
+                <input type="number" id="simValorImovel" class="form-control" value="850000" step="10000" oninput="calculateFinancing()" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Valor da Entrada (R$)</label>
+                <input type="number" id="simValorEntrada" class="form-control" value="170000" step="5000" oninput="calculateFinancing()" />
+                <small style="color: var(--muted); font-size: 11px;">Entrada mínima padrão recomendada: 20%</small>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Prazo de Amortização (Anos)</label>
+                <div class="range-wrap">
+                  <input type="range" id="simPrazoAnos" min="5" max="35" value="30" oninput="document.getElementById('simPrazoVal').innerText = this.value + ' anos'; calculateFinancing();" />
+                  <span class="range-val" id="simPrazoVal">30 anos</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Sistema de Amortização</label>
+                <select id="simSistema" class="form-control" onchange="calculateFinancing()">
+                  <option value="SAC">SAC (Parcelas decrescentes - Mais vantajoso a longo prazo)</option>
+                  <option value="PRICE">PRICE (Parcelas fixas - Menor valor inicial)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Taxa de Juros Anual Média (%)</label>
+                <input type="number" id="simTaxaJuros" class="form-control" value="9.8" step="0.1" oninput="calculateFinancing()" />
+              </div>
+            </div>
+
+            <div class="sim-result-box">
+              <div>
+                <div class="result-kpi-block">
+                  <small>Valor a Ser Financiado</small>
+                  <h3 id="resValorFinanciado">R$ 680.000</h3>
+                </div>
+
+                <div class="result-kpi-block">
+                  <small>Primeira Parcela Estimada</small>
+                  <h3 id="resPrimeiraParcela" style="color: #38bdf8;">R$ 6.320 /mês</h3>
+                </div>
+
+                <div class="result-kpi-block">
+                  <small>Renda Familiar Mínima Sugerida</small>
+                  <h4 id="resRendaMinima" style="font-size: 20px; font-weight: 700; color: #34d399;">R$ 21.066</h4>
+                  <small style="color: rgba(255,255,255,0.4); font-size: 10px;">Comprometimento máximo de 30% da renda</small>
+                </div>
+              </div>
+
+              <div>
+                <strong style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.6);">Benchmark de Bancos Parceiros:</strong>
+                <table class="bank-comparison-table">
+                  <thead>
+                    <tr>
+                      <th>Instituição</th>
+                      <th>Taxa a.a.</th>
+                      <th>Parcela Inicial</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bankTableBody">
+                    <!-- Dinâmico -->
+                  </tbody>
+                </table>
+
+                <button class="btn btn-emerald" style="width: 100%; margin-top: 16px; justify-content: center;" onclick="gerarPropostaCredito()">
+                  📄 Gerar Simulação em PDF / WhatsApp
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 6: LOCAÇÕES & REPASSES -->
+      <!-- ============================================================ -->
+      <section id="tab-locacao" class="tab-pane">
+        <div class="kpi-row" style="margin-bottom: 20px;">
+          <div class="kpi-card" style="--kpi-color: #10b981;">
+            <div class="kpi-header"><span class="kpi-title">Aluguéis em Dia</span><div class="kpi-icon-pill">✅</div></div>
+            <div class="kpi-number">96.8%</div>
+            <div class="kpi-footnote">Índice saudável de adimplência</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color: #0284c7;">
+            <div class="kpi-header"><span class="kpi-title">Repasse a Proprietários (Mês)</span><div class="kpi-icon-pill">🏦</div></div>
+            <div class="kpi-number">R$ 384.200</div>
+            <div class="kpi-footnote">Programado para o dia 10</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color: #f59e0b;">
+            <div class="kpi-header"><span class="kpi-title">Reajustes Próximos (IPCA)</span><div class="kpi-icon-pill">📈</div></div>
+            <div class="kpi-number">7 contratos</div>
+            <div class="kpi-footnote">Reajuste médio projetado: +4.6%</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color: #6366f1;">
+            <div class="kpi-header"><span class="kpi-title">Taxa de Administração Retida</span><div class="kpi-icon-pill">💵</div></div>
+            <div class="kpi-number">R$ 34.578</div>
+            <div class="kpi-footnote">Honorários de 8% a 10%</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">Contratos de Locação Ativos & Vistorias</h3>
+              <p class="panel-subtitle">Garantias locatícias, vencimentos e histórico de vistorias com laudo fotográfico</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Novo contrato iniciado no sistema!')">+ Novo Contrato</button>
+          </div>
+          <div class="panel-body" style="padding: 0;">
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Cód. / Imóvel</th>
+                    <th>Inquilino / Contato</th>
+                    <th>Proprietário</th>
+                    <th>Aluguel Líquido</th>
+                    <th>Garantia</th>
+                    <th>Reajuste</th>
+                    <th>Status Pagamento</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="locacoesTableBody">
+                  <!-- Dinâmico -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TAB 7: INTELIGÊNCIA DE MERCADO -->
+      <!-- ============================================================ -->
+      <section id="tab-inteligencia" class="tab-pane">
+        <div class="grid-2col">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Preço Médio do M² por Bairro (Venda)</h3>
+                <p class="panel-subtitle">Base de dados de transações reais registradas em cartório</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="neighborhoodList">
+                <!-- Dinâmico -->
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Calculadora de Valuation & Yield</h3>
+                <p class="panel-subtitle">Estime o potencial de rentabilidade de aluguel (Cap Rate)</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="form-label">Valor de Aquisição do Imóvel (R$)</label>
+                <input type="number" id="yieldValorCompra" class="form-control" value="650000" oninput="calcYield()" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Aluguel Mensal Estimado (R$)</label>
+                <input type="number" id="yieldAluguel" class="form-control" value="3400" oninput="calcYield()" />
+              </div>
+
+              <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-top: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 12px; color: var(--muted);">Yield Bruto Anual:</span>
+                  <strong style="font-size: 16px; color: var(--emerald);" id="yieldBruto">6.28% a.a.</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 12px; color: var(--muted);">Retorno Anual Estimado:</span>
+                  <strong style="font-size: 14px; color: var(--navy);" id="yieldRetornoTotal">R$ 40.800 /ano</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="font-size: 12px; color: var(--muted);">Tempo de Payback estimado:</span>
+                  <strong style="font-size: 14px; color: var(--primary);" id="yieldPayback">15.9 anos</strong>
+                </div>
+              </div>
+
+              <div style="margin-top: 16px;">
+                <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="showToast('Relatório de Inteligência baixado com sucesso!')">
+                  📊 Exportar Parecer de Mercado (PTAM)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ── MODAL: DETALHES DO IMÓVEL ── -->
+  <div class="modal-overlay" id="modalPropDetail">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <span class="prop-ref" id="modPropRef">REF #IMO-101</span>
+          <h3 class="modal-title" id="modPropTitle">Apartamento Alto Padrão nos Jardins</h3>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalPropDetail')">✕</button>
+      </div>
+      <div class="modal-body" id="modPropBody">
+        <!-- Dinâmico -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modalPropDetail')">Fechar</button>
+        <button class="btn btn-emerald" id="modPropWhatsAppBtn" onclick="contactOwnerWhatsApp()">
+          📱 Enviar Ficha no WhatsApp
+        </button>
+        <button class="btn btn-primary" onclick="openScheduleVisitModal()">📅 Agendar Visita</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: CADASTRAR NOVO IMÓVEL ── -->
+  <div class="modal-overlay" id="modalNewProperty">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Cadastrar Novo Imóvel na Carteira</h3>
+        <button class="modal-close" onclick="closeModal('modalNewProperty')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label">Título do Anúncio</label>
+            <input type="text" id="newPropTitle" class="form-control" placeholder="Ex: Cobertura Duplex Vista Panorâmica" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de Imóvel</label>
+            <select id="newPropType" class="form-control">
+              <option value="Apartamento">Apartamento</option>
+              <option value="Casa em Condomínio">Casa em Condomínio</option>
+              <option value="Cobertura">Cobertura</option>
+              <option value="Comercial">Sala Comercial</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Finalidade</label>
+            <select id="newPropPurpose" class="form-control">
+              <option value="Venda">Venda</option>
+              <option value="Locação">Locação</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bairro / Região</label>
+            <input type="text" id="newPropBairro" class="form-control" placeholder="Ex: Moema" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Valor (R$)</label>
+            <input type="number" id="newPropPrice" class="form-control" placeholder="Ex: 950000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Área Útil (m²)</label>
+            <input type="number" id="newPropArea" class="form-control" placeholder="Ex: 110" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quartos / Suítes</label>
+            <input type="text" id="newPropQuartos" class="form-control" placeholder="Ex: 3 quartos (2 suítes)" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Vagas de Garagem</label>
+            <input type="number" id="newPropVagas" class="form-control" placeholder="Ex: 2" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Condomínio Mensal (R$)</label>
+            <input type="number" id="newPropCondo" class="form-control" placeholder="Ex: 980" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modalNewProperty')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveNewProperty()">💾 Salvar e Publicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: NOVO LEAD CRM ── -->
+  <div class="modal-overlay" id="modalNewLead">
+    <div class="modal" style="width: 540px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Adicionar Novo Lead Qualificado</h3>
+        <button class="modal-close" onclick="closeModal('modalNewLead')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nome Completo do Cliente</label>
+          <input type="text" id="leadName" class="form-control" placeholder="Ex: Rodrigo Mendonça" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone / WhatsApp</label>
+          <input type="text" id="leadPhone" class="form-control" placeholder="Ex: (11) 98765-4321" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Interesse</label>
+          <input type="text" id="leadInterest" class="form-control" placeholder="Ex: Apartamento 3 dorms em Moema" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Orçamento Estimado (R$)</label>
+          <input type="number" id="leadBudget" class="form-control" placeholder="Ex: 1200000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Etapa Inicial no Funil</label>
+          <select id="leadStage" class="form-control">
+            <option value="novo">1. Novo Lead (Entrada)</option>
+            <option value="qualificacao">2. Em Qualificação</option>
+            <option value="visita">3. Visita Agendada</option>
+            <option value="proposta">4. Proposta Enviada</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modalNewLead')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveNewLead()">Cadastrar Lead</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST CONTAINER ── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ── JAVASCRIPT LOGIC & STATE ── -->
+  <script>
+    // ESTADO DA APLICAÇÃO (DADOS REALISTAS DE IMOBILIÁRIA)
+    const state = {
+      imoveis: [
+        {
+          id: 1,
+          ref: "IMO-101",
+          title: "Apartamento Luxo com Vista para o Parque",
+          type: "Apartamento",
+          purpose: "Venda",
+          exclusive: true,
+          bairro: "Jardins",
+          city: "São Paulo - SP",
+          price: 2450000,
+          condo: 1850,
+          area: 165,
+          bedrooms: 3,
+          suites: 3,
+          bathrooms: 4,
+          parking: 3,
+          image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+          description: "Belíssimo apartamento reformado com marcenaria planejada, varanda gourmet envidraçada integrada ao living, ar-condicionado em todos os ambientes e lazer completo.",
+          owner: "Mariana Alcantara",
+          ownerPhone: "11999887766"
+        },
+        {
+          id: 2,
+          ref: "IMO-204",
+          title: "Casa Contemporânea em Condomínio Fechado",
+          type: "Casa em Condomínio",
+          purpose: "Venda",
+          exclusive: true,
+          bairro: "Vila Nova Conceição",
+          city: "São Paulo - SP",
+          price: 5900000,
+          condo: 3200,
+          area: 420,
+          bedrooms: 4,
+          suites: 4,
+          bathrooms: 6,
+          parking: 4,
+          image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          description: "Residência de alto padrão com piscina aquecida privativa, energia solar, automação residencial e segurança armada 24h.",
+          owner: "Roberto Simonsen",
+          ownerPhone: "11988776655"
+        },
+        {
+          id: 3,
+          ref: "IMO-309",
+          title: "Studio Moderno Próximo ao Metrô e Faria Lima",
+          type: "Apartamento",
+          purpose: "Locação",
+          exclusive: false,
+          bairro: "Pinheiros",
+          city: "São Paulo - SP",
+          price: 4200,
+          condo: 580,
+          area: 45,
+          bedrooms: 1,
+          suites: 1,
+          bathrooms: 1,
+          parking: 1,
+          image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          description: "Studio 100% mobiliado e decorado, pronto para morar ou locação short-stay. Condomínio com coworking, academia completa e rooftop.",
+          owner: "Fernanda Lima",
+          ownerPhone: "11977665544"
+        },
+        {
+          id: 4,
+          ref: "IMO-412",
+          title: "Cobertura Duplex com Piscina Privativa",
+          type: "Cobertura",
+          purpose: "Venda",
+          exclusive: true,
+          bairro: "Moema",
+          city: "São Paulo - SP",
+          price: 4300000,
+          condo: 2400,
+          area: 280,
+          bedrooms: 4,
+          suites: 3,
+          bathrooms: 5,
+          parking: 3,
+          image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+          description: "Cobertura única em Moema Pássaros. Deck com jacuzzi,終了 churrasqueira a carvão, lareira e vista permanente para o Parque do Ibirapuera.",
+          owner: "Carlos Eduardo Braga",
+          ownerPhone: "11966554433"
+        },
+        {
+          id: 5,
+          ref: "IMO-520",
+          title: "Conjunto Comercial Triple A - Faria Lima",
+          type: "Comercial",
+          purpose: "Locação",
+          exclusive: false,
+          bairro: "Itaim Bibi",
+          city: "São Paulo - SP",
+          price: 18500,
+          condo: 4200,
+          area: 190,
+          bedrooms: 0,
+          suites: 0,
+          bathrooms: 4,
+          parking: 5,
+          image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+          description: "Laje corporativa com piso elevado, forro acústico, gerador 100% para áreas privativas e heliponto homologado.",
+          owner: "VBI Investimentos",
+          ownerPhone: "11955443322"
+        },
+        {
+          id: 6,
+          ref: "IMO-618",
+          title: "Apartamento Garden em Rua Arborizada",
+          type: "Apartamento",
+          purpose: "Venda",
+          exclusive: false,
+          bairro: "Moema",
+          city: "São Paulo - SP",
+          price: 1890000,
+          condo: 1200,
+          area: 140,
+          bedrooms: 3,
+          suites: 2,
+          bathrooms: 3,
+          parking: 2,
+          image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          description: "Sensação de morar em casa com a segurança de um edifício moderno. Quintal privativo com jardim e espaço gourmet.",
+          owner: "Juliana Paes",
+          ownerPhone: "11944332211"
+        }
+      ],
+
+      leads: [
+        { id: 101, name: "Guilherme Sampaio", phone: "11991234567", budget: 2500000, interest: "Apto 3 suítes nos Jardins", stage: "novo", score: "hot", timeAgo: "12 min atrás", slaOk: true },
+        { id: 102, name: "Beatriz Nogueira", phone: "11982345678", budget: 4500000, interest: "Cobertura em Moema", stage: "qualificacao", score: "hot", timeAgo: "1h atrás", slaOk: true },
+        { id: 103, name: "Marcelo Dantas", phone: "11973456789", budget: 6000000, interest: "Casa Condomínio Vila Nova", stage: "visita", score: "hot", timeAgo: "Hoje às 15:00", slaOk: true },
+        { id: 104, name: "Camila Vianna", phone: "11964567890", budget: 4500, interest: "Studio Locação Pinheiros", stage: "proposta", score: "warm", timeAgo: "Ontem", slaOk: true },
+        { id: 105, name: "Dr. André Valente", phone: "11955678901", budget: 1900000, interest: "Garden Moema", stage: "fechado", score: "hot", timeAgo: "Contrato Assinado", slaOk: true },
+        { id: 106, name: "Fábio e Patrícia", phone: "11946789012", budget: 2200000, interest: "Apto Jardins ou Pinheiros", stage: "novo", score: "warm", timeAgo: "25 min atrás", slaOk: true },
+        { id: 107, name: "Renata Cordeiro", phone: "11937890123", budget: 18000, interest: "Laje Comercial Itaim", stage: "qualificacao", score: "hot", timeAgo: "3h atrás", slaOk: true }
+      ],
+
+      visitas: [
+        { id: 1, time: "14:30", client: "Marcelo Dantas", property: "Casa Vila Nova Conceição (REF #IMO-204)", broker: "Jeferson Oliveira", status: "Confirmada via WhatsApp" },
+        { id: 2, time: "16:00", client: "Beatriz Nogueira", property: "Cobertura Duplex Moema (REF #IMO-412)", broker: "Jeferson Oliveira", status: "Em deslocamento" },
+        { id: 3, time: "17:30", client: "Fábio e Patrícia", property: "Apto Luxo Jardins (REF #IMO-101)", broker: "Jeferson Oliveira", status: "Confirmada" }
+      ],
+
+      locacoes: [
+        { id: 1, ref: "IMO-309", property: "Studio Pinheiros 45m²", tenant: "Lucas Medeiros", tenantPhone: "11988887777", owner: "Fernanda Lima", rent: 4200, condo: 580, guarantee: "Seguro Fiança (Porto Seguro)", adjust: "IPCA (Jul/25)", status: "Em Dia" },
+        { id: 2, ref: "IMO-520", property: "Conjunto Comercial 190m² Itaim", tenant: "NexTech Software S.A.", tenantPhone: "11977776666", owner: "VBI Investimentos", rent: 18500, condo: 4200, guarantee: "Carta Fiança Bancária", adjust: "IGP-M (Out/25)", status: "Em Dia" },
+        { id: 3, ref: "IMO-882", property: "Apto 2 Dorms Moema", tenant: "Renata Silveira", tenantPhone: "11966665555", owner: "Paulo Antunes", rent: 3800, condo: 720, guarantee: "Título de Capitalização", adjust: "IPCA (Próx. Mês)", status: "Reajuste Pendente" }
+      ],
+
+      neighborhoods: [
+        { name: "Vila Nova Conceição", avgPrice: 18900, pct: 95 },
+        { name: "Jardins / Pauliceia", avgPrice: 16400, pct: 82 },
+        { name: "Itaim Bibi", avgPrice: 15800, pct: 79 },
+        { name: "Moema", avgPrice: 14200, pct: 71 },
+        { name: "Pinheiros", avgPrice: 13500, pct: 67 }
+      ]
+    };
+
+    // FORMATAÇÃO DE MOEDA
+    function formatMoney(val) {
+      return Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+    }
+
+    // NAVEGAÇÃO ENTRE TABS
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById('tab-' + tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      const titles = {
+        'dashboard': ['Dashboard Geral & Métricas', 'Visão executiva de VGV, conversão de leads e carteira ativa'],
+        'imoveis': ['Carteira de Imóveis', 'Catálogo completo de venda e locação com filtros avançados'],
+        'crm': ['Funil de Vendas & CRM de Leads', 'Acompanhamento do ciclo de vida e atendimento em tempo hábil'],
+        'visitas': ['Agenda de Visitas & Roteiros', 'Agendamentos confirmados e roteiro de visitas do corretor'],
+        'simulador': ['Simulador de Financiamento', 'Cálculo de parcelas SAC/Price e comparativo com bancos'],
+        'locacao': ['Gestão de Locações & Repasses', 'Controle de contratos, garantias, inadimplência e vistorias'],
+        'inteligencia': ['Inteligência de Mercado & Valuation', 'Preço do m², análise de bairros e rentabilidade (Yield)']
+      };
+
+      if (titles[tabId]) {
+        document.getElementById('pageTitle').innerText = titles[tabId][0];
+        document.getElementById('pageSubtitle').innerText = titles[tabId][1];
+      }
+
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabId)) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // RENDERIZAÇÃO DE IMÓVEIS
+    function renderProperties(list, containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      container.innerHTML = list.map(item => `
+        <div class="property-card" onclick="openPropertyDetail(${item.id})">
+          <div class="prop-image-wrap">
+            <img src="${item.image}" alt="${item.title}" loading="lazy" />
+            <div class="prop-badges">
+              <span class="badge-tag ${item.purpose === 'Venda' ? 'badge-venda' : 'badge-aluguel'}">${item.purpose}</span>
+              ${item.exclusive ? `<span class="badge-tag badge-exclusivo">⭐ Exclusivo</span>` : ''}
+            </div>
+            <div class="prop-fav" onclick="event.stopPropagation(); toggleFav(this)">🤍</div>
+          </div>
+          <div class="prop-body">
+            <span class="prop-ref">${item.ref} • ${item.type}</span>
+            <h4 class="prop-title">${item.title}</h4>
+            <p class="prop-address">📍 ${item.bairro}, ${item.city}</p>
+            
+            <div class="prop-specs">
+              <div class="spec-item">
+                <span>Área</span>
+                <strong>${item.area}m²</strong>
+              </div>
+              <div class="spec-item">
+                <span>Quartos</span>
+                <strong>${item.bedrooms} (${item.suites}s)</strong>
+              </div>
+              <div class="spec-item">
+                <span>Banheiros</span>
+                <strong>${item.bathrooms}</strong>
+              </div>
+              <div class="spec-item">
+                <span>Vagas</span>
+                <strong>${item.parking}</strong>
+              </div>
+            </div>
+
+            <div class="prop-footer">
+              <div>
+                <span class="prop-price-label">${item.purpose === 'Venda' ? 'Valor de Venda' : 'Aluguel /mês'}</span>
+                <div class="prop-price-val">${formatMoney(item.price)}</div>
+              </div>
+              <div style="text-align: right;">
+                <span class="prop-condo">Cond. ${formatMoney(item.condo)}</span>
+                <div>
+                  <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPropertyDetail(${item.id})">Ver Ficha</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // FILTRO DE IMÓVEIS
+    function applyPropertyFilters() {
+      const type = document.getElementById('filterType').value;
+      const purpose = document.getElementById('filterPurpose').value;
+      const bairro = document.getElementById('filterBairro').value;
+
+      let filtered = state.imoveis.filter(item => {
+        const matchType = type === 'ALL' || item.type === type;
+        const matchPurpose = purpose === 'ALL' || item.purpose === purpose;
+        const matchBairro = bairro === 'ALL' || item.bairro === bairro;
+        return matchType && matchPurpose && matchBairro;
+      });
+
+      renderProperties(filtered, 'propertiesCatalog');
+    }
+
+    function setQuickPill(el, filter) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+
+      if (filter === 'ALL') {
+        renderProperties(state.imoveis, 'propertiesCatalog');
+      } else if (filter === 'Exclusivo') {
+        renderProperties(state.imoveis.filter(i => i.exclusive), 'propertiesCatalog');
+      } else {
+        renderProperties(state.imoveis.filter(i => i.purpose === filter), 'propertiesCatalog');
+      }
+    }
+
+    // RENDERIZAÇÃO KANBAN (CRM)
+    const stages = [
+      { id: 'novo', title: '1. Novos Leads', color: '#0284c7' },
+      { id: 'qualificacao', title: '2. Em Qualificação', color: '#f59e0b' },
+      { id: 'visita', title: '3. Visita Agendada', color: '#6366f1' },
+      { id: 'proposta', title: '4. Proposta Enviada', color: '#ec4899' },
+      { id: 'fechado', title: '5. Fechado / Ganho', color: '#10b981' }
+    ];
+
+    function renderKanban() {
+      const board = document.getElementById('kanbanBoard');
+      if (!board) return;
+
+      board.innerHTML = stages.map(st => {
+        const stageLeads = state.leads.filter(l => l.stage === st.id);
+        return `
+          <div class="kanban-col" style="--col-color: ${st.color}">
+            <div class="kanban-col-head">
+              <span class="kanban-col-title">${st.title}</span>
+              <span class="kanban-count">${stageLeads.length}</span>
+            </div>
+            <div class="kanban-cards">
+              ${stageLeads.map(lead => `
+                <div class="lead-card" onclick="advanceLeadStage(${lead.id})">
+                  <div class="lead-head">
+                    <strong class="lead-name">${lead.name}</strong>
+                    <span class="lead-score score-${lead.score}">${lead.score.toUpperCase()}</span>
+                  </div>
+                  <div class="lead-interest">🎯 ${lead.interest}</div>
+                  <div class="lead-budget">Orçamento: ${formatMoney(lead.budget)}</div>
+                  <div class="lead-footer">
+                    <span>${lead.timeAgo}</span>
+                    <button class="btn btn-emerald btn-sm" style="padding: 2px 6px; font-size: 10px;" onclick="event.stopPropagation(); sendLeadWhatsApp('${lead.phone}', '${lead.name}', '${lead.interest}')">
+                      📱 WhatsApp
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+              ${stageLeads.length === 0 ? `<div style="text-align:center; padding: 20px; color: var(--muted); font-size: 12px;">Nenhum lead nesta etapa</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function advanceLeadStage(leadId) {
+      const lead = state.leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      const order = ['novo', 'qualificacao', 'visita', 'proposta', 'fechado'];
+      const curIndex = order.indexOf(lead.stage);
+      if (curIndex < order.length - 1) {
+        lead.stage = order[curIndex + 1];
+        showToast(`Lead "${lead.name}" avançou para: ${stages[curIndex + 1].title}`);
+      } else {
+        lead.stage = 'novo';
+        showToast(`Lead "${lead.name}" reiniciado no funil.`);
+      }
+      renderKanban();
+      renderDashboardUrgentLeads();
+    }
+
+    // RENDERIZAÇÃO DE VISITAS
+    function renderVisitas() {
+      const dashContainer = document.getElementById('dashboardVisits');
+      const fullContainer = document.getElementById('visitasListFull');
+
+      const html = state.visitas.map(v => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="background: var(--navy); color: #fff; padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 13px;">
+              ${v.time}
+            </div>
+            <div>
+              <strong style="font-size: 13px; color: var(--navy);">${v.client}</strong>
+              <p style="font-size: 11.5px; color: var(--muted);">${v.property}</p>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-badge status-ativo">${v.status}</span>
+            <small style="display:block; color: var(--muted); font-size: 10.5px; margin-top: 3px;">Corretor: ${v.broker}</small>
+          </div>
+        </div>
+      `).join('');
+
+      if (dashContainer) dashContainer.innerHTML = html;
+      if (fullContainer) fullContainer.innerHTML = html;
+    }
+
+    // LEADS URGENTES DASHBOARD
+    function renderDashboardUrgentLeads() {
+      const container = document.getElementById('urgentLeadsContainer');
+      if (!container) return;
+
+      const urgent = state.leads.filter(l => l.stage === 'novo').slice(0, 3);
+      container.innerHTML = urgent.map(l => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #fff; border: 1px solid var(--border); border-radius: 8px;">
+          <div>
+            <strong style="font-size: 13px; color: var(--navy);">${l.name}</strong>
+            <span style="font-size: 11.5px; color: var(--muted); margin-left: 6px;">• ${l.interest} (${formatMoney(l.budget)})</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="sla-badge sla-alert">⏱️ ${l.timeAgo}</span>
+            <button class="btn btn-emerald btn-sm" onclick="sendLeadWhatsApp('${l.phone}', '${l.name}', '${l.interest}')">Atender Agora</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // TABELA DE LOCAÇÕES
+    function renderLocacoes() {
+      const tbody = document.getElementById('locacoesTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = state.locacoes.map(loc => `
+        <tr>
+          <td><strong>${loc.ref}</strong><br><small style="color: var(--muted);">${loc.property}</small></td>
+          <td><strong>${loc.tenant}</strong><br><small style="color: var(--muted);">${loc.tenantPhone}</small></td>
+          <td>${loc.owner}</td>
+          <td><strong>${formatMoney(loc.rent)}</strong><br><small style="color: var(--muted);">+ Cond. ${formatMoney(loc.condo)}</small></td>
+          <td><span style="font-size: 11px; font-weight: 600; color: var(--navy);">${loc.guarantee}</span></td>
+          <td><span class="status-badge ${loc.status.includes('Reajuste') ? 'status-reajuste' : 'status-ativo'}">${loc.adjust}</span></td>
+          <td><span class="status-badge status-ativo">● ${loc.status}</span></td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Abrindo ficha do contrato ${loc.ref}')">Detalhes</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // INTELIGÊNCIA DE MERCADO
+    function renderMarketData() {
+      const list = document.getElementById('neighborhoodList');
+      if (!list) return;
+
+      list.innerHTML = state.neighborhoods.map(n => `
+        <div class="neighborhood-bar">
+          <span class="neighborhood-name">${n.name}</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: ${n.pct}%"></div>
+          </div>
+          <span class="neighborhood-val">R$ ${n.avgPrice.toLocaleString('pt-BR')}/m²</span>
+        </div>
+      `).join('');
+    }
+
+    // SIMULADOR DE FINANCIAMENTO
+    function calculateFinancing() {
+      const valor = parseFloat(document.getElementById('simValorImovel').value) || 0;
+      const entrada = parseFloat(document.getElementById('simValorEntrada').value) || 0;
+      const prazoAnos = parseInt(document.getElementById('simPrazoAnos').value) || 30;
+      const taxaAnual = parseFloat(document.getElementById('simTaxaJuros').value) || 9.8;
+      const sistema = document.getElementById('simSistema').value;
+
+      const financiado = Math.max(0, valor - entrada);
+      const meses = prazoAnos * 12;
+      const taxaMensal = Math.pow(1 + taxaAnual / 100, 1 / 12) - 1;
+
+      let primeiraParcela = 0;
+      if (sistema === 'SAC') {
+        const amortizacao = financiado / meses;
+        const juros1 = financiado * taxaMensal;
+        primeiraParcela = amortizacao + juros1;
+      } else {
+        // Price
+        primeiraParcela = (financiado * taxaMensal) / (1 - Math.pow(1 + taxaMensal, -meses));
+      }
+
+      const rendaMinima = primeiraParcela / 0.30;
+
+      document.getElementById('resValorFinanciado').innerText = formatMoney(financiado);
+      document.getElementById('resPrimeiraParcela').innerText = formatMoney(primeiraParcela) + ' /mês';
+      document.getElementById('resRendaMinima').innerText = formatMoney(rendaMinima);
+
+      // Bancos Comparativo
+      const bancos = [
+        { nome: "Caixa Econômica", taxa: 9.4 },
+        { nome: "Itaú Unibanco", taxa: 9.8 },
+        { nome: "Bradesco", taxa: 9.9 },
+        { nome: "Santander", taxa: 10.1 }
+      ];
+
+      const tbody = document.getElementById('bankTableBody');
+      if (tbody) {
+        tbody.innerHTML = bancos.map(b => {
+          const tM = Math.pow(1 + b.taxa / 100, 1 / 12) - 1;
+          const p = (financiado / meses) + (financiado * tM);
+          return `
+            <tr>
+              <td><strong>${b.nome}</strong></td>
+              <td>${b.taxa}% a.a.</td>
+              <td><strong>${formatMoney(p)}</strong></td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    // YIELD CALCULATOR
+    function calcYield() {
+      const compra = parseFloat(document.getElementById('yieldValorCompra').value) || 1;
+      const aluguel = parseFloat(document.getElementById('yieldAluguel').value) || 0;
+
+      const anual = aluguel * 12;
+      const yieldPct = (anual / compra) * 100;
+      const payback = compra / anual;
+
+      document.getElementById('yieldBruto').innerText = yieldPct.toFixed(2) + '% a.a.';
+      document.getElementById('yieldRetornoTotal').innerText = formatMoney(anual) + ' /ano';
+      document.getElementById('yieldPayback').innerText = payback.toFixed(1) + ' anos';
+    }
+
+    // MODAL DETALHES IMÓVEL
+    let activeModalProperty = null;
+    function openPropertyDetail(propId) {
+      const prop = state.imoveis.find(p => p.id === propId);
+      if (!prop) return;
+      activeModalProperty = prop;
+
+      document.getElementById('modPropRef').innerText = `${prop.ref} • ${prop.type}`;
+      document.getElementById('modPropTitle').innerText = prop.title;
+
+      document.getElementById('modPropBody').innerHTML = `
+        <div style="border-radius: 12px; overflow: hidden; height: 260px; margin-bottom: 18px; position: relative;">
+          <img src="${prop.image}" style="width:100%; height:100%; object-fit: cover;" />
+          <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,0.75); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; backdrop-filter: blur(4px);">
+            📍 ${prop.bairro}, ${prop.city}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; padding: 14px; border-radius: 10px; margin-bottom: 18px;">
+          <div><small style="color:var(--muted); font-size:11px; display:block;">Valor</small><strong style="font-size:16px; color:var(--navy);">${formatMoney(prop.price)}</strong></div>
+          <div><small style="color:var(--muted); font-size:11px; display:block;">Área Útil</small><strong style="font-size:15px;">${prop.area} m²</strong></div>
+          <div><small style="color:var(--muted); font-size:11px; display:block;">Quartos/Suítes</small><strong style="font-size:15px;">${prop.bedrooms} (${prop.suites}s)</strong></div>
+          <div><small style="color:var(--muted); font-size:11px; display:block;">Condomínio</small><strong style="font-size:15px;">${formatMoney(prop.condo)}</strong></div>
+        </div>
+
+        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 6px;">Descrição do Imóvel</h4>
+        <p style="font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 16px;">${prop.description}</p>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <small style="color: var(--muted); font-size: 11px; display: block;">Proprietário(a) Cadastrado(a)</small>
+            <strong style="font-size: 13px; color: var(--navy);">${prop.owner}</strong>
+          </div>
+          <span class="status-badge status-ativo">✅ Documentação 100% Regular</span>
+        </div>
+      `;
+
+      document.getElementById('modalPropDetail').classList.add('open');
+    }
+
+    function contactOwnerWhatsApp() {
+      if (!activeModalProperty) return;
+      const text = `Olá! Tenho um cliente qualificado muito interessado no seu imóvel ${activeModalProperty.title} (${activeModalProperty.ref}). Gostaria de confirmar disponibilidade para visita.`;
+      window.open(`https://wa.me/55${activeModalProperty.ownerPhone}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function sendLeadWhatsApp(phone, name, interest) {
+      const text = `Olá ${name}, tudo bem? Sou o Jeferson da ImobPRO. Vi que você demonstrou interesse em imóveis com perfil "${interest}". Separei 3 opções exclusivas que combinam perfeitamente com o que você procura. Podemos conversar agora?`;
+      showToast(`WhatsApp aberto para ${name}!`);
+      window.open(`https://wa.me/55${phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function sendWhatsAppDirect(msg) {
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // MODAIS CONTROLE
+    function openNewPropertyModal() { document.getElementById('modalNewProperty').classList.add('open'); }
+    function openNewLeadModal() { document.getElementById('modalNewLead').classList.add('open'); }
+    function openScheduleVisitModal() { showToast('Formulário de visita sincronizado com a agenda!'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    // SALVAR NOVO IMÓVEL
+    function saveNewProperty() {
+      const title = document.getElementById('newPropTitle').value;
+      const type = document.getElementById('newPropType').value;
+      const purpose = document.getElementById('newPropPurpose').value;
+      const bairro = document.getElementById('newPropBairro').value || "Jardins";
+      const price = parseFloat(document.getElementById('newPropPrice').value) || 850000;
+      const area = parseInt(document.getElementById('newPropArea').value) || 90;
+      const condo = parseFloat(document.getElementById('newPropCondo').value) || 750;
+
+      if (!title) {
+        alert("Por favor, preencha o título do imóvel.");
+        return;
+      }
+
+      const newId = state.imoveis.length + 1;
+      const newProp = {
+        id: newId,
+        ref: `IMO-${newId}0${newId}`,
+        title,
+        type,
+        purpose,
+        exclusive: true,
+        bairro,
+        city: "São Paulo - SP",
+        price,
+        condo,
+        area,
+        bedrooms: 3,
+        suites: 1,
+        bathrooms: 2,
+        parking: 2,
+        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
+        description: "Excelente oportunidade recém-cadastrada no sistema com acabamentos de primeira linha e excelente ventilação natural.",
+        owner: "Novo Proprietário",
+        ownerPhone: "11999998888"
+      };
+
+      state.imoveis.unshift(newProp);
+      closeModal('modalNewProperty');
+      renderProperties(state.imoveis, 'propertiesCatalog');
+      renderProperties(state.imoveis.slice(0, 3), 'dashFeaturedProperties');
+      document.getElementById('totalImoveisBadge').innerText = state.imoveis.length;
+      document.getElementById('countAll').innerText = state.imoveis.length;
+      showToast(`Imóvel "${title}" cadastrado com sucesso!`);
+    }
+
+    // SALVAR NOVO LEAD
+    function saveNewLead() {
+      const name = document.getElementById('leadName').value;
+      const phone = document.getElementById('leadPhone').value || "11999999999";
+      const interest = document.getElementById('leadInterest').value || "Apartamento 3 Quartos";
+      const budget = parseFloat(document.getElementById('leadBudget').value) || 1000000;
+      const stage = document.getElementById('leadStage').value;
+
+      if (!name) {
+        alert("Por favor, informe o nome do cliente.");
+        return;
+      }
+
+      const newLead = {
+        id: Date.now(),
+        name,
+        phone,
+        interest,
+        budget,
+        stage,
+        score: "hot",
+        timeAgo: "Agora",
+        slaOk: true
+      };
+
+      state.leads.unshift(newLead);
+      closeModal('modalNewLead');
+      renderKanban();
+      renderDashboardUrgentLeads();
+      showToast(`Lead "${name}" cadastrado e qualificado!`);
+    }
+
+    // BUSCA GLOBAL
+    function handleGlobalSearch(q) {
+      const query = q.toLowerCase();
+      const filtered = state.imoveis.filter(i => 
+        i.title.toLowerCase().includes(query) ||
+        i.bairro.toLowerCase().includes(query) ||
+        i.ref.toLowerCase().includes(query) ||
+        i.type.toLowerCase().includes(query)
+      );
+      renderProperties(filtered, 'propertiesCatalog');
+    }
+
+    function toggleFav(el) {
+      if (el.innerText === '🤍') {
+        el.innerText = '❤️';
+        showToast('Imóvel adicionado aos seus favoritos!');
+      } else {
+        el.innerText = '🤍';
+      }
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="toast-icon">✨</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 20);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function gerarPropostaCredito() {
+      showToast('Simulação formatada em PDF pronta para envio no WhatsApp!');
+    }
+
+    function exportLeadsCSV() {
+      showToast('Exportando 42 leads com métricas de conversão em CSV...');
+    }
+
+    // INICIALIZAÇÃO
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('countAll').innerText = state.imoveis.length;
+      document.getElementById('totalImoveisBadge').innerText = state.imoveis.length;
+      
+      renderProperties(state.imoveis, 'propertiesCatalog');
+      renderProperties(state.imoveis.slice(0, 3), 'dashFeaturedProperties');
+      renderKanban();
+      renderVisitas();
+      renderDashboardUrgentLeads();
+      renderLocacoes();
+      renderMarketData();
+      calculateFinancing();
+      calcYield();
+    });
+  </script>
+</body>
+</html>

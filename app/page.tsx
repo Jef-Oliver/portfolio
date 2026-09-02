@@ -8,6 +8,7 @@ import { GameProvider } from '@/context/GameContext';
 import SalesHero from '@/components/sections/sales/SalesHero';
 import ProductsGrid from '@/components/sections/sales/ProductsGrid';
 import RestaurantePromo from '@/components/sections/sales/RestaurantePromo';
+import ImobiliariaPromo from '@/components/sections/sales/ImobiliariaPromo';
 import SocialProof from '@/components/sections/sales/SocialProof';
 import Testimonials from '@/components/sections/sales/Testimonials';
 import SalesCTA from '@/components/sections/sales/SalesCTA';
@@ -24,6 +25,7 @@ export default function Home() {
         <Marquee variant="hero" />
         <ProductsGrid />
         <RestaurantePromo />
+        <ImobiliariaPromo />
         <Marquee variant="divider" />
         <SocialProof />
         <Testimonials />

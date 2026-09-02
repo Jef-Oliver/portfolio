@@ -82,12 +82,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== 'undefined') {
       const savedName = localStorage.getItem('portfolio_player_name');
       const savedScore = localStorage.getItem('portfolio_player_score');
+      const savedWave = localStorage.getItem('portfolio_player_wave');
       if (savedName) {
         setPlayerNameState(savedName);
         setHasAskedName(true);
       }
       if (savedScore) {
         setScore(parseInt(savedScore, 10) || 0);
+      }
+      if (savedWave) {
+        setWave(parseInt(savedWave, 10) || 1);
       }
     }
   }, []);
@@ -139,7 +143,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const nextWave = () => {
-    setWave((prev) => (prev < 5 ? prev + 1 : 1));
+    setWave((prev) => {
+      const next = prev < 99 ? prev + 1 : 1;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('portfolio_player_wave', next.toString());
+      }
+      return next;
+    });
   };
 
   // Level calculated by EXP

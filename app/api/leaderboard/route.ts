@@ -32,7 +32,12 @@ export async function GET() {
         name: sanitizeText(item.name || 'Visitante'),
         score: Math.min(Math.max(0, parseInt(item.score, 10) || 0), MAX_ALLOWED_SCORE),
       }))
-      .filter((item) => item.name.length >= 2 && item.score <= MAX_ALLOWED_SCORE)
+      .filter(
+        (item) =>
+          item.name.length >= 2 &&
+          item.score <= MAX_ALLOWED_SCORE &&
+          item.name.toLowerCase() !== 'hallison'
+      )
       .slice(0, 10);
 
     return NextResponse.json({

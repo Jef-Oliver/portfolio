@@ -29,6 +29,7 @@ interface GameContextType {
   wave: number;
   setWave: (wave: number) => void;
   nextWave: () => void;
+  resetPlayer: () => void;
 }
 
 const defaultContextValue: GameContextType = {
@@ -44,6 +45,7 @@ const defaultContextValue: GameContextType = {
   wave: 1,
   setWave: () => {},
   nextWave: () => {},
+  resetPlayer: () => {},
 };
 
 const GameContext = createContext<GameContextType>(defaultContextValue);
@@ -152,6 +154,18 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const resetPlayer = () => {
+    setPlayerNameState('');
+    setScore(0);
+    setWave(1);
+    setHasAskedName(false);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('portfolio_player_name');
+      localStorage.removeItem('portfolio_player_score');
+      localStorage.removeItem('portfolio_player_wave');
+    }
+  };
+
   // Level calculated by EXP
   const level = Math.floor(score / 100) + 1;
 
@@ -183,6 +197,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         wave,
         setWave,
         nextWave,
+        resetPlayer,
       }}
     >
       {children}

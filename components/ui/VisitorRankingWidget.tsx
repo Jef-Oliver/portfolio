@@ -6,7 +6,7 @@ import { Trophy, ChevronUp, ChevronDown, User, Flame, Crown } from 'lucide-react
 import { useGame } from '@/context/GameContext';
 
 export default function VisitorRankingWidget() {
-  const { playerName, score, level, leaderboard, wave } = useGame();
+  const { playerName, score, level, leaderboard, wave, resetPlayer } = useGame();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const displayName = playerName || 'Visitante Convidado';
@@ -100,7 +100,16 @@ export default function VisitorRankingWidget() {
             <div className="pt-2 border-t border-[#1A1A1A] flex items-center justify-between text-[11px]">
               <div className="flex items-center gap-1.5 text-gray-300">
                 <User className="w-3 h-3 text-[#00FF41]" />
-                <span className="truncate max-w-[110px]">{displayName}</span>
+                <span className="truncate max-w-[100px]">{displayName}</span>
+                {playerName && (
+                  <button
+                    onClick={() => resetPlayer()}
+                    title="Trocar de jogador / resetar"
+                    className="text-gray-500 hover:text-red-400 text-[10px] underline ml-1 cursor-pointer transition-colors"
+                  >
+                    (sair)
+                  </button>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] bg-[#00FF41]/10 text-[#00FF41] px-1.5 py-0.5 rounded border border-[#00FF41]/20 font-bold">

@@ -18,7 +18,7 @@ const DEFAULT_LEADERBOARD: LeaderboardEntry[] = [
 
 interface GameContextType {
   playerName: string;
-  setPlayerName: (name: string) => void;
+  setPlayerName: (name: string, isGuest?: boolean) => void;
   score: number;
   addScore: (points: number) => void;
   leaderboard: LeaderboardEntry[];
@@ -57,6 +57,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [globalLeaderboard, setGlobalLeaderboard] = useState<LeaderboardEntry[]>(DEFAULT_LEADERBOARD);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
   const [wave, setWave] = useState<number>(1);
+  const [sessionToken, setSessionToken] = useState<string>('');
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 1. Fetch global leaderboard from Supabase on mount
@@ -85,6 +86,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const savedName = localStorage.getItem('portfolio_player_name');
       const savedScore = localStorage.getItem('portfolio_player_score');
       const savedWave = localStorage.getItem('portfolio_player_wave');
+      const savedToken = localStorage.getItem('portfolio_session_token');
+
+      if (savedToken) {
+        setSessionToken(savedToken);
+      }
+
       if (savedName) {
         setPlayerNameState(savedName);
         setHasAskedName(true);
@@ -98,9 +105,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // 2. Sync player score with Supabase backend
-  const syncScoreToBackend = (nameToSync: string, scoreToSync: number) => {
+  // 2. Sync player score with Supabase backend, sending cryptographic token
+  const syncScoreToBackend = (nameToSync: string, scoreToSync: number, tokenToSync?: string) => {
     if (!nameToSync) return;
+    const token = tokenToSync || sessionToken;
+    if (!token) return; // Cannot sync score without valid authenticated session token
+
     if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
 
     syncTimeoutRef.current = setTimeout(async () => {
@@ -108,7 +118,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         const res = await fetch('/api/leaderboard', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: nameToSync, score: scoreToSync }),
+          body: JSON.stringify({ name: nameToSync, score: scoreToSync, sessionToken: token }),
         });
         if (res.ok) {
           const json = await res.json();
@@ -122,13 +132,34 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }, 600);
   };
 
-  const setPlayerName = (name: string) => {
-    setPlayerNameState(name);
-    setHasAskedName(true);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('portfolio_player_name', name);
+  const setPlayerName = async (name: string, isGuest = false) => {
+    try {
+      // Request a cryptographically signed session token from the backend
+      const res = await fetch('/api/leaderboard/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, isGuest }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const validName = data.name;
+        const token = data.sessionToken;
+
+        setPlayerNameState(validName);
+        setSessionToken(token);
+        setHasAskedName(true);
+
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('portfolio_player_name', validName);
+          localStorage.setItem('portfolio_session_token', token);
+        }
+
+        syncScoreToBackend(validName, score, token);
+      }
+    } catch (err) {
+      console.error('Failed to initialize player session token:', err);
     }
-    syncScoreToBackend(name, score);
   };
 
   const addScore = (points: number) => {
@@ -137,7 +168,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (typeof window !== 'undefined') {
         localStorage.setItem('portfolio_player_score', newScore.toString());
       }
-      if (playerName) {
+      if (playerName && sessionToken) {
         syncScoreToBackend(playerName, newScore);
       }
       return newScore;
@@ -158,11 +189,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setPlayerNameState('');
     setScore(0);
     setWave(1);
+    setSessionToken('');
     setHasAskedName(false);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('portfolio_player_name');
       localStorage.removeItem('portfolio_player_score');
       localStorage.removeItem('portfolio_player_wave');
+      localStorage.removeItem('portfolio_session_token');
     }
   };
 

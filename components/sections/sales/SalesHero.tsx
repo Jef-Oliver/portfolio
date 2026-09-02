@@ -246,9 +246,8 @@ export default function SalesHero() {
 
   // Handle Guest Entry
   const handleGuestSubmit = () => {
-    const guestName = `Visitante #${Math.floor(100 + Math.random() * 900)}`;
-    setPlayerName(guestName);
-    setLines((prev) => [...prev, `> Acesso liberado como ${guestName}`]);
+    setPlayerName('', true);
+    setLines((prev) => [...prev, `> Acesso liberado como Visitante`]);
     setIsAskingName(false);
 
     setTimeout(() => {
@@ -261,7 +260,7 @@ export default function SalesHero() {
     setLines(TYPING_LINES);
     setDone(true);
     if (!playerName) {
-      setPlayerName(`Visitante #${Math.floor(100 + Math.random() * 900)}`);
+      setPlayerName('', true);
     }
     setIsDocked(true);
   };

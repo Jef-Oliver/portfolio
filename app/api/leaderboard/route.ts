@@ -34,9 +34,8 @@ export async function GET() {
       }))
       .filter(
         (item) =>
-          item.name.length >= 2 &&
           item.score <= MAX_ALLOWED_SCORE &&
-          item.name.toLowerCase() !== 'hallison'
+          validatePlayerName(item.name).valid
       )
       .slice(0, 10);
 
@@ -48,27 +47,53 @@ export async function GET() {
   }
 }
 
+import { verifyGameSessionToken, validateScorePlausibility } from '@/lib/gameSecurity';
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, score = 0 } = body;
+    const { name, score = 0, sessionToken } = body;
+
+    // 1. Mandatory Session Token Verification (anti-curl / anti-postman)
+    // The player MUST have been initialized via the site's onboarding modal
+    if (!sessionToken) {
+      return NextResponse.json(
+        { error: 'Acesso negado: Sessão não autorizada ou chamada fora da aplicação.' },
+        { status: 403 }
+      );
+    }
+
+    const tokenVerification = verifyGameSessionToken(sessionToken);
+    if (!tokenVerification.valid || !tokenVerification.payload) {
+      return NextResponse.json(
+        { error: `Falha na verificação de integridade: ${tokenVerification.error || 'Token inválido'}.` },
+        { status: 403 }
+      );
+    }
+
+    // 2. Cross-check name in payload with name in token to prevent spoofing
+    if (tokenVerification.payload.name.toLowerCase() !== (name || '').trim().toLowerCase()) {
+      return NextResponse.json(
+        { error: 'Tentativa de falsificação de identidade detectada.' },
+        { status: 403 }
+      );
+    }
+
+    // 3. Mathematical plausibility check (anti-cheat speed/value)
+    const sessionDurationSeconds = (Date.now() - tokenVerification.payload.sessionStartedAt) / 1000;
+    const rawScore = parseInt(score, 10);
+    const plausibility = validateScorePlausibility(rawScore, sessionDurationSeconds);
+
+    if (!plausibility.plausible) {
+      return NextResponse.json(
+        { error: `Detecção anti-cheat: ${plausibility.reason}` },
+        { status: 400 }
+      );
+    }
 
     const validation = validatePlayerName(name || '');
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
-    }
-
-    const rawScore = parseInt(score, 10);
-    if (isNaN(rawScore) || rawScore < 0) {
-      return NextResponse.json({ error: 'Pontuação inválida.' }, { status: 400 });
-    }
-
-    // Reject obvious score injections (> 3500)
-    if (rawScore > MAX_ALLOWED_SCORE) {
-      return NextResponse.json(
-        { error: `Pontuação excede o limite máximo permitido (${MAX_ALLOWED_SCORE} EXP).` },
-        { status: 400 }
-      );
     }
 
     const cleanName = validation.cleanName;
@@ -103,7 +128,11 @@ export async function POST(req: Request) {
             name: sanitizeText(item.name || 'Visitante'),
             score: Math.min(Math.max(0, parseInt(item.score, 10) || 0), MAX_ALLOWED_SCORE),
           }))
-          .filter((item) => item.name.length >= 2 && item.score <= MAX_ALLOWED_SCORE)
+          .filter(
+            (item) =>
+              item.score <= MAX_ALLOWED_SCORE &&
+              validatePlayerName(item.name).valid
+          )
           .slice(0, 10)
       : FALLBACK_LEADERBOARD;
 

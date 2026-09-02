@@ -6,7 +6,9 @@ const BLOCKED_TERMS = [
   'bosta', 'merda', 'cacete', 'foder', 'fode', 'fodase', 'foda-se', 'boquete', 'siririca',
   'punheta', 'esporra', 'vagabundo', 'vagabunda', 'otario', 'otaria', 'babaca', 'nazista',
   'hitler', 'sexo', 'porn', 'xxx', 'dick', 'pussy', 'bitch', 'asshole', 'fuck',
-  'script', 'iframe', 'javascript', 'onload', 'onerror', 'eval', 'document', 'cookie', 'window'
+  'script', 'iframe', 'javascript', 'onload', 'onerror', 'eval', 'document', 'cookie', 'window',
+  // Specific anti-troll pattern
+  'hallison', 'hall-is-on', 'hall_is_on', 'hall is on', 'halison'
 ];
 
 export function sanitizeText(input: string): string {

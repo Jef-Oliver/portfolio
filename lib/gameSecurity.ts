@@ -79,11 +79,6 @@ export function validateScorePlausibility(
   currentScore: number,
   sessionDurationSeconds: number
 ): { plausible: boolean; reason?: string } {
-  // Max score in game universe is 3500
-  if (currentScore > 3500) {
-    return { plausible: false, reason: 'Pontuação acima do limite máximo físico do jogo (3500).' };
-  }
-
   if (currentScore < 0) {
     return { plausible: false, reason: 'Pontuação negativa não permitida.' };
   }
@@ -93,11 +88,13 @@ export function validateScorePlausibility(
     return { plausible: false, reason: 'Taxa de cliques e ganho de EXP humanamente impossível.' };
   }
 
-  // Maximum feasible EXP gain rate is ~450 EXP per minute
-  const maxPossibleExp = Math.max(150, Math.ceil((sessionDurationSeconds / 60) * 450) + 100);
-  if (currentScore > maxPossibleExp && sessionDurationSeconds > 10) {
-    return { plausible: false, reason: 'Taxa de ganho de EXP excede o limite físico do jogo por minuto.' };
+  // Maximum feasible EXP gain rate is ~800 EXP per minute of intense gameplay
+  // Allows infinite score scaling over time without any artificial ceiling
+  const maxPossibleExp = Math.max(250, Math.ceil((sessionDurationSeconds / 60) * 800) + 200);
+  if (currentScore > maxPossibleExp && sessionDurationSeconds > 8) {
+    return { plausible: false, reason: 'Taxa de ganho de EXP excede o limite físico possível por segundo.' };
   }
 
   return { plausible: true };
 }
+

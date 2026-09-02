@@ -11,9 +11,6 @@ const FALLBACK_LEADERBOARD = [
   { name: 'Carlos Eduardo', score: 120 },
 ];
 
-// Maximum achievable score in game mechanics (anti-cheat threshold)
-const MAX_ALLOWED_SCORE = 3500;
-
 export async function GET() {
   try {
     const { data, error } = await supabase
@@ -26,17 +23,13 @@ export async function GET() {
       return NextResponse.json({ leaderboard: FALLBACK_LEADERBOARD });
     }
 
-    // Sanitize database output (filter out any previously injected XSS or cheated 99999 scores)
+    // Sanitize database output and filter names against profanity/troll list
     const sanitizedData = data
       .map((item) => ({
         name: sanitizeText(item.name || 'Visitante'),
-        score: Math.min(Math.max(0, parseInt(item.score, 10) || 0), MAX_ALLOWED_SCORE),
+        score: Math.max(0, parseInt(item.score, 10) || 0),
       }))
-      .filter(
-        (item) =>
-          item.score <= MAX_ALLOWED_SCORE &&
-          validatePlayerName(item.name).valid
-      )
+      .filter((item) => validatePlayerName(item.name).valid)
       .slice(0, 10);
 
     return NextResponse.json({
@@ -97,7 +90,7 @@ export async function POST(req: Request) {
     }
 
     const cleanName = validation.cleanName;
-    const cleanScore = Math.min(rawScore, MAX_ALLOWED_SCORE);
+    const cleanScore = Math.max(0, rawScore);
 
     // Upsert into Supabase visitors table
     const { error: upsertError } = await supabase
@@ -126,13 +119,9 @@ export async function POST(req: Request) {
       ? updatedData
           .map((item) => ({
             name: sanitizeText(item.name || 'Visitante'),
-            score: Math.min(Math.max(0, parseInt(item.score, 10) || 0), MAX_ALLOWED_SCORE),
+            score: Math.max(0, parseInt(item.score, 10) || 0),
           }))
-          .filter(
-            (item) =>
-              item.score <= MAX_ALLOWED_SCORE &&
-              validatePlayerName(item.name).valid
-          )
+          .filter((item) => validatePlayerName(item.name).valid)
           .slice(0, 10)
       : FALLBACK_LEADERBOARD;
 

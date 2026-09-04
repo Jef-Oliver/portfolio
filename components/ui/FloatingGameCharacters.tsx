@@ -400,8 +400,8 @@ function EnemyEntity({
   // so it is ALWAYS in front of all page content (header, sections, cards, text).
   return (
     <div
-      data-game-target="true"
-      className="fixed pointer-events-auto select-none z-[9999] group cursor-crosshair"
+      data-game-target={!isDead ? "true" : undefined}
+      className={`fixed select-none z-[9999] group ${isDead ? 'pointer-events-none' : 'pointer-events-auto cursor-crosshair'}`}
       style={{
         left: `${config.initialX}%`,
         top: `${config.initialY}%`,

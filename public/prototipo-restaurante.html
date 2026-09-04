@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>RestaurantePRO | Painel de Gestão e Operações PDV</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -57,12 +57,29 @@
       color: var(--text);
       display: flex;
       min-height: 100vh;
+      min-height: -webkit-fill-available;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* SIDEBAR */
+    /* SIDEBAR & BACKDROP */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 150;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .sidebar-backdrop.open {
+      display: block;
+      opacity: 1;
+      pointer-events: all;
+    }
+
     .sidebar {
       width: var(--sidebar-w);
       background: var(--sidebar-bg);
@@ -70,23 +87,36 @@
       flex-direction: column;
       position: fixed;
       top: 0; left: 0; bottom: 0;
-      z-index: 100;
+      z-index: 160;
       border-right: 1px solid var(--sidebar-border);
       padding: 0 0 16px;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .sidebar-logo {
-      padding: 20px 18px 18px;
+      padding: 18px 18px 16px;
       border-bottom: 1px solid var(--sidebar-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .sidebar-logo h1 {
+    .sidebar-logo-title {
       font-size: 16px; font-weight: 700;
       color: #FFFFFF; letter-spacing: -0.02em;
-      display: flex; align-items: center; gap: 8px;
     }
-    .sidebar-logo h1 span { color: #F87171; }
+    .sidebar-logo-title span { color: #F87171; }
     .sidebar-logo p {
       font-size: 9.5px; color: #94A3B8; margin-top: 3px;
       letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;
+    }
+    .sidebar-close-btn {
+      display: none;
+      width: 30px; height: 30px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #E2E8F0;
+      cursor: pointer;
+      align-items: center; justify-content: center;
     }
 
     .tenant-badge {
@@ -114,14 +144,14 @@
       width: 5px; height: 5px; border-radius: 50%; background: #34D399;
     }
 
-    nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
+    nav { flex: 1; padding: 10px 8px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .nav-section-label {
       font-size: 9.5px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.06em; color: #64748B; padding: 12px 10px 6px;
     }
     .nav-item {
       display: flex; align-items: center; gap: 10px;
-      padding: 8px 12px; border-radius: var(--radius-sm); cursor: pointer;
+      padding: 9px 12px; border-radius: var(--radius-sm); cursor: pointer;
       font-size: 12.5px; font-weight: 500; color: #94A3B8;
       transition: all 0.15s ease; margin-bottom: 2px; text-decoration: none;
     }
@@ -132,7 +162,7 @@
     }
     .nav-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 16px; height: 16px;
+      width: 16px; height: 16px; flex-shrink: 0;
     }
     .nav-badge {
       margin-left: auto; background: var(--brand); color: #FFFFFF;
@@ -151,7 +181,7 @@
       background: #1E293B; border: 1px solid #334155;
       border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600; color: #FFFFFF;
+      font-size: 11px; font-weight: 600; color: #FFFFFF; flex-shrink: 0;
     }
     .user-info p { font-size: 12px; font-weight: 600; color: #FFFFFF; }
     .user-info span { font-size: 10.5px; color: #94A3B8; }
@@ -161,6 +191,7 @@
       margin-left: var(--sidebar-w);
       flex: 1; display: flex; flex-direction: column; min-height: 100vh;
       background: var(--bg);
+      width: 100%;
     }
 
     /* TOPBAR */
@@ -170,10 +201,19 @@
       display: flex; align-items: center; justify-content: space-between;
       position: sticky; top: 0; z-index: 50; gap: 16px;
     }
-    .topbar-left { display: flex; align-items: center; gap: 16px; }
-    .topbar-title { font-size: 15px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
+    .topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .mobile-menu-btn {
+      display: none;
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: transparent; border: 1px solid var(--border);
+      align-items: center; justify-content: center;
+      color: var(--primary); cursor: pointer; flex-shrink: 0;
+    }
+    .mobile-menu-btn:hover { background: var(--bg); }
+    .topbar-title { font-size: 15px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; white-space: nowrap; }
     .topbar-subtitle { font-size: 12px; color: var(--muted); margin-top: 1px; }
-    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
     .btn {
       height: 38px;
@@ -203,6 +243,7 @@
     .btn-green:disabled {
       background: #E2E8F0; border-color: #E2E8F0; color: #94A3B8; cursor: not-allowed;
     }
+    .btn-sm { height: 32px; padding: 0 10px; font-size: 12px; }
 
     .icon-btn {
       width: 38px; height: 38px; border-radius: var(--radius-sm);
@@ -231,7 +272,7 @@
     .dummy-list-item {
       display: flex; justify-content: space-between; align-items: center;
       padding: 12px 0; border-bottom: 1px solid var(--border-subtle);
-      font-size: 13px; color: var(--primary);
+      font-size: 13px; color: var(--primary); gap: 10px;
     }
     .dummy-list-item:last-child { border-bottom: none; }
 
@@ -262,16 +303,26 @@
     .kpi-trend { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; margin-top: 4px; }
     .trend-up { color: var(--emerald-text); }
 
-    /* SECTION HEADER */
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    /* SECTION HEADER & STATUS BAR */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 12px; }
     .section-title { font-size: 14px; font-weight: 600; color: var(--primary); letter-spacing: -0.01em; }
     .section-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .status-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    
+    .status-bar {
+      display: flex; gap: 6px; align-items: center;
+      overflow-x: auto; flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 2px 0 4px;
+    }
+    .status-bar::-webkit-scrollbar { display: none; }
+
     .pill {
       display: inline-flex; align-items: center; gap: 5px;
-      padding: 4px 10px; border-radius: 4px;
+      padding: 5px 10px; border-radius: 4px;
       font-size: 11.5px; font-weight: 500; cursor: pointer;
       border: 1px solid transparent; transition: all 0.15s ease;
+      white-space: nowrap; flex-shrink: 0;
     }
     .pill-all { background: var(--primary); color: #FFFFFF; font-weight: 600; }
     .pill-livre { background: var(--emerald-subtle); color: var(--emerald-text); border-color: var(--emerald-border); }
@@ -327,7 +378,7 @@
     }
     .mesa-info strong { color: var(--primary); font-weight: 600; }
 
-    /* MODAL */
+    /* MODAL COMANDA */
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
@@ -343,6 +394,7 @@
       box-shadow: var(--shadow-lg);
       transform: translateY(10px) scale(0.98);
       transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-overflow-scrolling: touch;
     }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
     .modal-header {
@@ -353,7 +405,7 @@
     .modal-title { font-size: 15px; font-weight: 700; color: var(--primary); letter-spacing: -0.01em; }
     .modal-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
     .modal-close {
-      width: 30px; height: 30px; border-radius: var(--radius-sm);
+      width: 32px; height: 32px; border-radius: var(--radius-sm);
       background: transparent; border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; color: var(--muted); flex-shrink: 0; transition: all 0.15s ease;
@@ -364,19 +416,19 @@
     /* ITENS LIST */
     .itens-list { margin-bottom: 16px; }
     .item-row {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 10px;
       padding: 8px 0; border-bottom: 1px solid var(--border-subtle);
     }
     .item-cat-badge {
       font-size: 9.5px; font-weight: 600; text-transform: uppercase;
       padding: 2px 6px; border-radius: 4px;
       background: #F1F5F9; color: var(--muted); border: 1px solid var(--border);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.04em; flex-shrink: 0;
     }
-    .item-info { flex: 1; }
+    .item-info { flex: 1; min-width: 0; }
     .item-name { font-size: 13px; font-weight: 600; color: var(--primary); }
     .item-obs { font-size: 11px; color: var(--muted); margin-top: 1px; }
-    .item-qty { display: flex; align-items: center; gap: 6px; }
+    .item-qty { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .qty-btn {
       width: 24px; height: 24px; border-radius: 4px;
       background: #FFFFFF; border: 1px solid var(--border);
@@ -386,7 +438,7 @@
     }
     .qty-btn:hover { background: #F1F5F9; border-color: #CBD5E1; }
     .qty-num { font-size: 12.5px; font-weight: 600; min-width: 18px; text-align: center; }
-    .item-price { font-size: 13px; font-weight: 600; color: var(--primary); min-width: 68px; text-align: right; }
+    .item-price { font-size: 13px; font-weight: 600; color: var(--primary); min-width: 64px; text-align: right; flex-shrink: 0; }
 
     /* RESUMO FINANCEIRO */
     .resumo-box {
@@ -424,7 +476,7 @@
     .pgto-desc { flex: 1; font-weight: 500; color: var(--emerald-text); }
     .pgto-val { font-weight: 700; color: var(--emerald-text); }
     .pgto-del {
-      width: 20px; height: 20px; border-radius: 4px;
+      width: 22px; height: 22px; border-radius: 4px;
       background: transparent; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       color: var(--brand); transition: background 0.15s ease;
@@ -443,7 +495,7 @@
     .pgto-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
     .pgto-chip {
       display: flex; align-items: center; gap: 6px;
-      padding: 5px 12px; border-radius: 4px;
+      padding: 6px 12px; border-radius: 4px;
       border: 1px solid var(--border); background: #FFFFFF;
       font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s ease;
       color: var(--muted);
@@ -525,23 +577,140 @@
       box-shadow: var(--shadow-lg);
     }
     body { padding-bottom: 54px !important; }
+
+    /* ═══════════════ RESPONSIVIDADE COMPLETA (S25+, iPhones, Tablets) ═══════════════ */
     @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { margin-left: 0; }
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .topbar { padding: 0 16px; }
-      .content { padding: 16px; }
-      #prototype-banner { flex-direction: column; padding: 12px 16px; gap: 10px; }
+      .mobile-menu-btn { display: flex; }
+      .sidebar-close-btn { display: flex; }
+
+      .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+        box-shadow: none;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+      }
+
+      .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+
+      .topbar {
+        padding: 0 14px;
+        height: 56px;
+        gap: 8px;
+      }
+      .topbar-subtitle { display: none; }
+      .topbar-title { font-size: 14px; }
+      .topbar-right .icon-btn { width: 34px; height: 34px; }
+      .topbar-right .btn-primary { height: 34px; padding: 0 10px; font-size: 11.5px; }
+
+      .content { padding: 14px 14px 24px; }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .kpi-card { padding: 14px 12px; }
+      .kpi-value { font-size: 18px; }
+      .kpi-label { font-size: 10px; }
+
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .section-header .status-bar { width: 100%; }
+
+      .mesas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .mesa-card { padding: 12px 10px; }
+      .mesa-numero { font-size: 20px; }
+      .mesa-nome { font-size: 9.5px; margin-bottom: 6px; }
+      .mesa-status-badge { font-size: 9.5px; padding: 2px 6px; }
+      .mesa-info { font-size: 10.5px; margin-top: 8px; padding-top: 6px; }
+
+      /* Modal Bottom Sheet */
+      .modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .modal {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh;
+        border-radius: 16px 16px 0 0;
+        border-bottom: none;
+      }
+      .modal-header { padding: 14px 16px 12px; }
+      .modal-body { padding: 14px 16px; }
+      .modal-footer {
+        padding: 12px 16px max(14px, env(safe-area-inset-bottom));
+        flex-direction: column;
+        gap: 8px;
+      }
+      .modal-footer .btn { width: 100%; height: 42px; font-size: 13px; }
+
+      .item-row { flex-wrap: wrap; gap: 8px; padding: 10px 0; }
+      .item-info { flex: 1; min-width: 130px; }
+      .item-qty { margin-left: auto; }
+      .item-price { font-size: 12.5px; min-width: 60px; }
+
+      .add-pgto-row { flex-direction: column; }
+      .add-pgto-row .valor-input { width: 100%; }
+      .add-pgto-row .btn-add-pgto { width: 100%; }
+
+      /* Prototype banner no celular */
+      #prototype-banner {
+        padding: 8px 14px max(8px, env(safe-area-inset-bottom));
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      #prototype-banner > div:first-child p { display: none; }
+      #prototype-banner > div:last-child { gap: 6px; }
+      #prototype-banner > div:last-child a {
+        padding: 5px 10px !important;
+        font-size: 11px !important;
+      }
+
+      .toast {
+        left: 14px; right: 14px; bottom: 64px;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .mesas-grid {
+        grid-template-columns: 1fr;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- BACKDROP MOBILE -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
+
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <h1>Restaurante<span>PRO</span></h1>
-      <p>Gestão de Salão & Delivery | v2.0</p>
+      <div>
+        <div class="sidebar-logo-title">Restaurante<span>PRO</span></div>
+        <p>Gestão de Salão & Delivery | v2.0</p>
+      </div>
+      <button class="sidebar-close-btn" onclick="closeMobileSidebar()" aria-label="Fechar menu"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="tenant-badge">
       <div class="tenant-avatar">RE</div>
@@ -579,6 +748,9 @@
   <main class="main">
     <div class="topbar">
       <div class="topbar-left">
+        <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Abrir Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <div>
           <div class="topbar-title" id="pageTitle">Mesas & Comandas</div>
           <div class="topbar-subtitle" id="pageDate"></div>
@@ -588,7 +760,7 @@
         <div class="icon-btn" title="Notificações"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="notif-dot"></span></div>
         <div class="icon-btn" title="Impressora"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg></div>
         <button class="btn btn-primary" onclick="showToast('Selecione uma mesa livre no mapa para abrir a comanda.')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Comanda
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> <span class="btn-text">Nova Comanda</span>
         </button>
       </div>
     </div>
@@ -601,22 +773,22 @@
           <div class="kpi-card">
             <div class="kpi-top"><span class="kpi-label">Faturamento do Dia</span><div class="kpi-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div>
             <div class="kpi-value">R$ 1.847,00</div>
-            <div class="kpi-trend trend-up">+12% vs mesmo período anterior</div>
+            <div class="kpi-trend trend-up">+12% vs ontem</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-top"><span class="kpi-label">Mesas em Atendimento</span><div class="kpi-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div></div>
             <div class="kpi-value">3 / 12</div>
-            <div class="kpi-sub">4 reservas programadas para hoje</div>
+            <div class="kpi-sub">4 reservas para hoje</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-top"><span class="kpi-label">Ticket Médio por Mesa</span><div class="kpi-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></div></div>
+            <div class="kpi-top"><span class="kpi-label">Ticket Médio</span><div class="kpi-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></div></div>
             <div class="kpi-value">R$ 84,50</div>
             <div class="kpi-trend trend-up">+7% vs semana anterior</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-top"><span class="kpi-label">NFC-e Transmitidas</span><div class="kpi-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M16 8h-8"/><path d="M16 12h-8"/><path d="M10 16h-2"/></svg></div></div>
             <div class="kpi-value">18</div>
-            <div class="kpi-sub">1 pendente de transmissão SEFAZ</div>
+            <div class="kpi-sub">1 pendente SEFAZ</div>
           </div>
         </div>
 
@@ -694,7 +866,7 @@
         <div class="dummy-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
             <h3 style="font-size: 15px; font-weight: 700; color: var(--primary);">Cardápio & Ficha Técnica</h3>
-            <button class="btn btn-primary btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo Item</button>
+            <button class="btn btn-primary btn-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo Item</button>
           </div>
           <div class="dummy-list-item"><span>Pizza Margherita Tradicional</span><strong>R$ 45,90</strong></div>
           <div class="dummy-list-item"><span>Hambúrguer Artesanal Blend 180g</span><strong>R$ 42,00</strong></div>
@@ -740,7 +912,7 @@
         <div class="dummy-panel">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
             <h3 style="font-size: 15px; font-weight: 700; color: var(--primary);">Equipe e Controle de Acessos</h3>
-            <button class="btn btn-primary btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo Operador</button>
+            <button class="btn btn-primary btn-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo Operador</button>
           </div>
           <div class="dummy-list-item"><span>Jeferson Oliveira</span><span class="pill pill-all">Administrador</span></div>
           <div class="dummy-list-item"><span>Ana Silva</span><span class="pill pill-livre">Atendente / Garçom</span></div>
@@ -863,7 +1035,7 @@
 
   <!-- BANNER PROTÓTIPO -->
   <div id="prototype-banner">
-    <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+    <div style="display:flex; align-items:center; gap:10px; min-width:0;">
       <div style="
         background: #1E293B; color: #FFFFFF; font-size: 10px; font-weight: 700;
         padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase;
@@ -877,23 +1049,23 @@
       </p>
     </div>
 
-    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
       <a href="/" style="
-        color: #94A3B8; font-size: 12px; text-decoration: none; padding: 6px 12px;
+        color: #94A3B8; font-size: 11.5px; text-decoration: none; padding: 6px 10px;
         border: 1px solid #334155; border-radius: 6px; transition: all 0.15s ease; white-space: nowrap;
       ">
         Voltar ao Site
       </a>
       <a href="https://wa.me/5563992678596?text=Olá!%20Vi%20o%20protótipo%20do%20RestaurantePRO%20e%20tenho%20interesse%20em%20um%20sistema%20assim!" target="_blank" style="
-        background: var(--emerald); color: #FFFFFF; font-size: 12px; font-weight: 600;
-        padding: 6px 14px; border-radius: 6px; text-decoration: none; display: flex; align-items: center; gap: 6px;
+        background: var(--emerald); color: #FFFFFF; font-size: 11.5px; font-weight: 600;
+        padding: 6px 12px; border-radius: 6px; text-decoration: none; display: flex; align-items: center; gap: 6px;
         white-space: nowrap; transition: all 0.15s ease;
       ">
         Solicitar Demonstração
       </a>
       <button onclick="document.getElementById('prototype-banner').style.display='none'" style="
         background: none; border: none; color: #64748B; font-size: 16px; cursor: pointer;
-        padding: 4px 8px; line-height: 1; transition: color 0.15s ease;
+        padding: 4px 6px; line-height: 1; transition: color 0.15s ease;
       " title="Fechar banner"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
   </div>
@@ -935,6 +1107,21 @@
     let mesaSelecionada = null;
     let pagamentos = [];
     let formaSelecionada = 'Dinheiro';
+
+    // CONTROLE SIDEBAR MOBILE
+    function toggleMobileSidebar() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      sb.classList.toggle('open');
+      bd.classList.toggle('open');
+    }
+
+    function closeMobileSidebar() {
+      const sb = document.getElementById('sidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (sb) sb.classList.remove('open');
+      if (bd) bd.classList.remove('open');
+    }
 
     function renderMesas() {
       const grid = document.getElementById('mesasGrid');
@@ -1039,9 +1226,9 @@
       const troco = Math.max(0, pago - total);
 
       document.getElementById('rSubtotal').textContent = fmtR(sub);
-      document.getElementById('rServico').textContent = fmtR(serv);
-      document.getElementById('rTotal').textContent = fmtR(total);
-      document.getElementById('rPago').textContent = fmtR(pago);
+      document.getElementById('rServico').textContent  = fmtR(serv);
+      document.getElementById('rTotal').textContent    = fmtR(total);
+      document.getElementById('rPago').textContent     = fmtR(pago);
       document.getElementById('rRestante').textContent = fmtR(rest);
 
       const rowRest = document.getElementById('rowRestante');
@@ -1137,6 +1324,7 @@
     }
 
     function setPage(page, el) {
+      closeMobileSidebar();
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
       el.classList.add('active');
       const titles = {
@@ -1168,6 +1356,13 @@
       document.getElementById('pageDate').textContent =
         now.toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' }) +
         ' | ' + now.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    // Otimização para iframe (esconde banner duplicado dentro do Next.js no mobile)
+    if (window.self !== window.top) {
+      const banner = document.getElementById('prototype-banner');
+      if (banner) banner.style.display = 'none';
+      document.body.style.paddingBottom = '0px';
     }
 
     renderMesas();

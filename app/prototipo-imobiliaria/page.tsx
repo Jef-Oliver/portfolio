@@ -23,7 +23,8 @@ export default function PrototipoImobiliariaPage() {
             className="flex items-center gap-2 text-xs md:text-sm text-gray-300 hover:text-neon transition-colors px-3 py-1.5 rounded-lg border border-dark-border hover:border-neon/40 bg-black/40"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Voltar ao Site</span>
+            <span className="hidden sm:inline">Voltar ao Site</span>
+            <span className="sm:hidden">Voltar</span>
           </Link>
           <div className="hidden sm:flex items-center gap-2 pl-3 border-l border-dark-border">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -48,10 +49,11 @@ export default function PrototipoImobiliariaPage() {
             href={`https://wa.me/${CONTACT.whatsapp}?text=${whatsappMsg}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-neon text-xs py-1.5 px-3 md:px-4 flex items-center gap-1.5"
+            className="btn-neon text-xs py-1.5 px-2.5 sm:px-4 flex items-center gap-1.5 whitespace-nowrap"
           >
             <MessageCircle className="w-3.5 h-3.5" />
-            <span>Quero um Sistema Assim</span>
+            <span className="hidden sm:inline">Quero um Sistema Assim</span>
+            <span className="sm:hidden">Contratar</span>
           </a>
         </div>
       </header>

@@ -12,7 +12,7 @@ export default function Learning() {
           <h2 className="heading-lg text-light mb-4">O Que Estou Aprendendo</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-            Mantendo o repertório sempre atualizado para construir backends mais
+            Mantendo o repertório sempre atualizado para construir soluções Fullstack mais
             inteligentes, resilientes e escaláveis.
           </p>
         </div>

@@ -191,7 +191,7 @@ export const PROJECTS: ProjectShowcase[] = [
 
 export const SKILLS_BY_CATEGORY = {
   backend: {
-    title: 'Backend (Especialidade)',
+    title: 'Backend & APIs (Arquitetura)',
     icon: Boxes,
     skills: [
       'Python (Django, FastAPI, Flask)',
@@ -203,7 +203,7 @@ export const SKILLS_BY_CATEGORY = {
     ],
   },
   database: {
-    title: 'Banco de Dados (Especialidade)',
+    title: 'Banco de Dados',
     icon: Network,
     skills: [
       'PostgreSQL (JSONB, window functions, query optimization)',
@@ -236,7 +236,7 @@ export const SKILLS_BY_CATEGORY = {
     ],
   },
   frontend: {
-    title: 'Frontend & Integrações (Capacidade)',
+    title: 'Frontend & Interface (Fullstack)',
     icon: Sparkles,
     skills: [
       'React, Angular 19, TypeScript, JavaScript',
@@ -252,10 +252,11 @@ export const EXPERIENCE: ExperienceItem[] = [
   {
     company: 'Governo do Estado do Tocantins',
     period: 'Jun 2023 - Presente',
-    position: 'Analista de Sistemas | Desenvolvedor Backend Python',
+    position: 'Analista de Sistemas | Desenvolvedor Fullstack & Suporte Técnico',
     responsibilities: [
-      'Liderança técnica na modernização do Webponto',
-      'Arquitetura de sistema de reconhecimento facial',
+      'Desenvolvimento Fullstack de ponta a ponta na modernização do Webponto',
+      'Arquitetura de sistema de reconhecimento facial e interfaces responsivas',
+      'Suporte técnico especializado de nível avançado e resolução de incidentes críticos',
       'Implementação de pipeline CI/CD com Docker e GCP',
       'Definição de padrões de API, logging e observabilidade para serviços críticos',
     ],

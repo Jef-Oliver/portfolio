@@ -92,7 +92,7 @@ export default function SocialProof() {
               Governo do Estado do Tocantins
             </h3>
             <p className="text-gray-text mb-4">
-              Analista de Sistemas | Desenvolvedor Backend · Jun/2023 – Presente
+              Analista de Sistemas | Desenvolvedor Fullstack &amp; Suporte Técnico · Jun/2023 – Presente
             </p>
             <div className="flex flex-wrap gap-2 justify-center mb-6">
               {['Python', 'Django', 'Angular', 'Java Spring Boot', 'PostgreSQL', 'Docker', 'GCP'].map(tech => (

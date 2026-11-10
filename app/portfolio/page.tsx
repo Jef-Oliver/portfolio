@@ -4,12 +4,12 @@ import PortfolioPage from '@/components/sections/portfolio/PortfolioPage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portfólio | Jef Oliver — Backend Developer',
+  title: 'Portfólio | Jef Oliver — Full Stack Developer',
   description:
-    'Full Stack Developer com 4 anos de experiência em Python, Django, Java Spring Boot, Angular e sistemas corporativos. Veja minha experiência, skills e projetos.',
+    'Desenvolvedor Full Stack com 4 anos de experiência em Python, Django, Next.js, React, Angular, Java Spring Boot e suporte técnico de sistemas corporativos.',
   keywords: [
-    'Backend Developer', 'Python', 'Django', 'FastAPI', 'Java', 'Spring Boot',
-    'PostgreSQL', 'Docker', 'Google Cloud Platform', 'Full Stack Developer',
+    'Full Stack Developer', 'Desenvolvedor Full Stack', 'Python', 'Django', 'FastAPI', 'Next.js', 'React', 'Angular',
+    'PostgreSQL', 'Docker', 'Google Cloud Platform', 'Suporte Técnico',
   ],
 };
 

@@ -9,8 +9,8 @@ export default function Experience() {
           <h2 className="heading-lg text-light mb-4">Experiência</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-            Histórico focado em backend, modernização de sistemas críticos e
-            automação de processos.
+            Histórico sólido em desenvolvimento Fullstack, modernização de sistemas críticos,
+            automação de processos e suporte técnico especializado.
           </p>
         </div>
 

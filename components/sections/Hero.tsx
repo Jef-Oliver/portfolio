@@ -24,7 +24,7 @@ export default function Hero() {
           
           <div className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
             <p className="mb-4">
-              Full Stack Developer com forte especialização em Backend (Python/Django/FastAPI/Java Spring Boot/Angular) e Arquitetura de Sistemas.
+              Desenvolvedor Full Stack com sólida atuação de ponta a ponta (Python/Django/FastAPI/Next.js/React/Angular), arquitetura escalável e suporte técnico especializado.
             </p>
             <p>
               5 anos transformando regras de negócio complexas em software confiável, auditável e escalável, com foco em segurança e alta performance.

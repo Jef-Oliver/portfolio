@@ -9,8 +9,8 @@ export default function Skills() {
           <h2 className="heading-lg text-light mb-4">Skills & Tecnologias</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-primary to-purple-light mx-auto rounded-full mb-8"></div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Organização por categorias para deixar claro meu foco em backend, com
-            capacidade full-stack quando necessário.
+            Organização por categorias demonstrando atuação completa como desenvolvedor Fullstack,
+            do backend e infraestrutura ao frontend e integrações.
           </p>
         </div>
 

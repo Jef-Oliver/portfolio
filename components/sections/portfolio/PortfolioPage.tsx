@@ -27,11 +27,11 @@ function PortfolioHero() {
           <h1 className="heading-xl text-white mb-6">
             Jeferson Oliveira
             <br />
-            <span className="text-neon glow-neon-text">Full Stack Developer</span>
+            <span className="text-neon glow-neon-text">Desenvolvedor Full Stack</span>
           </h1>
           <p className="text-gray-text text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
             4 anos transformando regras de negócio complexas em software confiável, auditável e
-            escalável. Especialização em Backend (Python/Django/FastAPI/Java Spring Boot).
+            escalável. Atuação completa Fullstack (Python/Django/FastAPI/Next.js/React/Angular), infraestrutura e suporte técnico.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a href={CONTACT.resumePath} download className="btn-neon py-3 px-6">
@@ -59,7 +59,7 @@ function SkillsSection() {
           <div className="section-tag mb-4 justify-center">Tecnologias</div>
           <h2 className="heading-lg text-white mb-4">Skills & Tecnologias</h2>
           <p className="text-gray-text max-w-xl mx-auto">
-            Organizado por categoria, com foco claro em backend e capacidade full-stack quando necessário.
+            Organizado por categoria, cobrindo todo o ecossistema da aplicação de ponta a ponta (Fullstack).
           </p>
         </MotionReveal>
 

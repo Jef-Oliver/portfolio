@@ -36,7 +36,9 @@ export default function Skills() {
                       ? 'frontend'
                       : key === 'ai'
                         ? 'ai'
-                        : 'default';
+                        : key === 'support'
+                          ? 'support'
+                          : 'default';
 
             return (
               <div

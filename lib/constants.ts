@@ -56,6 +56,7 @@ import {
   Brain,
   Network,
   Boxes,
+  LifeBuoy,
 } from 'lucide-react';
 
 export const SPECIALTIES: Specialty[] = [
@@ -195,55 +196,67 @@ export const SKILLS_BY_CATEGORY = {
     icon: Boxes,
     skills: [
       'Python (Django, FastAPI, Flask)',
+      'Node.js & TypeScript',
       'Java (Spring Boot)',
-      'Angular 19',
-      'APIs REST (arquitetura e versionamento)',
-      'Celery (jobs assíncronos e filas)',
+      'APIs RESTful & Webhooks',
+      'Celery & Background Jobs',
       'ASP Clássico (Legado)',
-    ],
-  },
-  database: {
-    title: 'Banco de Dados',
-    icon: Network,
-    skills: [
-      'PostgreSQL (JSONB, window functions, query optimization)',
-      'MySQL, SQL Server',
-      'Redis (cache, sessions)',
-      'MongoDB',
-      'Modelagem orientada a auditoria e compliance',
-    ],
-  },
-  cloud: {
-    title: 'Cloud & DevOps',
-    icon: Building2,
-    skills: [
-      'Google Cloud Platform (App Engine, Cloud SQL, Cloud Storage)',
-      'Docker, Docker Compose',
-      'CI/CD (GitHub Actions, GitLab CI)',
-      'Nginx, Apache',
-    ],
-  },
-  ai: {
-    title: 'IA & Automação',
-    icon: Brain,
-    skills: [
-      'Engenharia de Prompts (Otimização e Debug)',
-      'Criação de Agentes Inteligentes e Uso de MCPs',
-      'Reconhecimento Facial (OpenCV)',
-      'Machine Learning (scikit-learn)',
-      'Automação de Processos (RPA)',
-      'Web Scraping',
     ],
   },
   frontend: {
     title: 'Frontend & Interface (Fullstack)',
     icon: Sparkles,
     skills: [
-      'React, Angular 19, TypeScript, JavaScript',
-      'Next.js, Tailwind CSS, Bootstrap, HTML5, CSS3',
-      'Integrações web com biometria (facial/digital)',
-      'UI/UX orientada a produtividade',
-      'LGPD e segurança de dados sensíveis',
+      'React, Next.js 13/14 (App Router)',
+      'Angular 19 & TypeScript',
+      'Tailwind CSS, Bootstrap, HTML5 & CSS3',
+      'Framer Motion & UI Interativa',
+      'Integrações Web com Biometria Facial',
+      'Design Responsivo & Mobile-First',
+    ],
+  },
+  database: {
+    title: 'Banco de Dados',
+    icon: Network,
+    skills: [
+      'PostgreSQL (JSONB, Indexação & Otimização)',
+      'MySQL & SQL Server',
+      'Redis (Cache & Gestão de Sessões)',
+      'Supabase & BaaS',
+      'Modelagem Relacional, Auditoria & LGPD',
+    ],
+  },
+  support: {
+    title: 'Suporte Técnico & Sustentação',
+    icon: LifeBuoy,
+    skills: [
+      'Suporte Técnico N2/N3 & Resolução de Chamados',
+      'Troubleshooting de Sistemas Críticos',
+      'Análise de Logs, Observabilidade & Diagnóstico',
+      'Sustentação Preventiva e Corretiva',
+      'Treinamento de Usuários & Manuais Técnicos',
+    ],
+  },
+  cloud: {
+    title: 'Cloud & DevOps',
+    icon: Building2,
+    skills: [
+      'Google Cloud Platform (GCP)',
+      'Docker & Docker Compose',
+      'CI/CD (GitHub Actions, GitLab CI)',
+      'Deploy Vercel & Netlify',
+      'Nginx & Servidores Web',
+    ],
+  },
+  ai: {
+    title: 'IA & Automação',
+    icon: Brain,
+    skills: [
+      'Engenharia de Prompts (Otimização & Debug)',
+      'Criação de Agentes Inteligentes e MCPs',
+      'Reconhecimento Facial & Biometria (OpenCV)',
+      'Machine Learning (scikit-learn)',
+      'Automação de Processos (RPA) & Web Scraping',
     ],
   },
 } as const;

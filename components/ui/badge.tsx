@@ -18,6 +18,8 @@ const badgeVariants = cva(
         frontend:
           'border-transparent bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30',
         ai: 'border-transparent bg-pink-600/20 text-pink-300 hover:bg-pink-600/30',
+        support:
+          'border-transparent bg-amber-600/20 text-amber-300 hover:bg-amber-600/30',
         default:
           'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
         secondary:

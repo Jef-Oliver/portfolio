@@ -39,6 +39,30 @@ const PRODUCTS = [
     ctaText: 'Quero este sistema',
     linkedinUrl: 'https://www.linkedin.com/feed/update/urn:li:activity:7448027457657393152/',
   },
+  {
+    id: 'prumo-certo',
+    title: 'PrumoCerto · Mão de Obra',
+    category: 'Construção & Obras',
+    description:
+      'Controle de presença diária, vales e fechamento de pagamento da equipe de obra. Funciona 100% offline direto no celular dos encarregados, sem precisar de internet no canteiro.',
+    technologies: ['React', 'PWA / Offline', 'Tailwind CSS', 'IndexedDB'],
+    status: 'available' as const,
+    demoUrl: 'https://prumocerto-demo.netlify.app',
+    partnerCredits: 'Walison Fernandes & Jeferson Oliveira',
+    ctaText: 'Quero este sistema',
+  },
+  {
+    id: 'caixa-da-obra',
+    title: 'Caixa da Obra · Custos & Etapas',
+    category: 'Gestão Financeira & Obras',
+    description:
+      'Gestão de despesas e contas a pagar por etapa da construção, unidade e terreno. Múltiplos perfis de acesso (Dono, Admin, Equipe com login facilitado e senha prumo123).',
+    technologies: ['React', 'Next.js', 'PostgreSQL', 'Tailwind CSS'],
+    status: 'available' as const,
+    demoUrl: 'https://caixa-da-obra-demo.netlify.app',
+    partnerCredits: 'Walison Fernandes & Jeferson Oliveira',
+    ctaText: 'Quero este sistema',
+  },
 ];
 
 export default function ProductsGrid() {

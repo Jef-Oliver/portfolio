@@ -88,6 +88,7 @@ export default function Header() {
                   </span>
                 </motion.div>
               </Link>
+
             </div>
 
             {/* Sales-specific nav items (only on home) */}

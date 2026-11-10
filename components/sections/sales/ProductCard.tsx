@@ -9,7 +9,10 @@ interface ProductCardProps {
   title: string;
   category: string;
   description: string;
-  video: string;
+  video?: string;
+  image?: string;
+  demoUrl?: string;
+  partnerCredits?: string;
   technologies: string[];
   status: 'available' | 'sold';
   ctaText?: string;
@@ -22,6 +25,9 @@ export default function ProductCard({
   category,
   description,
   video,
+  image,
+  demoUrl,
+  partnerCredits,
   technologies,
   status,
   ctaText = 'Quero um sistema assim',
@@ -90,30 +96,57 @@ export default function ProductCard({
       />
 
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden">
-        {/* Video area */}
+        {/* Media area (Video or Interactive Demo Preview) */}
         <div className="relative aspect-video bg-black overflow-hidden">
-          <video
-            ref={videoRef}
-            src={video}
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
+          {video ? (
+            <>
+              <video
+                ref={videoRef}
+                src={video}
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
 
-          {/* Play overlay when not hovered */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center bg-black/50"
-            animate={{ opacity: isHovered ? 0 : 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm">
-              <Play className="w-6 h-6 text-neon ml-1" />
+              {/* Play overlay when not hovered */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-black/50"
+                animate={{ opacity: isHovered ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                  <Play className="w-6 h-6 text-neon ml-1" />
+                </div>
+              </motion.div>
+            </>
+          ) : (
+            <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-dark-card to-black p-4">
+              <div className="absolute inset-0 bg-grid-neon opacity-20" />
+              {demoUrl ? (
+                <a
+                  href={demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 flex flex-col items-center gap-2 group/play"
+                >
+                  <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/70 backdrop-blur-sm group-hover/play:scale-110 group-hover/play:bg-neon/20 transition-all shadow-neon">
+                    <ExternalLink className="w-6 h-6 text-neon" />
+                  </div>
+                  <span className="text-[11px] font-mono text-neon bg-black/80 px-2.5 py-1 rounded-full border border-neon/30">
+                    Clique para testar demo ao vivo
+                  </span>
+                </a>
+              ) : (
+                <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                  <Play className="w-6 h-6 text-neon ml-1" />
+                </div>
+              )}
             </div>
-          </motion.div>
+          )}
 
           {/* Status badge */}
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 z-20">
             {status === 'available' ? (
               <span className="status-available text-xs px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-sm border border-neon/20">
                 Disponível
@@ -126,7 +159,7 @@ export default function ProductCard({
           </div>
 
           {/* Category badge */}
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-20">
             <span className="badge-neon text-xs">{category}</span>
           </div>
         </div>
@@ -137,9 +170,17 @@ export default function ProductCard({
             {title}
           </h3>
 
-          <p className="text-gray-text text-sm leading-relaxed mb-5 line-clamp-3">
+          <p className="text-gray-text text-sm leading-relaxed mb-4 line-clamp-3">
             {description}
           </p>
+
+          {/* Developers / Partner Credits */}
+          {partnerCredits && (
+            <div className="flex items-center gap-2 text-xs text-gray-300 mb-4 bg-white/[0.04] py-1.5 px-3 rounded-lg border border-white/5">
+              <span className="text-neon font-mono font-semibold text-[11px]">Desenvolvedores:</span>
+              <span className="text-white font-medium truncate">{partnerCredits}</span>
+            </div>
+          )}
 
           {/* Tech stack */}
           <div className="flex flex-wrap gap-2 mb-6">
@@ -151,18 +192,32 @@ export default function ProductCard({
           </div>
 
           {/* CTAs */}
-          <div className="flex gap-3">
+          <div className="flex gap-2.5">
             <motion.a
               href={`https://wa.me/${CONTACT.whatsapp}?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="flex-1 btn-neon text-sm py-2.5 px-4 justify-center text-center"
+              className="flex-1 btn-neon text-sm py-2.5 px-3 justify-center text-center"
             >
               <MessageCircle className="w-4 h-4" />
               {ctaText}
             </motion.a>
+
+            {demoUrl && (
+              <motion.a
+                href={demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                className="btn-outline-neon text-sm py-2.5 px-3 flex items-center gap-1.5"
+                title="Abrir Demonstração"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs font-semibold">Demo</span>
+              </motion.a>
+            )}
 
             {linkedinUrl && (
               <motion.a

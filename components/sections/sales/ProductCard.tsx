@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { MessageCircle, ExternalLink, Play, CheckCircle2, Clock } from 'lucide-react';
@@ -12,6 +13,7 @@ interface ProductCardProps {
   video?: string;
   image?: string;
   demoUrl?: string;
+  previewType?: 'prumo-certo' | 'caixa-da-obra';
   partnerCredits?: string;
   technologies: string[];
   status: 'available' | 'sold';
@@ -27,6 +29,7 @@ export default function ProductCard({
   video,
   image,
   demoUrl,
+  previewType,
   partnerCredits,
   technologies,
   status,
@@ -97,7 +100,7 @@ export default function ProductCard({
 
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden">
         {/* Media area (Video or Interactive Demo Preview) */}
-        <div className="relative aspect-video bg-black overflow-hidden">
+        <div className="relative aspect-video bg-black overflow-hidden group/media">
           {video ? (
             <>
               <video
@@ -120,28 +123,173 @@ export default function ProductCard({
                 </div>
               </motion.div>
             </>
+          ) : previewType === 'prumo-certo' ? (
+            /* PrumoCerto Interactive UI Preview */
+            <div className="relative w-full h-full bg-[#161616] flex flex-col overflow-hidden select-none transition-transform duration-500 group-hover:scale-105">
+              {/* Fake browser bar */}
+              <div className="bg-[#0f0f0f] border-b border-white/10 px-2.5 py-1.5 flex items-center gap-2">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500/70" />
+                  <div className="w-2 h-2 rounded-full bg-yellow-500/70" />
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#EF6A12' }} />
+                </div>
+                <div className="flex-1 bg-black/50 rounded px-2 py-0.5 text-[8px] font-mono text-gray-400 text-center truncate">
+                  prumocerto-demo.netlify.app
+                </div>
+              </div>
+
+              {/* Dashboard Mockup */}
+              <div className="flex-1 flex overflow-hidden">
+                {/* Mini sidebar */}
+                <div className="w-[30%] bg-[#101010] p-2 flex flex-col gap-1 border-r border-white/5">
+                  <div className="text-[8px] font-bold text-[#EF6A12] mb-1 flex items-center gap-1">
+                    👷 PrumoCerto
+                  </div>
+                  {['📋 Presença', '💵 Vales', '💰 Pagamentos', '👥 Equipe'].map((item, i) => (
+                    <div
+                      key={i}
+                      className={`text-[7px] px-1.5 py-0.5 rounded ${
+                        i === 0
+                          ? 'bg-[#EF6A12]/20 text-[#EF6A12] font-bold'
+                          : 'text-white/50'
+                      }`}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini content */}
+                <div className="flex-1 p-2 flex flex-col gap-1.5 bg-[#1a1a1a]">
+                  <div className="grid grid-cols-4 gap-1">
+                    {[
+                      { label: 'Vieram', val: '8', color: '#4ade80' },
+                      { label: 'Meio-dia', val: '2', color: '#facc15' },
+                      { label: 'Faltas', val: '1', color: '#f87171' },
+                      { label: 'Sem marcar', val: '3', color: '#94a3b8' },
+                    ].map((s, i) => (
+                      <div key={i} className="bg-[#242424] border border-white/5 rounded p-1 text-center">
+                        <div className="text-[9px] font-extrabold" style={{ color: s.color }}>{s.val}</div>
+                        <div className="text-[5px] text-white/40">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Mini workers */}
+                  <div className="flex flex-col gap-0.5 mt-0.5">
+                    <div className="text-[5px] text-white/30 font-semibold uppercase">Equipe de Hoje</div>
+                    {[
+                      { name: 'Carlos Pereira', status: 'Presente', color: '#4ade80' },
+                      { name: 'João Marcos', status: 'Meio-dia', color: '#facc15' },
+                      { name: 'Antônio Lima', status: 'Falta', color: '#f87171' },
+                    ].map((w, i) => (
+                      <div key={i} className="flex items-center justify-between bg-[#242424] rounded px-1.5 py-0.5">
+                        <span className="text-[6.5px] text-white/80 truncate">{w.name}</span>
+                        <span className="text-[5.5px] font-bold" style={{ color: w.color }}>{w.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Play / Preview overlay when not hovered */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[0.5px]"
+                animate={{ opacity: isHovered ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm shadow-neon">
+                  <Play className="w-6 h-6 text-neon ml-1" />
+                </div>
+              </motion.div>
+            </div>
+          ) : previewType === 'caixa-da-obra' ? (
+            /* Caixa da Obra Interactive UI Preview */
+            <div className="relative w-full h-full bg-[#090d16] flex flex-col overflow-hidden select-none transition-transform duration-500 group-hover:scale-105">
+              {/* Fake browser bar */}
+              <div className="bg-[#050811] border-b border-white/10 px-2.5 py-1.5 flex items-center gap-2">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500/70" />
+                  <div className="w-2 h-2 rounded-full bg-yellow-500/70" />
+                  <div className="w-2 h-2 rounded-full bg-blue-500/70" />
+                </div>
+                <div className="flex-1 bg-black/50 rounded px-2 py-0.5 text-[8px] font-mono text-gray-400 text-center truncate">
+                  caixa-da-obra-demo.netlify.app
+                </div>
+              </div>
+
+              {/* Dashboard Mockup */}
+              <div className="flex-1 flex overflow-hidden">
+                {/* Mini sidebar */}
+                <div className="w-[30%] bg-[#080c14] p-2 flex flex-col gap-1 border-r border-white/5">
+                  <div className="text-[8px] font-bold text-blue-400 mb-1 flex items-center gap-1">
+                    💰 Caixa Obra
+                  </div>
+                  {['📊 Dashboard', '📋 Etapas', '💸 Contas', '👥 Equipe'].map((item, i) => (
+                    <div
+                      key={i}
+                      className={`text-[7px] px-1.5 py-0.5 rounded ${
+                        i === 0
+                          ? 'bg-blue-500/20 text-blue-300 font-bold'
+                          : 'text-white/50'
+                      }`}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini content */}
+                <div className="flex-1 p-2 bg-[#f8fafc] flex flex-col gap-1.5">
+                  <div className="grid grid-cols-3 gap-1">
+                    {[
+                      { label: 'Gasto', val: 'R$ 284k', color: 'text-blue-700' },
+                      { label: 'Etapas', val: '6 ativas', color: 'text-emerald-700' },
+                      { label: 'A Vencer', val: '3 contas', color: 'text-amber-700' },
+                    ].map((k, i) => (
+                      <div key={i} className="bg-white border border-slate-200 rounded p-1 shadow-xs">
+                        <div className="text-[5px] text-slate-500">{k.label}</div>
+                        <div className={`text-[8.5px] font-extrabold ${k.color}`}>{k.val}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Mini Etapas bars */}
+                  <div className="bg-white border border-slate-200 rounded p-1 flex flex-col gap-0.5 mt-0.5">
+                    <div className="text-[6px] font-bold text-slate-800">Gastos por Etapa</div>
+                    {[
+                      { etapa: 'Fundação', pct: 100, color: 'bg-blue-500' },
+                      { etapa: 'Estrutura', pct: 65, color: 'bg-indigo-400' },
+                      { etapa: 'Acabamento', pct: 20, color: 'bg-sky-400' },
+                    ].map((e, i) => (
+                      <div key={i} className="flex items-center gap-1">
+                        <span className="text-[5.5px] text-slate-600 w-11 truncate">{e.etapa}</span>
+                        <div className="flex-1 bg-slate-100 rounded-full h-1">
+                          <div className={`${e.color} h-1 rounded-full`} style={{ width: `${e.pct}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Play / Preview overlay when not hovered */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[0.5px]"
+                animate={{ opacity: isHovered ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm shadow-neon">
+                  <Play className="w-6 h-6 text-neon ml-1" />
+                </div>
+              </motion.div>
+            </div>
           ) : (
             <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-dark-card to-black p-4">
               <div className="absolute inset-0 bg-grid-neon opacity-20" />
-              {demoUrl ? (
-                <a
-                  href={demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 flex flex-col items-center gap-2 group/play"
-                >
-                  <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/70 backdrop-blur-sm group-hover/play:scale-110 group-hover/play:bg-neon/20 transition-all shadow-neon">
-                    <ExternalLink className="w-6 h-6 text-neon" />
-                  </div>
-                  <span className="text-[11px] font-mono text-neon bg-black/80 px-2.5 py-1 rounded-full border border-neon/30">
-                    Clique para testar demo ao vivo
-                  </span>
-                </a>
-              ) : (
-                <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                  <Play className="w-6 h-6 text-neon ml-1" />
-                </div>
-              )}
+              <div className="w-14 h-14 rounded-full border-2 border-neon flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <Play className="w-6 h-6 text-neon ml-1" />
+              </div>
             </div>
           )}
 
@@ -176,9 +324,19 @@ export default function ProductCard({
 
           {/* Developers / Partner Credits */}
           {partnerCredits && (
-            <div className="flex items-center gap-2 text-xs text-gray-300 mb-4 bg-white/[0.04] py-1.5 px-3 rounded-lg border border-white/5">
-              <span className="text-neon font-mono font-semibold text-[11px]">Desenvolvedores:</span>
-              <span className="text-white font-medium truncate">{partnerCredits}</span>
+            <div className="flex items-center gap-2.5 text-xs text-gray-300 mb-4 bg-white/[0.04] py-1.5 px-3 rounded-lg border border-white/5">
+              <div className="relative w-6 h-6 rounded-full overflow-hidden border border-neon/50 flex-shrink-0 bg-neutral-800 shadow-[0_0_8px_rgba(0,255,65,0.2)]">
+                <Image
+                  src="/projects-images/walison.jpeg"
+                  alt="Walison Fernandes"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="truncate">
+                <span className="text-neon font-mono font-semibold text-[10px] mr-1.5">Dev:</span>
+                <span className="text-white font-medium">{partnerCredits}</span>
+              </div>
             </div>
           )}
 

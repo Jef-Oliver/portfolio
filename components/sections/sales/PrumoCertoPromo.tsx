@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ExternalLink, MessageCircle, Clock, DollarSign, Calculator, WifiOff, CheckSquare, BarChart2, HardHat } from 'lucide-react';
 import { CONTACT } from '@/lib/constants';
@@ -182,14 +183,24 @@ export default function PrumoCertoPromo() {
             </div>
 
             {/* Developers / Parceria */}
-            <div className="mb-8 p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-[11px] font-mono text-orange-400 font-semibold uppercase tracking-wider block">
-                  Desenvolvedores do Projeto
-                </span>
-                <p className="text-sm text-white font-medium mt-0.5">
-                  Walison Fernandes <span className="text-gray-400 text-xs font-normal">(Dev Fullstack)</span> &amp; Jeferson Oliveira
-                </p>
+            <div className="mb-8 p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-orange-500/60 shadow-[0_0_15px_rgba(239,106,18,0.3)] flex-shrink-0 bg-neutral-800">
+                  <Image
+                    src="/projects-images/walison.jpeg"
+                    alt="Walison Fernandes"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <span className="text-[11px] font-mono text-orange-400 font-semibold uppercase tracking-wider block">
+                    Desenvolvedores do Projeto
+                  </span>
+                  <p className="text-sm text-white font-medium mt-0.5">
+                    Walison Fernandes <span className="text-gray-400 text-xs font-normal">(Dev Fullstack)</span> &amp; Jeferson Oliveira
+                  </p>
+                </div>
               </div>
               <span className="inline-flex items-center text-[11px] px-2.5 py-1 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono w-fit">
                 Projeto em Parceria
